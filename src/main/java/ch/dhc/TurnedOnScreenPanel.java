@@ -19,7 +19,7 @@ public class TurnedOnScreenPanel extends BackgroundPanel {
 
         ImageLabel networkIcon = new ImageLabel("src\\main\\resources\\images\\statusBar\\network_icon.png");
 
-        ImageLabel networkText = new ImageLabel("DHCnet");
+        JLabel networkText = new JLabel("DHCnet");
         networkText.setForeground(Color.white);
 
         ImageLabel wifiIcon = new ImageLabel("src\\main\\resources\\images\\statusBar\\wifi_icon.png");

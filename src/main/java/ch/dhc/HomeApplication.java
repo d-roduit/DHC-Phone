@@ -26,7 +26,9 @@ public class HomeApplication extends Application {
         panel.add(createAppIconPanel("Photos", "src\\main\\resources\\images\\apps\\app_icon_photos.png"));
         panel.add(createAppIconPanel("Notes", "src\\main\\resources\\images\\apps\\app_icon_notes.png"));
 
-        for (int i = 0; i < nbRows * nbColumns - panel.getComponentCount(); i++) {
+        int nbApp = panel.getComponentCount();
+
+        for (int i = 0; i < nbRows * nbColumns - nbApp; i++) {
             panel.add(createAppIconPanel("",""));
         }
 

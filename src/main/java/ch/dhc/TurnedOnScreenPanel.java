@@ -53,7 +53,7 @@ public class TurnedOnScreenPanel extends BackgroundPanel {
     }
 
     private JPanel createCenterPanelStatusBar() {
-        JPanel centerPanel = createFlowLayoutPanelStatusBar(1);
+        JPanel centerPanel = createFlowLayoutPanelStatusBar(FlowLayout.CENTER);
 
         JLabel timeLabel = new JLabel();
 

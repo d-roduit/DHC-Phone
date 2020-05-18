@@ -94,7 +94,7 @@ public class TurnedOnScreenPanel extends BackgroundPanel {
 
     private JPanel createFlowLayoutPanelStatusBar(int flowLayoutAlignment) {
         JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(alignment));
+        panel.setLayout(new FlowLayout(flowLayoutAlignment));
         panel.setOpaque(false);
 
         return panel;

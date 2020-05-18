@@ -53,7 +53,7 @@ public final class ApplicationManager {
     }
 
     public void display(Application application) {
-        //TODO: Display l'application
+        //cardlayout.show((JPanel) application.getParent(), application.getName());
     }
 
     public void displayHomeScreen() {

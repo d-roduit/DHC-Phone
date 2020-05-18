@@ -9,7 +9,7 @@ public class TurnedOnScreenPanel extends BackgroundPanel {
         super(imagePath);
 
         add(createStatusBarPanel(), BorderLayout.NORTH);
-        add(createContentPanel(), BorderLayout.CENTER);
+        add(UIManager.getInstance().getContentPanel(), BorderLayout.CENTER);
     }
 
     public JPanel createStatusBarPanel() {
@@ -30,15 +30,6 @@ public class TurnedOnScreenPanel extends BackgroundPanel {
 
         return panel;
     }
-
-    public JPanel createContentPanel() {
-        JPanel panel = new JPanel();
-
-        panel.setLayout(new CardLayout());
-
-        return panel;
-    }
-
 }
 
 

@@ -3,18 +3,18 @@ package ch.dhc;
 import javax.swing.*;
 import java.awt.*;
 
-public class HomeApplication extends Application {
+public class HomePanel extends JPanel {
 
-    public HomeApplication() {
-        super();
+    private final String name = "Home";
 
+    public HomePanel() {
         setOpaque(false);
 
         add(createAppIconsListPanel(), BorderLayout.CENTER);
         add(Box.createRigidArea(new Dimension(0, 50)), BorderLayout.SOUTH);
     }
 
-    public JPanel createAppIconsListPanel() {
+    private JPanel createAppIconsListPanel() {
         int nbRows = 5;
         int nbColumns = 4;
 
@@ -35,7 +35,7 @@ public class HomeApplication extends Application {
         return panel;
     }
 
-    public JPanel createAppIconPanel(String appName, String imagePath) {
+    private JPanel createAppIconPanel(String appName, String imagePath) {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setOpaque(false);
@@ -55,13 +55,7 @@ public class HomeApplication extends Application {
         return panel;
     }
 
-    @Override
-    public void onRun() {
-
-    }
-
-    @Override
-    public void onClose() {
-
+    public String getName() {
+        return name;
     }
 }

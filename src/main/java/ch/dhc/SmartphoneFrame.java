@@ -2,11 +2,13 @@ package ch.dhc;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SmartphoneFrame extends JFrame {
 
-    private BackgroundPanel smartphoneBackgroundPanel = new BackgroundPanel("src\\main\\resources\\images\\smartphone.png");
-    private ScreenPanel screenPanel = new ScreenPanel();
+    private final BackgroundPanel smartphoneBackgroundPanel = new BackgroundPanel("src\\main\\resources\\images\\smartphone.png");
+    private final ScreenPanel screenPanel = new ScreenPanel();
     private ApplicationManager applicationManager;
 
     public SmartphoneFrame() {
@@ -16,8 +18,8 @@ public class SmartphoneFrame extends JFrame {
         setUndecorated(true);
         setBackground(new Color(0, 0, 0, 0));
 
-
         smartphoneBackgroundPanel.add(createDragPanel(), BorderLayout.NORTH);
+
         smartphoneBackgroundPanel.add(screenPanel, BorderLayout.CENTER);
         smartphoneBackgroundPanel.add(createHomeButtonPanel(), BorderLayout.SOUTH);
         smartphoneBackgroundPanel.add(Box.createRigidArea(new Dimension(28, 0)), BorderLayout.WEST);
@@ -47,7 +49,10 @@ public class SmartphoneFrame extends JFrame {
         lockButton.setFocusPainted(false);
         lockButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        lockButton.addActionListener(actionEvent -> System.out.println("Lock Button Clicked"));
+        lockButton.addActionListener(actionEvent -> screenPanel.toggleScreen());
+
+//         TODO: Ajouter le long pressed
+//        lockButton.addActionListener(actionEvent -> turnOff());
 
         return lockButton;
     }
@@ -57,7 +62,7 @@ public class SmartphoneFrame extends JFrame {
         JPanel homeButtonPanel = new JPanel();
 
         CircleButton circleButton = new CircleButton(57);
-        circleButton.addActionListener(actionEvent -> System.out.println("Home Button Clicked"));
+        circleButton.addActionListener(actionEvent -> screenPanel.toggleHome());
 
         GridBagConstraints gbc = new GridBagConstraints();
         homeButtonPanel.add(circleButton, gbc);
@@ -77,5 +82,8 @@ public class SmartphoneFrame extends JFrame {
         return dragPanel;
     }
 
+    private void turnOff() {
+        this.dispose();
+    }
 
 }

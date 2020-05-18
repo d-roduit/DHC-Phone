@@ -36,7 +36,7 @@ public class TurnedOnScreenPanel extends BackgroundPanel {
     }
 
     private JPanel createLeftPanelStatusBar() {
-        JPanel leftPanel = createFlowLayoutPanelStatusBar(0);
+        JPanel leftPanel = createFlowLayoutPanelStatusBar(FlowLayout.LEFT);
 
         ImageLabel networkIcon = new ImageLabel("src\\main\\resources\\images\\statusBar\\network_icon.png");
 

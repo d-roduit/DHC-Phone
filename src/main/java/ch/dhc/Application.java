@@ -5,13 +5,18 @@ import java.awt.*;
 
 public abstract class Application extends JPanel {
 
-    // TODO: Ajouter une propriété name
-    // TODO: Ajouter une méthode getName()
+    private String folder;
+    private final String name;
+    private final String iconPath;
 
-    public Color statusBarBackgroundColor = Color.BLACK;
-    public Color statusBarForegroundColor = Color.WHITE;
+    private Color statusBarBackgroundColor = Color.BLACK;
+    private Color statusBarForegroundColor = Color.WHITE;
 
-    public Application() {
+
+    public Application(String name, String iconPath) {
+        this.name = name;
+        this.iconPath = iconPath;
+
         setLayout(new BorderLayout());
     }
 
@@ -19,4 +24,19 @@ public abstract class Application extends JPanel {
 
     public abstract void onClose();
 
+    public String getName() {
+        return name;
+    };
+
+    public String getIconPath() {
+        return iconPath;
+    };
+
+    public String getFolder() {
+        return folder;
+    }
+
+    public void setFolder(String folder) {
+        this.folder = folder;
+    }
 }

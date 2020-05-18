@@ -83,6 +83,7 @@ public class SmartphoneFrame extends JFrame {
     }
 
     private void turnOff() {
+        ApplicationManager.getInstance().closeAllApplications();
         this.dispose();
     }
 

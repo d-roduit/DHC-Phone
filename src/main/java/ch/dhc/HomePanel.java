@@ -22,27 +22,29 @@ public class HomePanel extends JPanel {
         panel.setLayout(new GridLayout(nbRows, nbColumns));
         panel.setOpaque(false);
 
-        panel.add(createAppIconPanel("Contacts", "src\\main\\resources\\images\\apps\\app_icon_contacts.png"));
-        panel.add(createAppIconPanel("Photos", "src\\main\\resources\\images\\apps\\app_icon_photos.png"));
-        panel.add(createAppIconPanel("Notes", "src\\main\\resources\\images\\apps\\app_icon_notes.png"));
+        Application[] installedApplications = ApplicationManager.getInstance().getInstalledApplications();
+
+        for (Application application: installedApplications) {
+            panel.add(createAppIconPanel(application));
+        }
 
         int nbApp = panel.getComponentCount();
 
         for (int i = 0; i < nbRows * nbColumns - nbApp; i++) {
-            panel.add(createAppIconPanel("",""));
+            panel.add(createEmptyPanel());
         }
 
         return panel;
     }
 
-    private JPanel createAppIconPanel(String appName, String imagePath) {
+    private JPanel createAppIconPanel(Application application) {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setOpaque(false);
 
-        ImageLabel appIconLabel = new ImageLabel(imagePath);
+        AppIcon appIconLabel = new AppIcon(application);
 
-        JLabel appTextLabel = new JLabel(appName);
+        JLabel appTextLabel = new JLabel(application.getName());
         appTextLabel.setForeground(Color.white);
         appTextLabel.setHorizontalAlignment(JLabel.CENTER);
 
@@ -51,6 +53,13 @@ public class HomePanel extends JPanel {
         panel.add(Box.createRigidArea(new Dimension(10, 0)), BorderLayout.WEST);
         panel.add(appIconLabel, BorderLayout.CENTER);
         panel.add(appTextLabel, BorderLayout.SOUTH);
+
+        return panel;
+    }
+
+    private JPanel createEmptyPanel() {
+        JPanel panel = new JPanel();
+        panel.setOpaque(false);
 
         return panel;
     }

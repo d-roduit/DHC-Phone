@@ -78,7 +78,7 @@ public class TurnedOnScreenPanel extends BackgroundPanel {
     }
 
     private JPanel createRightPanelStatusBar() {
-        JPanel centerPanel = createFlowLayoutPanelStatusBar(FlowLayout.RIGHT);
+        JPanel rightPanel = createFlowLayoutPanelStatusBar(FlowLayout.RIGHT);
         rightPanel.setPreferredSize(new Dimension(114, 0));
 
         JLabel batteryText = new JLabel("80%");

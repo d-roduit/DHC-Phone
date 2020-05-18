@@ -22,9 +22,11 @@ public class HomePanel extends JPanel {
         panel.setLayout(new GridLayout(nbRows, nbColumns));
         panel.setOpaque(false);
 
-        panel.add(createAppIconPanel("Contacts", "src\\main\\resources\\images\\apps\\app_icon_contacts.png"));
-        panel.add(createAppIconPanel("Photos", "src\\main\\resources\\images\\apps\\app_icon_photos.png"));
-        panel.add(createAppIconPanel("Notes", "src\\main\\resources\\images\\apps\\app_icon_notes.png"));
+        Application[] installedApplications = ApplicationManager.getInstance().getInstalledApplications();
+
+        for (Application application: installedApplications) {
+            panel.add(createAppIconPanel(application));
+        }
 
         int nbApp = panel.getComponentCount();
 

@@ -9,7 +9,6 @@ public class SmartphoneFrame extends JFrame {
 
     private final BackgroundPanel smartphoneBackgroundPanel = new BackgroundPanel("src\\main\\resources\\images\\smartphone.png");
     private final ScreenPanel screenPanel = new ScreenPanel();
-    private ApplicationManager applicationManager;
 
     public SmartphoneFrame() {
         setSize(400, 795);
@@ -17,6 +16,11 @@ public class SmartphoneFrame extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setBackground(new Color(0, 0, 0, 0));
+
+
+        ApplicationManager.getInstance();
+        Configuration.getInstance();
+
 
         smartphoneBackgroundPanel.add(createDragPanel(), BorderLayout.NORTH);
 

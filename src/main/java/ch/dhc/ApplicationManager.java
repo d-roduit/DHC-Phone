@@ -33,7 +33,7 @@ public final class ApplicationManager {
             try {
                 // TODO: Mettre le backgroundColor et foregroundColor de la statusBar aux propriétés définies dans l'app.
                 application.onRun();
-                UIManager.getInstance().contentPanel.add(application, application.getName());
+                UIManager.getInstance().getContentPanel().add(application, application.getName());
                 display(application);
                 runningApplications.add(application);
             } catch (Exception e) {
@@ -61,7 +61,7 @@ public final class ApplicationManager {
     }
 
     public void display(Application application) {
-        UIManager.getInstance().cardLayout.show(UIManager.getInstance().contentPanel, application.getName());
+        UIManager.getInstance().getCardLayout().show(UIManager.getInstance().getContentPanel(), application.getName());
     }
 
     public void displayHomeScreen() {

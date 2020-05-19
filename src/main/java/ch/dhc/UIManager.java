@@ -6,9 +6,9 @@ import java.awt.*;
 public class UIManager {
 
     public static UIManager instance;
-    HomePanel homePanel = new HomePanel();
-    CardLayout cardLayout = new CardLayout();
-    JPanel contentPanel = createContentPanel();
+    private final HomePanel homePanel = new HomePanel();
+    private final CardLayout cardLayout = new CardLayout();
+    private final JPanel contentPanel = createContentPanel();
 
     private UIManager() {
 
@@ -37,5 +37,9 @@ public class UIManager {
 
     public JPanel getContentPanel() {
         return contentPanel;
+    }
+
+    public CardLayout getCardLayout() {
+        return cardLayout;
     }
 }

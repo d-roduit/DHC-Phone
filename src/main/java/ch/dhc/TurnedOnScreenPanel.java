@@ -10,6 +10,7 @@ import java.util.Date;
 
 public class TurnedOnScreenPanel extends BackgroundPanel {
 
+    private Color textColor = Color.WHITE;
     private final CardLayout cardLayout;
     private final JPanel statusBarPanel;
     private final JPanel contentPanel;
@@ -61,7 +62,7 @@ public class TurnedOnScreenPanel extends BackgroundPanel {
         ImageLabel networkIcon = new ImageLabel("src\\main\\resources\\images\\statusBar\\network_icon.png");
 
         JLabel networkText = new JLabel("DHCnet");
-        networkText.setForeground(Color.white);
+        networkText.setForeground(textColor);
 
         ImageLabel wifiIcon = new ImageLabel("src\\main\\resources\\images\\statusBar\\wifi_icon.png");
 
@@ -84,7 +85,7 @@ public class TurnedOnScreenPanel extends BackgroundPanel {
                 Date date = new Date();
                 String time = timeFormat.format(date);
                 timeLabel.setText(time);
-                timeLabel.setForeground(Color.WHITE);
+                timeLabel.setForeground(textColor);
             }
         };
 
@@ -102,7 +103,7 @@ public class TurnedOnScreenPanel extends BackgroundPanel {
         rightPanel.setPreferredSize(new Dimension(114, 0));
 
         JLabel batteryText = new JLabel("80%");
-        batteryText.setForeground(Color.WHITE);
+        batteryText.setForeground(textColor);
 
         ImageLabel batteryIcon = new ImageLabel("src\\main\\resources\\images\\statusBar\\battery_icon.png");
 
@@ -118,6 +119,14 @@ public class TurnedOnScreenPanel extends BackgroundPanel {
         panel.setOpaque(false);
 
         return panel;
+    }
+
+    public Color getTextColor() {
+        return textColor;
+    }
+
+    public void setTextColor(Color textColor) {
+        this.textColor = textColor;
     }
 
     public CardLayout getCardLayout() {

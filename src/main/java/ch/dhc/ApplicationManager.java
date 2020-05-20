@@ -30,7 +30,6 @@ public final class ApplicationManager {
         } else {
             System.out.println("is not running");
             try {
-                // TODO: Mettre le backgroundColor et foregroundColor de la statusBar aux propriétés définies dans l'app.
                 application.onRun();
                 uiManager.getContentPanel().add(application, String.valueOf(application.hashCode()));
                 uiManager.display(application);
@@ -46,7 +45,7 @@ public final class ApplicationManager {
         if (isRunning(application)) {
             try {
                 application.onClose();
-                //TODO: REMOVE DU CONTENTPANEL
+                uiManager.getContentPanel().remove(application);
                 runningApplications.remove(application);
             } catch (Exception e) {
                 System.out.println(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));

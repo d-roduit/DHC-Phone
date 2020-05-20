@@ -25,13 +25,15 @@ public final class ApplicationManager {
 
     public void run(Application application) {
         if (isRunning(application)) {
-            display(application);
+            System.out.println("is running");
+            uiManager.display(application);
         } else {
+            System.out.println("is not running");
             try {
                 // TODO: Mettre le backgroundColor et foregroundColor de la statusBar aux propriétés définies dans l'app.
                 application.onRun();
-                uiManager.getContentPanel().add(application, application.getName());
-                display(application);
+                uiManager.getContentPanel().add(application, String.valueOf(application.hashCode()));
+                uiManager.display(application);
                 runningApplications.add(application);
             } catch (Exception e) {
                 System.out.println(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
@@ -56,15 +58,6 @@ public final class ApplicationManager {
         for (Application application: runningApplications) {
             close(application);
         }
-    }
-
-    public void display(Application application) {
-        uiManager.display(application);
-    }
-
-    public void displayHomeScreen() {
-        //TODO: display Home Screen
-        //TODO: Peut-être fermer les autres applications ? Ou alors simplement afficher le homeScreen
     }
 
     public boolean isRunning(Application application) {

@@ -22,6 +22,7 @@ public class HomePanel extends JPanel {
         panel.setLayout(new GridLayout(nbRows, nbColumns));
         panel.setOpaque(false);
 
+        System.out.println(ApplicationManager.getInstance());
         Application[] installedApplications = ApplicationManager.getInstance().getInstalledApplications();
 
         for (Application application: installedApplications) {

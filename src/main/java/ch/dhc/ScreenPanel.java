@@ -59,4 +59,8 @@ public class ScreenPanel extends JPanel {
         state = State.TURNEDOFF;
     }
 
+    public TurnedOnScreenPanel getTurnedOnScreenPanel() {
+        return turnedOnScreenPanel;
+    }
+
 }

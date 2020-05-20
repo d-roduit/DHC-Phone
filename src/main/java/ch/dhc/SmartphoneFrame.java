@@ -2,8 +2,6 @@ package ch.dhc;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class SmartphoneFrame extends JFrame {
 
@@ -17,8 +15,6 @@ public class SmartphoneFrame extends JFrame {
         setUndecorated(true);
         setBackground(new Color(0, 0, 0, 0));
 
-
-        ApplicationManager.getInstance();
         Configuration.getInstance();
 
 
@@ -90,5 +86,10 @@ public class SmartphoneFrame extends JFrame {
         ApplicationManager.getInstance().closeAllApplications();
         this.dispose();
     }
+
+    public ScreenPanel getScreenPanel() {
+        return screenPanel;
+    }
+
 
 }

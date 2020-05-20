@@ -26,11 +26,14 @@ public abstract class Application extends JPanel {
 
     public String getName() {
         return name;
+    public Color getStatusBarBackgroundColor() {
+        return statusBarBackgroundColor;
     };
 
-    public String getIconPath() {
-        return iconPath;
-    };
+    public Color getStatusBarForegroundColor() {
+        return statusBarForegroundColor;
+    }
+
 
     public String getFolder() {
         return folder;
@@ -39,4 +42,5 @@ public abstract class Application extends JPanel {
     public void setFolder(String folder) {
         this.folder = folder;
     }
+
 }

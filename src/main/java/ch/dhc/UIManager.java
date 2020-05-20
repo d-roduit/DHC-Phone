@@ -8,6 +8,7 @@ public final class UIManager {
     private static UIManager instance;
 
     private SmartphoneFrame smartphoneFrame;
+    private TurnedOnScreenPanel turnedOnScreenPanel;
     private CardLayout cardLayout;
     private JPanel statusBarPanel;
     private JPanel contentPanel;
@@ -25,10 +26,15 @@ public final class UIManager {
     }
 
     public void display(Application application) {
-        cardLayout.show(contentPanel, application.getName());
+        statusBarPanel.setOpaque(true);
+        statusBarPanel.setBackground(application.getStatusBarBackgroundColor());
+        statusBarPanel.revalidate();
+        statusBarPanel.repaint();
+        cardLayout.show(contentPanel, String.valueOf(application.hashCode()));
     }
 
     public void displayHome() {
+        statusBarPanel.setOpaque(false);
         cardLayout.show(contentPanel, homePanel.getName());
     }
 
@@ -37,22 +43,19 @@ public final class UIManager {
 
         TurnedOnScreenPanel turnedOnScreenPanel = smartphoneFrame.getScreenPanel().getTurnedOnScreenPanel();
 
+        setTurnedOnScreenPanel(turnedOnScreenPanel);
         setCardLayout(turnedOnScreenPanel.getCardLayout());
         setStatusBarPanel(turnedOnScreenPanel.getStatusBarPanel());
         setContentPanel(turnedOnScreenPanel.getContentPanel());
         setHomePanel(turnedOnScreenPanel.getHomePanel());
     }
 
-    public CardLayout getCardLayout() {
-        return cardLayout;
+    public void setTurnedOnScreenPanel(TurnedOnScreenPanel turnedOnScreenPanel) {
+        this.turnedOnScreenPanel = turnedOnScreenPanel;
     }
 
     public void setCardLayout(CardLayout cardLayout) {
         this.cardLayout = cardLayout;
-    }
-
-    public JPanel getStatusBarPanel() {
-        return statusBarPanel;
     }
 
     public void setStatusBarPanel(JPanel statusBarPanel) {
@@ -65,10 +68,6 @@ public final class UIManager {
 
     public void setContentPanel(JPanel contentPanel) {
         this.contentPanel = contentPanel;
-    }
-
-    public HomePanel getHomePanel() {
-        return homePanel;
     }
 
     public void setHomePanel(HomePanel homePanel) {

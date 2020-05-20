@@ -17,8 +17,13 @@ public class Main extends Application {
     CardLayout cardLayout = new CardLayout();
     JPanel mainPanel = new JPanel(cardLayout);
 
+
+    String name = "Contacts";
+    String iconPath = "icon\\app_icon_contacts.png";
+
+
     public Main() {
-        super("Contacts", "icon\\app_icon_contacts.png");
+
     }
 
     @Override
@@ -127,6 +132,16 @@ public class Main extends Application {
     @Override
     public void onClose() {
         System.out.println("Contacts dit 'Au revoir !'");
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String getIconPath() {
+        return iconPath;
     }
 
 }

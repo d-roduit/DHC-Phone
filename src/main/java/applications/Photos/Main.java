@@ -6,10 +6,12 @@ import java.awt.*;
 
 public class Main extends Application {
 
+    String name = "Photos";
+    String iconPath = "icon/app_icon_photos.png";
+
     Color backgroundColor = Color.BLACK;
 
     public Main() {
-        super("Photos", "icon\\app_icon_photos.png");
     }
 
     @Override
@@ -20,6 +22,16 @@ public class Main extends Application {
     @Override
     public void onClose() {
         System.out.println("Photos dit 'Au revoir !'");
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String getIconPath() {
+        return iconPath;
     }
 
     @Override

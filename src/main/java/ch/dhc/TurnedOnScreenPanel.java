@@ -10,14 +10,34 @@ import java.util.Date;
 
 public class TurnedOnScreenPanel extends BackgroundPanel {
 
+    private final CardLayout cardLayout;
+    private final JPanel statusBarPanel;
+    private final JPanel contentPanel;
+    private final HomePanel homePanel;
+
     public TurnedOnScreenPanel(String imagePath) {
         super(imagePath);
 
-        add(createStatusBarPanel(), BorderLayout.NORTH);
-        add(UIManager.getInstance().getContentPanel(), BorderLayout.CENTER);
+        cardLayout = new CardLayout();
+        statusBarPanel = createStatusBarPanel();
+        homePanel = new HomePanel();
+        contentPanel = createContentPanel(homePanel);
+
+        add(statusBarPanel, BorderLayout.NORTH);
+        add(contentPanel, BorderLayout.CENTER);
     }
 
-    public JPanel createStatusBarPanel() {
+    private JPanel createContentPanel(HomePanel homePanel) {
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(cardLayout);
+        contentPanel.setOpaque(false);
+
+        contentPanel.add(homePanel, homePanel.getName());
+
+        return contentPanel;
+    }
+
+    private JPanel createStatusBarPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setOpaque(false);
@@ -98,6 +118,22 @@ public class TurnedOnScreenPanel extends BackgroundPanel {
         panel.setOpaque(false);
 
         return panel;
+    }
+
+    public CardLayout getCardLayout() {
+        return cardLayout;
+    }
+
+    public JPanel getStatusBarPanel() {
+        return statusBarPanel;
+    }
+
+    public JPanel getContentPanel() {
+        return contentPanel;
+    }
+
+    public HomePanel getHomePanel() {
+        return homePanel;
     }
 }
 

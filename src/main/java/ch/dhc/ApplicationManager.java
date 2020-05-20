@@ -1,10 +1,7 @@
 package ch.dhc;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.File;
 import java.io.FileFilter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -12,8 +9,8 @@ public final class ApplicationManager {
 
     private static ApplicationManager instance;
 
+    private UIManager uiManager;
     private final Application[] installedApplications = fetchInstalledApplications();
-
     private final ArrayList<Application> runningApplications = new ArrayList<Application>();
 
 
@@ -33,7 +30,7 @@ public final class ApplicationManager {
             try {
                 // TODO: Mettre le backgroundColor et foregroundColor de la statusBar aux propriétés définies dans l'app.
                 application.onRun();
-                UIManager.getInstance().getContentPanel().add(application, application.getName());
+                uiManager.getContentPanel().add(application, application.getName());
                 display(application);
                 runningApplications.add(application);
             } catch (Exception e) {
@@ -47,6 +44,7 @@ public final class ApplicationManager {
         if (isRunning(application)) {
             try {
                 application.onClose();
+                //TODO: REMOVE DU CONTENTPANEL
                 runningApplications.remove(application);
             } catch (Exception e) {
                 System.out.println(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
@@ -61,7 +59,7 @@ public final class ApplicationManager {
     }
 
     public void display(Application application) {
-        UIManager.getInstance().getCardLayout().show(UIManager.getInstance().getContentPanel(), application.getName());
+        uiManager.display(application);
     }
 
     public void displayHomeScreen() {
@@ -116,9 +114,12 @@ public final class ApplicationManager {
         }
     }
 
-
     public Application[] getInstalledApplications() {
         return installedApplications;
+    }
+
+    public void setUiManager(UIManager uiManager) {
+        this.uiManager = uiManager;
     }
 
 }

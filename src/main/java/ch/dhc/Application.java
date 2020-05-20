@@ -6,17 +6,12 @@ import java.awt.*;
 public abstract class Application extends JPanel {
 
     private String folder;
-    private final String name;
-    private final String iconPath;
-
+    private String name;
+    private String iconPath;
     private Color statusBarBackgroundColor = Color.BLACK;
     private Color statusBarForegroundColor = Color.WHITE;
 
-
-    public Application(String name, String iconPath) {
-        this.name = name;
-        this.iconPath = iconPath;
-
+    public Application() {
         setLayout(new BorderLayout());
     }
 
@@ -24,8 +19,10 @@ public abstract class Application extends JPanel {
 
     public abstract void onClose();
 
-    public String getName() {
-        return name;
+    public abstract String getName();
+
+    public abstract String getIconPath();
+
     public Color getStatusBarBackgroundColor() {
         return statusBarBackgroundColor;
     };

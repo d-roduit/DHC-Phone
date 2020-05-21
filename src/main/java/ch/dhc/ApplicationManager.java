@@ -59,7 +59,7 @@ final class ApplicationManager {
         }
     }
 
-    public boolean isRunning(Application application) {
+    private boolean isRunning(Application application) {
         return runningApplications.contains(application);
     }
 

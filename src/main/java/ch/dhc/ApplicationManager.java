@@ -23,22 +23,24 @@ final class ApplicationManager {
         return instance;
     }
 
-    public void run(Application application) {
+    public void open(Application application) {
         if (isRunning(application)) {
-            System.out.println("is running");
             uiManager.display(application);
         } else {
-            System.out.println("is not running");
             try {
-                application.onRun();
-                uiManager.getContentPanel().add(application, String.valueOf(application.hashCode()));
+                run(application);
                 uiManager.display(application);
-                runningApplications.add(application);
             } catch (Exception e) {
                 System.out.println(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
             }
         }
 
+    }
+
+    public void run(Application application) {
+        application.onRun();
+        uiManager.getContentPanel().add(application, String.valueOf(application.hashCode()));
+        runningApplications.add(application);
     }
 
     public void close(Application application) {

@@ -22,7 +22,7 @@ class AppIcon extends ImageLabel {
 
                 System.out.println("application " + application.getName() + " cliquée");
 
-                ApplicationManager.getInstance().run(application);
+                ApplicationManager.getInstance().open(application);
             }
         });
     }

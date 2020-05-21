@@ -1,6 +1,7 @@
 package ch.dhc;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 class HomePanel extends JPanel {
@@ -11,7 +12,7 @@ class HomePanel extends JPanel {
         setOpaque(false);
 
         add(createAppIconsListPanel(), BorderLayout.CENTER);
-        add(Box.createRigidArea(new Dimension(0, 50)), BorderLayout.SOUTH);
+        setBorder(new EmptyBorder(20, 0, 50, 0));
     }
 
     private JPanel createAppIconsListPanel() {
@@ -19,7 +20,7 @@ class HomePanel extends JPanel {
         int nbColumns = 4;
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(nbRows, nbColumns));
+        panel.setLayout(new GridLayout(nbRows, nbColumns, 20, 20));
         panel.setOpaque(false);
 
         Application[] installedApplications = ApplicationManager.getInstance().getInstalledApplications();
@@ -48,9 +49,6 @@ class HomePanel extends JPanel {
         appTextLabel.setForeground(Color.white);
         appTextLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        panel.add(Box.createRigidArea(new Dimension(0, 20)), BorderLayout.NORTH);
-        panel.add(Box.createRigidArea(new Dimension(10, 0)), BorderLayout.EAST);
-        panel.add(Box.createRigidArea(new Dimension(10, 0)), BorderLayout.WEST);
         panel.add(appIconLabel, BorderLayout.CENTER);
         panel.add(appTextLabel, BorderLayout.SOUTH);
 

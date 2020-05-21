@@ -2,8 +2,24 @@ package ch.dhc;
 
 import javax.swing.*;
 
-public class ImageLabel extends JLabel {
+/**
+ * <b>ImageLabel is the class that creates an image in a JLabel.</b>
+ *
+ * @see JLabel
+ *
+ * @author Cathy Gay
+ * @author Daniel Roduit
+ */
+class ImageLabel extends JLabel {
 
+    /**
+     * ImageLabel Constructor.
+     *
+     * @param imagePath
+     *          Path of the image.
+     *
+     * @see ImageIcon
+     */
     public ImageLabel(String imagePath) {
         ImageIcon img = new ImageIcon(imagePath);
         setIcon(img);

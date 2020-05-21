@@ -1,19 +1,16 @@
 package ch.dhc;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.File;
 import java.io.FileFilter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public final class ApplicationManager {
+final class ApplicationManager {
 
     private static ApplicationManager instance;
 
+    private UIManager uiManager;
     private final Application[] installedApplications = fetchInstalledApplications();
-
     private final ArrayList<Application> runningApplications = new ArrayList<Application>();
 
 
@@ -28,13 +25,14 @@ public final class ApplicationManager {
 
     public void run(Application application) {
         if (isRunning(application)) {
-            display(application);
+            System.out.println("is running");
+            uiManager.display(application);
         } else {
+            System.out.println("is not running");
             try {
-                // TODO: Mettre le backgroundColor et foregroundColor de la statusBar aux propriétés définies dans l'app.
                 application.onRun();
-                UIManager.getInstance().contentPanel.add(application, application.getName());
-                display(application);
+                uiManager.getContentPanel().add(application, String.valueOf(application.hashCode()));
+                uiManager.display(application);
                 runningApplications.add(application);
             } catch (Exception e) {
                 System.out.println(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
@@ -47,6 +45,7 @@ public final class ApplicationManager {
         if (isRunning(application)) {
             try {
                 application.onClose();
+                uiManager.getContentPanel().remove(application);
                 runningApplications.remove(application);
             } catch (Exception e) {
                 System.out.println(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
@@ -60,16 +59,7 @@ public final class ApplicationManager {
         }
     }
 
-    public void display(Application application) {
-        UIManager.getInstance().cardLayout.show(UIManager.getInstance().contentPanel, application.getName());
-    }
-
-    public void displayHomeScreen() {
-        //TODO: display Home Screen
-        //TODO: Peut-être fermer les autres applications ? Ou alors simplement afficher le homeScreen
-    }
-
-    public boolean isRunning(Application application) {
+    private boolean isRunning(Application application) {
         return runningApplications.contains(application);
     }
 
@@ -116,9 +106,12 @@ public final class ApplicationManager {
         }
     }
 
-
     public Application[] getInstalledApplications() {
         return installedApplications;
+    }
+
+    public void setUiManager(UIManager uiManager) {
+        this.uiManager = uiManager;
     }
 
 }

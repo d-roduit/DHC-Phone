@@ -2,14 +2,11 @@ package ch.dhc;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class SmartphoneFrame extends JFrame {
+class SmartphoneFrame extends JFrame {
 
     private final BackgroundPanel smartphoneBackgroundPanel = new BackgroundPanel("src\\main\\resources\\images\\smartphone.png");
     private final ScreenPanel screenPanel = new ScreenPanel();
-    private ApplicationManager applicationManager;
 
     public SmartphoneFrame() {
         setSize(400, 795);
@@ -17,6 +14,9 @@ public class SmartphoneFrame extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setBackground(new Color(0, 0, 0, 0));
+
+        Configuration.getInstance();
+
 
         smartphoneBackgroundPanel.add(createDragPanel(), BorderLayout.NORTH);
 
@@ -86,5 +86,10 @@ public class SmartphoneFrame extends JFrame {
         ApplicationManager.getInstance().closeAllApplications();
         this.dispose();
     }
+
+    public ScreenPanel getScreenPanel() {
+        return screenPanel;
+    }
+
 
 }

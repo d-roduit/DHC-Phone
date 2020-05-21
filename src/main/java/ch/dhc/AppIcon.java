@@ -1,11 +1,10 @@
 package ch.dhc;
 
-
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-public class AppIcon extends ImageLabel {
+class AppIcon extends ImageLabel {
 
     Application application;
 
@@ -13,6 +12,8 @@ public class AppIcon extends ImageLabel {
         super(Configuration.getInstance().getApplicationsDirectoryPath() + application.getFolder() + "\\" + application.getIconPath());
 
         this.application = application;
+
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         addMouseListener(new MouseAdapter() {
             @Override

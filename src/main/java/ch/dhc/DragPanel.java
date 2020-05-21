@@ -6,11 +6,40 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
-public class DragPanel extends JPanel {
+/**
+ * <b>DragPanel is the class that allows to drag a JFrame.</b>
+ *
+ * @see JPanel
+ *
+ * @author Daniel Roduit
+ */
+class DragPanel extends JPanel {
 
+    /**
+     * Initial click of DragPanel.
+     *
+     * @see Point
+     * @see DragPanel#DragPanel(JFrame)
+     */
     private Point initialClick;
+
+    /**
+     * Parent JFrame of DragPanel.
+     *
+     * @see JFrame
+     * @see DragPanel#DragPanel(JFrame)
+     */
     private JFrame parent;
 
+    /**
+     * DragPanel constructor.
+     * <p>
+     *    DragPanel is created with a move cursor.
+     * </p>
+     *
+     * @param parent
+     *              The parent JFrame of DragPanel.
+     */
     public DragPanel(final JFrame parent) {
         this.parent = parent;
         setCursor(new Cursor(Cursor.MOVE_CURSOR));

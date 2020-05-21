@@ -13,6 +13,12 @@ class AppIcon extends ImageLabel {
 
         this.application = application;
 
+        Dimension appIconDimension = new Dimension(60, 60);
+
+        setMinimumSize(appIconDimension);
+        setPreferredSize(appIconDimension);
+        setMaximumSize(appIconDimension);
+
         setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         addMouseListener(new MouseAdapter() {

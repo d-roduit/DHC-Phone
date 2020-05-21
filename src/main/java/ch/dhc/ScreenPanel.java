@@ -3,7 +3,7 @@ package ch.dhc;
 import javax.swing.*;
 import java.awt.*;
 
-public class ScreenPanel extends JPanel {
+class ScreenPanel extends JPanel {
 
     private State state = State.TURNEDOFF;
 

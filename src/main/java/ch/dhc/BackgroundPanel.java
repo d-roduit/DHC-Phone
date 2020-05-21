@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class BackgroundPanel extends JPanel {
+class BackgroundPanel extends JPanel {
 
     private Image img;
 

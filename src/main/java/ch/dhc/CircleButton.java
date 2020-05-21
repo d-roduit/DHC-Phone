@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
  *
  * @author Daniel Roduit
  */
-public class CircleButton extends JButton {
+class CircleButton extends JButton {
 
     /**
      * Diameter of CircleButton.

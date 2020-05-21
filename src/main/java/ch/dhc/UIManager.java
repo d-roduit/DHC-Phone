@@ -3,7 +3,7 @@ package ch.dhc;
 import javax.swing.*;
 import java.awt.*;
 
-public final class UIManager {
+final class UIManager {
 
     private static UIManager instance;
 

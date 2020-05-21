@@ -2,25 +2,22 @@ package applications.Contacts;
 
 import ch.dhc.Application;
 import ch.dhc.Configuration;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class Main extends Application {
 
-    CardLayout cardLayout = new CardLayout();
-    JPanel mainPanel = new JPanel(cardLayout);
+    CardLayout showContactListCardLayout = new CardLayout();
+    JPanel showContactListPanel = new JPanel(showContactListCardLayout);
 
+    CardLayout modificationCardLayout = new CardLayout();
+    JPanel modificationContactPanel = new JPanel(modificationCardLayout);
 
     String name = "Contacts";
     String iconPath = "icon\\app_icon_contacts.png";
-
 
     public Main() {
 
@@ -28,110 +25,91 @@ public class Main extends Application {
 
     @Override
     public void onRun() {
+
         ObjectMapper mapper = new ObjectMapper();
         Configuration configuration = Configuration.getInstance();
+        ContactListLabel.setShowContactListPanel(showContactListPanel);
 
         try {
-            File file2 = new File(configuration.getContactDirectoryPath() + "contacts.json");
-            ContactList contactList = new ContactList(new ArrayList<Contact>(Arrays.asList(mapper.readValue(file2, Contact[].class))));
 
-        //ContactList contactList = mapper.readValue(file2, ContactList.class);
+            File contactFile = new File(configuration.getContactDirectoryPath() + "contacts.json");
+            ContactList contactList = new ContactList(new ArrayList<Contact>(Arrays.asList(mapper.readValue(contactFile, Contact[].class))));
 
-        System.out.println("JSON array to Array objects...");
-        for (Contact contact : contactList.getContactList()) { //même que for( int i = 0;i < listeContact.length ; i++ )
-            System.out.println(contact);
-        }
+            //contactList.addContact("Daniel","Gay","Sierre","0786789543","jesuistropbeau@gmail.com");
 
-        System.out.println();
-        contactList.addContact("Daniel","Gay","Sierre","0786789543","jesuistropbeau@gmail.com");
+            JPanel contactListPanel = new JPanel();
+            contactListPanel.setLayout(new BorderLayout());
+            contactListPanel.setBackground(Color.black);
+            String contactPanelString = "contactPanelString";
 
-        for (Contact contact : contactList.getContactList()) {
-            System.out.println(contact);
-        }
+            //new
+            JScrollPane contactScrollBar = new JScrollPane();
+            contactScrollBar.createVerticalScrollBar();
 
-        JPanel contactPanel = new JPanel();
-        contactPanel.setLayout(new BoxLayout(contactPanel, BoxLayout.Y_AXIS));
+            JPanel listeAlphabet = new JPanel();
+            listeAlphabet.setLayout(new GridLayout(2, 13));
+            listeAlphabet.setOpaque(false);
+            listeAlphabet.setForeground(Color.white);
 
-        String contactPanelString = "contactPanelString";
-
-        for (Contact contact : contactList.getContactList()) {
-            ContactListLabel cll = new ContactListLabel(contact);
-            cll.addMouseListener( new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    super.mouseClicked(e);
-
-                    JPanel newPanel = new JPanel();
-                    newPanel.setLayout(new BorderLayout());
-
-                    JPanel boutonRetourPanel = new JPanel();
-                    boutonRetourPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-                    String boutonRetourString = "boutonRetourString";
-
-                    JPanel boutonModifierPanel = new JPanel();
-                    boutonModifierPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-                    String boutonModifierString = "boutonModifierString";
-
-                    JPanel infoPanel = new JPanel();
-                    infoPanel.setLayout(new BoxLayout(infoPanel,BoxLayout.Y_AXIS));
-
-                    JLabel lastname = new JLabel (contact.getLastName());
-                    JLabel firstname = new JLabel (contact.getFirstName());
-                    JLabel city = new JLabel (contact.getCity());
-                    JLabel email = new JLabel (contact.getEmail());
-
-                    JButton boutonRetour = new JButton("Retour");
-                    boutonRetour.addActionListener(event -> cardLayout.show( mainPanel, contactPanelString));
-                    boutonRetourPanel.add(boutonRetour);
-
-                    JButton boutonModifier = new JButton("Modifier");
-                    boutonRetour.addActionListener(event2 -> System.out.println("button pressed"));
-                    boutonModifierPanel.add(boutonModifier);
-
-                    infoPanel.add(firstname);
-                    infoPanel.add(lastname);
-                    infoPanel.add(city);
-                    infoPanel.add(email);
-
-                    newPanel.add(boutonModifier,BorderLayout.EAST);
-                    newPanel.add(boutonRetourPanel,BorderLayout.NORTH);
-                    newPanel.add(infoPanel,BorderLayout.CENTER);
-
-                    String newPanelString = "newPanelString" + contact.getFirstName();
-                    mainPanel.add(newPanel,newPanelString);
-
-                    cardLayout.show(mainPanel,newPanelString);
-                }
-            });
-
-            contactPanel.add(cll);
-            contactPanel.add(new JSeparator());
-        }
-
-        mainPanel.add(contactPanel,contactPanelString);
-
-        add(mainPanel);
-
-        cardLayout.show(mainPanel,contactPanelString);
-
-
-           /* try {
-                mapper.writeValue(file2, Contact[].class);
-            } catch(IOException e) {
-                System.out.println("Le programme n'a pas pu écrire la liste de contact dans le fichier");
+            for (char c = 'A'; c <= 'Z'; c++) {
+                listeAlphabet.add(new JLabel(String.valueOf(c)));
             }
-            */
-        } catch(IOException excp) {
+
+            JPanel CL = new JPanel();
+            CL.setLayout(new BoxLayout(CL, BoxLayout.Y_AXIS));
+            CL.setOpaque(false);
+
+            //new code ci-dessous
+
+            JPanel boutonRetourModificationContactPanel = new JPanel();
+            boutonRetourModificationContactPanel.setLayout(new GridLayout(1, 3));
+            boutonRetourModificationContactPanel.setBackground(Color.black);
+            modificationContactPanel.add(boutonRetourModificationContactPanel, BorderLayout.NORTH);
+
+            String modificationContactPanelString = "modificationContactPanelString";
+            showContactListPanel.add(modificationContactPanel, modificationContactPanelString);
+
+            JButton cancelContact = new JButton("Annuler");
+            cancelContact.setBackground(Color.black);
+            cancelContact.setForeground(Color.orange);
+            cancelContact.addActionListener((event -> showContactListCardLayout.show(showContactListPanel, contactPanelString))); // A changer des que possible le String
+
+            boutonRetourModificationContactPanel.add(cancelContact);
+
+            for (Contact contact : contactList.getContactList()) {
+                ContactListLabel cll = new ContactListLabel(contact);
+                cll.setForeground(Color.white);
+                CL.add(cll);
+                CL.add(new JSeparator());
+            }
+
+            contactListPanel.add(listeAlphabet, BorderLayout.NORTH);
+            contactListPanel.add(CL, BorderLayout.CENTER);
+
+            contactScrollBar.add(contactListPanel);
+
+            showContactListPanel.add(contactScrollBar);
+            showContactListPanel.add(contactListPanel, contactPanelString);
+            add(showContactListPanel);
+
+            showContactListCardLayout.show(showContactListPanel, contactPanelString);
+
+        } catch (IOException excp) {
             System.out.println("Ca marche pas");
         }
-
     }
-
-
 
     @Override
     public void onClose() {
         System.out.println("Contacts dit 'Au revoir !'");
+
+         /* try {
+                mapper.writeValue(file2, Contact[].class);
+            } catch(IOException e) {
+                System.out.println("Le programme n'a pas pu écrire la liste de contact dans le fichier");
+            } catch(){
+
+            */
     }
 
     @Override
@@ -143,5 +121,5 @@ public class Main extends Application {
     public String getIconPath() {
         return iconPath;
     }
-
 }
+

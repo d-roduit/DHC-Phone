@@ -10,7 +10,7 @@ import javax.swing.*;
  * @author Cathy Gay
  * @author Daniel Roduit
  */
-public class ImageLabel extends JLabel {
+class ImageLabel extends JLabel {
 
     /**
      * ImageLabel Constructor.

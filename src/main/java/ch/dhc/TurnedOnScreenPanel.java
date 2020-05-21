@@ -8,7 +8,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TurnedOnScreenPanel extends BackgroundPanel {
+class TurnedOnScreenPanel extends BackgroundPanel {
 
     private Color textColor = Color.WHITE;
     private final CardLayout cardLayout;

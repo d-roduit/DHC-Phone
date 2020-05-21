@@ -13,7 +13,7 @@ import java.awt.event.MouseMotionAdapter;
  *
  * @author Daniel Roduit
  */
-public class DragPanel extends JPanel {
+class DragPanel extends JPanel {
 
     /**
      * Initial click of DragPanel.

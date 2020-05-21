@@ -3,7 +3,7 @@ package ch.dhc;
 import javax.swing.*;
 import java.awt.*;
 
-public class HomePanel extends JPanel {
+class HomePanel extends JPanel {
 
     private final String name = "Home";
 

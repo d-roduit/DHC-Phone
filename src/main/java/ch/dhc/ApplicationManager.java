@@ -5,7 +5,7 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public final class ApplicationManager {
+final class ApplicationManager {
 
     private static ApplicationManager instance;
 

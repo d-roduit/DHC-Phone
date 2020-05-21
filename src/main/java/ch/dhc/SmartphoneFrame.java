@@ -3,7 +3,7 @@ package ch.dhc;
 import javax.swing.*;
 import java.awt.*;
 
-public class SmartphoneFrame extends JFrame {
+class SmartphoneFrame extends JFrame {
 
     private final BackgroundPanel smartphoneBackgroundPanel = new BackgroundPanel("src\\main\\resources\\images\\smartphone.png");
     private final ScreenPanel screenPanel = new ScreenPanel();

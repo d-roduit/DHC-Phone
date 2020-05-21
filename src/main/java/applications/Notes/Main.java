@@ -10,7 +10,7 @@ public class Main extends Application {
     String iconPath = "icon\\app_icon_notes.png";
 
     FolderListPanel folderListPanel = new FolderListPanel();
-    FolderPanel folderPanel = new FolderPanel();
+    //FolderPanel folderPanel = new FolderPanel();
 
     public Main() {
 

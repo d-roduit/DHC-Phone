@@ -38,7 +38,7 @@ public class FolderListPanel extends JPanel {
         titleLabel.setFont(new Font("Calibri", Font.BOLD, 25));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        ImageLabel addFolderButton = new ImageLabel("C:\\Users\\gayca\\Documents\\HES\\semestre2\\POO\\ProjetsPersonnels\\projetSemestre\\maquettes\\add_icon3.png");
+        ImageLabel addFolderButton = new ImageLabel("src\\main\\java\\applications\\Notes\\icon\\add_icon.png");
         addFolderButton.setToolTipText("Add a folder");
 
         panel.add(Box.createRigidArea(new Dimension(30, 0)), BorderLayout.WEST);
@@ -85,7 +85,7 @@ public class FolderListPanel extends JPanel {
         JPanel eastPanel = new JPanel();
         eastPanel.setOpaque(false);
 
-        ImageLabel folderIcon = new ImageLabel("C:\\Users\\gayca\\Documents\\HES\\semestre2\\POO\\ProjetsPersonnels\\projetSemestre\\maquettes\\folder_icon2.png");
+        ImageLabel folderIcon = new ImageLabel("src\\main\\java\\applications\\Notes\\icon\\\\folder_icon.png");
 
         JLabel folderName = new JLabel(name);
         folderName.setForeground(Color.WHITE);

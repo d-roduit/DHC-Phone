@@ -59,7 +59,7 @@ class CircleButton extends JButton {
     /**
      * CircleButton constructor.
      * <p>
-     *     CircleButton is created with a transparent color.
+     *     CircleButton is created with a default color (transparent).
      * </p>
      *
      * @param diameter

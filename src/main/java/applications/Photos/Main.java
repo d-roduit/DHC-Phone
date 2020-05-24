@@ -1,8 +1,14 @@
 package applications.Photos;
 
+import applications.Photos.controllers.GalleryController;
+import applications.Photos.models.GalleryModel;
+import applications.Photos.views.GalleryView;
 import ch.dhc.Application;
 
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.io.File;
+import java.util.Arrays;
 
 public class Main extends Application {
 
@@ -12,11 +18,30 @@ public class Main extends Application {
     Color backgroundColor = Color.BLACK;
 
     public Main() {
+        setBackground(backgroundColor);
+        setBorder(new EmptyBorder(15, 0, 0, 0));
+
+        GalleryView galleryView = new GalleryView();
+        GalleryModel galleryModel = new GalleryModel();
+
+        GalleryController galleryController = new GalleryController(galleryView, galleryModel);
+
+        add(galleryView);
     }
 
     @Override
     public void onRun() {
-        setBackground(backgroundColor);
+
+        File sourceFile = new File("fb.png");
+
+        try {
+            ThumbnailGenerator.generate(sourceFile, "thumbnail");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // cardlayout.show(this, galleryView);
+
     }
 
     @Override

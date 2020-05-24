@@ -4,17 +4,52 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * <b>HomePanel is the class that represents the smartphone home screen.</b>
+ *
+ * @see JPanel
+ *
+ * @author Cathy Gay
+ * @author Daniel Roduit
+ */
 class HomePanel extends JPanel {
 
+    /**
+     * Final name of HomePanel.
+     *
+     * @see HomePanel#getName()
+     */
     private final String name = "Home";
 
+    /**
+     * HomePanel constructor.
+     * <p>
+     *     HomePanel is created transparent with a top and bottom margin.
+     * </p>
+     *
+     * @see HomePanel#createAppIconsListPanel()
+     */
     public HomePanel() {
         setOpaque(false);
 
-        add(createAppIconsListPanel(), BorderLayout.CENTER);
+        add(createAppIconsListPanel());
         setBorder(new EmptyBorder(20, 0, 50, 0));
     }
 
+    /**
+     * Returns a JPanel that represents the list of applications icons.
+     * <p>
+     *     Displays the installed applications in a GridLayout.
+     * </p>
+     *
+     * @return The applications icons list JPanel.
+     *
+     * @see JPanel
+     * @see Application
+     * @see HomePanel#createAppIconPanel(Application)
+     * @see ApplicationManager#getInstalledApplications()
+     * @see HomePanel#createEmptyPanel()
+     */
     private JPanel createAppIconsListPanel() {
         int nbRows = 5;
         int nbColumns = 4;
@@ -38,6 +73,22 @@ class HomePanel extends JPanel {
         return panel;
     }
 
+    /**
+     * Returns a JPanel that represents the application icon.
+     * <p>
+     *     Creates JPanel with the image icon of the application and its name below.
+     * </p>
+     *
+     * @param application
+     *              An Application.
+     *
+     * @return The application icon JPanel.
+     *
+     * @see JPanel
+     * @see AppIcon
+     * @see Application
+     * @see Application#getName()
+     */
     private JPanel createAppIconPanel(Application application) {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
@@ -55,6 +106,14 @@ class HomePanel extends JPanel {
         return panel;
     }
 
+    /**
+     * Returns an empty JPanel.
+     *
+     * @return An empty JPanel.
+     *
+     * @see JPanel
+     * @see HomePanel#createAppIconsListPanel()
+     */
     private JPanel createEmptyPanel() {
         JPanel panel = new JPanel();
         panel.setOpaque(false);
@@ -62,6 +121,13 @@ class HomePanel extends JPanel {
         return panel;
     }
 
+    /**
+     * Returns the name of HomePanel.
+     *
+     * @return The name of HomePanel.
+     *
+     * @see HomePanel#name
+     */
     public String getName() {
         return name;
     }

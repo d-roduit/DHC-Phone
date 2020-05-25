@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 
 /**
@@ -43,7 +44,7 @@ class BackgroundPanel extends JPanel {
         setLayout(new BorderLayout());
 
         try {
-            img = ImageIO.read(new File(path));
+            img = ImageIO.read(getClass().getResource(path));
         } catch (IOException e) {
             System.out.println(e);
         }

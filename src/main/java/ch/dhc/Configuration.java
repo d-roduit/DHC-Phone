@@ -3,6 +3,7 @@ package ch.dhc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 
 public class Configuration {
@@ -48,10 +49,11 @@ public class Configuration {
 
     private static Configuration createConfigFromConfigFile() {
         try {
-            File file = new File(configFilePath);
-            return mapper.readValue(file, Configuration.class);
-        } catch (IOException e) {
-            System.out.println(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
+            File jarFilePath = new File(Configuration.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+            File configurationFile = new File(jarFilePath.getParent() + "/config.json");
+            return mapper.readValue(configurationFile, Configuration.class);
+        } catch (IOException | URISyntaxException e) {
+            System.out.println(e);
 
             // TODO: Retourner une configuration avec des valeurs par défaut.
             return getInstance();

@@ -19,7 +19,7 @@ class SmartphoneFrame extends JFrame {
      * @see BackgroundPanel
      * @see SmartphoneFrame#SmartphoneFrame()
      */
-    private final BackgroundPanel smartphoneBackgroundPanel = new BackgroundPanel("src\\main\\resources\\images\\smartphone.png");
+    private final BackgroundPanel smartphoneBackgroundPanel = new BackgroundPanel("/images/smartphone.png");
 
     /**
      * The smartphone screen.

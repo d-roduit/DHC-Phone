@@ -7,7 +7,7 @@ class ScreenPanel extends JPanel {
 
     private State state = State.TURNEDOFF;
 
-    private final TurnedOnScreenPanel turnedOnScreenPanel = new TurnedOnScreenPanel("src\\main\\resources\\images\\home_background.png");
+    private final TurnedOnScreenPanel turnedOnScreenPanel = new TurnedOnScreenPanel("/images/home_background.png");
 
     enum State {
         TURNEDON, TURNEDOFF;

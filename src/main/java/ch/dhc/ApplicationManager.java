@@ -31,7 +31,7 @@ final class ApplicationManager {
                 run(application);
                 uiManager.display(application);
             } catch (Exception e) {
-                System.out.println(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
+                System.out.println(e);
             }
         }
 
@@ -50,7 +50,7 @@ final class ApplicationManager {
                 uiManager.getContentPanel().remove(application);
                 runningApplications.remove(application);
             } catch (Exception e) {
-                System.out.println(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
+                System.out.println(e);
             }
         }
     }
@@ -84,7 +84,7 @@ final class ApplicationManager {
 
                 applicationList[i] = application;
             } catch (Exception e) {
-                System.out.println(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
+                System.out.println(e);
             }
         }
 
@@ -103,7 +103,7 @@ final class ApplicationManager {
 
             return files;
         } catch (Exception e) {
-            System.out.println(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
+            System.out.println(e);
             return null;
         }
     }

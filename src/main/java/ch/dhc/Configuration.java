@@ -24,7 +24,7 @@ public class Configuration {
             try {
                 instance = createConfigFromConfigFile();
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                System.out.println(e);
                 // TODO: Créer / écraser un fichier config.json à la racine du programme
                 // TODO: Écrire dans config.json des valeurs par défaut
                 // TODO: Attribuer à la variable la valeur ' new Configuration(defaultParam1, defaultParam2, ...) '

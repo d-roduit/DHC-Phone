@@ -2,6 +2,10 @@ package ch.dhc;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * <b>SmartphoneFrame is the class that represents the smartphone JFrame.</b>
@@ -31,6 +35,15 @@ class SmartphoneFrame extends JFrame {
     private final ScreenPanel screenPanel = new ScreenPanel();
 
     /**
+     * The smartphone lock button.
+     *
+     * @see JButton
+     * @see SmartphoneFrame#createLockButton()
+     * @see SmartphoneFrame#turnOff()
+     */
+    private JButton lockButton;
+
+    /**
      * SmartphoneFrame constructor.
      * <p>
      *     SmartphoneFrame is created with a fixed size and no decoration.
@@ -54,7 +67,6 @@ class SmartphoneFrame extends JFrame {
         setBackground(new Color(0, 0, 0, 0));
 
         Configuration.getInstance();
-
 
         smartphoneBackgroundPanel.add(createDragPanel(), BorderLayout.NORTH);
 
@@ -103,7 +115,7 @@ class SmartphoneFrame extends JFrame {
      * @see SmartphoneFrame#turnOff()
      */
     public JButton createLockButton() {
-        JButton lockButton = new JButton();
+        lockButton = new JButton();
         lockButton.setPreferredSize(new Dimension(27, 0));
         lockButton.setContentAreaFilled(false);
         lockButton.setBorderPainted(false);
@@ -112,8 +124,13 @@ class SmartphoneFrame extends JFrame {
 
         lockButton.addActionListener(actionEvent -> screenPanel.toggleScreen());
 
-//         TODO: Ajouter le long pressed
-//        lockButton.addActionListener(actionEvent -> turnOff());
+        lockButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                turnOff();
+            }
+        });
 
         return lockButton;
     }
@@ -166,12 +183,27 @@ class SmartphoneFrame extends JFrame {
     /**
      * Stops and closes the program.
      *
+     * @see SmartphoneFrame#lockButton
      * @see ApplicationManager#closeAllApplications()
-     * @see SmartphoneFrame#createLockButton()
+     * @see Timer
      */
     private void turnOff() {
-        ApplicationManager.getInstance().closeAllApplications();
-        this.dispose();
+        // nb of milliseconds before firing the first event and then delay between each event firing
+        int delay = 4000;
+
+        ActionListener taskPerformer = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                System.out.println("controle du pressed");
+                if (lockButton.getModel().isPressed()) {
+                    ApplicationManager.getInstance().closeAllApplications();
+                    dispose();
+                }
+            }
+        };
+
+        Timer pressedTimer = new Timer(delay, taskPerformer);
+        pressedTimer.setRepeats(false);
+        pressedTimer.start();
     }
 
     /**

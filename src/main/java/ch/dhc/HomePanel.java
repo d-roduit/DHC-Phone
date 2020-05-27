@@ -94,7 +94,13 @@ class HomePanel extends JPanel {
         panel.setLayout(new BorderLayout());
         panel.setOpaque(false);
 
-        AppIcon appIconLabel = new AppIcon(application);
+        AppIcon appIconLabel = null;
+
+        try {
+            appIconLabel = new AppIcon(application);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         JLabel appTextLabel = new JLabel(application.getName());
         appTextLabel.setForeground(Color.white);

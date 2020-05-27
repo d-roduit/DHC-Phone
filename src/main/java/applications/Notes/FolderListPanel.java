@@ -2,6 +2,7 @@ package applications.Notes;
 
 import ch.dhc.ImageLabel;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -38,7 +39,16 @@ public class FolderListPanel extends JPanel {
         titleLabel.setFont(new Font("Calibri", Font.BOLD, 25));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        ImageLabel addFolderButton = new ImageLabel("src\\main\\java\\applications\\Notes\\icon\\add_icon.png");
+
+        ImageLabel addFolderButton = null;
+
+        try {
+            String addIconPath = "icon/add_icon.png";
+            addFolderButton = new ImageLabel(ImageIO.read(FolderListPanel.class.getResourceAsStream(addIconPath)));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
         addFolderButton.setToolTipText("Add a folder");
 
         panel.add(Box.createRigidArea(new Dimension(30, 0)), BorderLayout.WEST);
@@ -85,7 +95,14 @@ public class FolderListPanel extends JPanel {
         JPanel eastPanel = new JPanel();
         eastPanel.setOpaque(false);
 
-        ImageLabel folderIcon = new ImageLabel("src\\main\\java\\applications\\Notes\\icon\\\\folder_icon.png");
+        ImageLabel folderIcon = null;
+
+        try {
+            String folderIconPath = "icon/folder_icon.png";
+            folderIcon = new ImageLabel(ImageIO.read(FolderListPanel.class.getResourceAsStream(folderIconPath)));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         JLabel folderName = new JLabel(name);
         folderName.setForeground(Color.WHITE);

@@ -1,6 +1,7 @@
 package ch.dhc;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * <b>ImageLabel is the class that creates an image in a JLabel.</b>
@@ -15,13 +16,13 @@ public class ImageLabel extends JLabel {
     /**
      * ImageLabel Constructor.
      *
-     * @param imagePath
+     * @param imageData
      *          Path of the image.
      *
      * @see ImageIcon
      */
-    public ImageLabel(String imagePath) {
-        ImageIcon img = new ImageIcon(imagePath);
+    public ImageLabel(Image imageData) {
+        ImageIcon img = new ImageIcon(imageData);
         setIcon(img);
     }
 

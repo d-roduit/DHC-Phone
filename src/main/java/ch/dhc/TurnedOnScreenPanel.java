@@ -1,9 +1,11 @@
 package ch.dhc;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -59,12 +61,29 @@ class TurnedOnScreenPanel extends BackgroundPanel {
     private JPanel createLeftPanelStatusBar() {
         JPanel leftPanel = createFlowLayoutPanelStatusBar(FlowLayout.LEFT);
 
-        ImageLabel networkIcon = new ImageLabel("src\\main\\resources\\images\\statusBar\\network_icon.png");
+        // Network Icon
+        ImageLabel networkIcon = null;
+
+        try {
+            String networkIconPath = "images/statusBar/network_icon.png";
+            networkIcon = new ImageLabel(ImageIO.read(TurnedOnScreenPanel.class.getResourceAsStream(networkIconPath)));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         JLabel networkText = new JLabel("DHCnet");
         networkText.setForeground(textColor);
 
-        ImageLabel wifiIcon = new ImageLabel("src\\main\\resources\\images\\statusBar\\wifi_icon.png");
+        ImageLabel wifiIcon = null;
+
+
+        // Wifi Icon
+        try {
+            String wifiIconPath = "images/statusBar/wifi_icon.png";
+            wifiIcon = new ImageLabel(ImageIO.read(TurnedOnScreenPanel.class.getResourceAsStream(wifiIconPath)));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         leftPanel.add(networkIcon);
         leftPanel.add(networkText);
@@ -105,7 +124,15 @@ class TurnedOnScreenPanel extends BackgroundPanel {
         JLabel batteryText = new JLabel("80%");
         batteryText.setForeground(textColor);
 
-        ImageLabel batteryIcon = new ImageLabel("src\\main\\resources\\images\\statusBar\\battery_icon.png");
+        ImageLabel batteryIcon = null;
+
+        // Battery Icon
+        try {
+            String batteryIconPath = "images/statusBar/battery_icon.png";
+            batteryIcon = new ImageLabel(ImageIO.read(TurnedOnScreenPanel.class.getResourceAsStream(batteryIconPath)));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         rightPanel.add(batteryText);
         rightPanel.add(batteryIcon);

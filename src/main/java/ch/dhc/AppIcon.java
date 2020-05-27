@@ -1,15 +1,17 @@
 package ch.dhc;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 class AppIcon extends ImageLabel {
 
     Application application;
 
-    public AppIcon(Application application) {
-        super(Configuration.getInstance().getApplicationsDirectoryPath() + application.getFolder() + "\\" + application.getIconPath());
+    public AppIcon(Application application) throws IOException {
+        super(ImageIO.read(AppIcon.class.getResourceAsStream("/applications/" + application.getFolder() + "/" + application.getIconPath())));
 
         this.application = application;
 

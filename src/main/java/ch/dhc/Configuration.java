@@ -14,7 +14,7 @@ public class Configuration {
 
     private String contactDirectoryPath;
     private String picturesDirectoryPath;
-    private String applicationsDirectoryPath;
+    private String applicationsDirectoryPath = Configuration.class.getResource("/applications/").getPath();
 
     private Configuration() {
 
@@ -50,7 +50,7 @@ public class Configuration {
     private static Configuration createConfigFromConfigFile() {
         try {
             File jarFilePath = new File(Configuration.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-            File configurationFile = new File(jarFilePath.getParent() + "/config.json");
+            File configurationFile = new File(jarFilePath.getParent() + "/" + configFilePath);
             return mapper.readValue(configurationFile, Configuration.class);
         } catch (IOException | URISyntaxException e) {
             System.out.println(e);

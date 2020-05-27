@@ -7,7 +7,7 @@ import java.awt.*;
 public class Main extends Application {
 
     String name = "Notes";
-    String iconPath = "icon\\app_icon_notes.png";
+    String iconPath = "icon/app_icon_notes.png";
 
     FolderListPanel folderListPanel = new FolderListPanel();
     //FolderPanel folderPanel = new FolderPanel();

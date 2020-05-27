@@ -17,7 +17,7 @@ public class Main extends Application {
     JPanel modificationContactPanel = new JPanel(modificationCardLayout);
 
     String name = "Contacts";
-    String iconPath = "icon\\app_icon_contacts.png";
+    String iconPath = "icon/app_icon_contacts.png";
 
     public Main() {
 

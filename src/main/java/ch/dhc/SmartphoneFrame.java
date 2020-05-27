@@ -193,7 +193,6 @@ class SmartphoneFrame extends JFrame {
 
         ActionListener taskPerformer = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                System.out.println("controle du pressed");
                 if (lockButton.getModel().isPressed()) {
                     ApplicationManager.getInstance().closeAllApplications();
                     dispose();

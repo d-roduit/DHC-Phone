@@ -56,7 +56,9 @@ final class ApplicationManager {
     }
 
     public void closeAllApplications() {
-        for (Application application: runningApplications) {
+        Application[] applicationsArray = runningApplications.toArray(new Application[0]);
+
+        for (Application application: applicationsArray) {
             close(application);
         }
     }

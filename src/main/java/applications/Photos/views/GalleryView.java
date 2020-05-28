@@ -1,5 +1,8 @@
 package applications.Photos.views;
 
+import jiconfont.icons.font_awesome.FontAwesome;
+import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
+import jiconfont.swing.IconFontSwing;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -21,6 +24,7 @@ public class GalleryView extends JPanel {
     }
 
     private JPanel createTopBarPanel() {
+
         Color textColor = new Color(217, 169, 25);
         Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
 
@@ -28,7 +32,8 @@ public class GalleryView extends JPanel {
         topBarPanel.setOpaque(false);
         topBarPanel.setLayout(new BorderLayout());
 
-        goBackButton = new JButton("<-");
+        Icon goBackIcon = IconFontSwing.buildIcon(FontAwesome.ANGLE_LEFT, 24, textColor);
+        goBackButton = new JButton(goBackIcon);
         goBackButton.setForeground(textColor);
         goBackButton.setCursor(handCursor);
         goBackButton.setFocusPainted(false);
@@ -41,7 +46,8 @@ public class GalleryView extends JPanel {
         viewTitle.setHorizontalAlignment(JLabel.CENTER);
         viewTitle.setForeground(Color.WHITE);
 
-        createAlbumButton = new JButton("+");
+        Icon addAlbumIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.ADD, 22, textColor);
+        createAlbumButton = new JButton(addAlbumIcon);
         createAlbumButton.setForeground(textColor);
         createAlbumButton.setCursor(handCursor);
         createAlbumButton.setFocusPainted(false);

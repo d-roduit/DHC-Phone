@@ -4,6 +4,9 @@ import applications.Photos.controllers.GalleryController;
 import applications.Photos.models.GalleryModel;
 import applications.Photos.views.GalleryView;
 import ch.dhc.Application;
+import jiconfont.icons.font_awesome.FontAwesome;
+import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
+import jiconfont.swing.IconFontSwing;
 
 import javax.swing.border.EmptyBorder;
 import java.awt.*;

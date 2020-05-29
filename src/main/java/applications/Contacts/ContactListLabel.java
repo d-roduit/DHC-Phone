@@ -2,15 +2,31 @@ package applications.Contacts;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
+        /**
+        * <b>ContactListLabel is the class that represents list of contacts and their labels</b>
+        *
+        * @see JPanel
+        *
+        * @author Henrick Neads
+        */
 
 public class ContactListLabel extends JLabel {
 
     private Contact contact ;
     private static JPanel showContactListPanel;
     private static CardLayout showContactListCardLayout;
+    private static String contactPanelString;
+    private static String modificationContactPanelString;
+
+            /**
+             *
+             * ContactListLabel constructor.
+             *
+             * @param contact
+             *          It's one person of the contact list.
+             */
 
     public ContactListLabel (Contact contact){
 
@@ -23,87 +39,198 @@ public class ContactListLabel extends JLabel {
                 super.mouseClicked(e);
 
                 JPanel contactDisplayPanel = new JPanel();
-                contactDisplayPanel.setLayout(new BorderLayout());
+                contactDisplayPanel.setLayout(new GridLayout(3,1));
+                contactDisplayPanel.setOpaque(false);
 
                 JPanel contactPersonnalInfoPanel = new JPanel();
-                contactPersonnalInfoPanel.setLayout(new GridLayout(5,2));
+                contactPersonnalInfoPanel.setLayout(new GridBagLayout());
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.insets = new Insets(0,25,10,0);
                 contactPersonnalInfoPanel.setBackground(Color.black);
-                contactPersonnalInfoPanel.setSize(100,100);
 
                 JLabel lastNameString = new JLabel("Last name : ");
                 lastNameString.setForeground(Color.white);
-                contactPersonnalInfoPanel.add(lastNameString);
+                gbc.gridx = 0;
+                gbc.gridy = 5;
+                gbc.gridwidth = 1;
+                gbc.gridheight = 1;
+                gbc.anchor= GridBagConstraints.LINE_START;
+                contactPersonnalInfoPanel.add(lastNameString,gbc);
 
                 JLabel lastname = new JLabel (contact.getLastName());
                 lastname.setForeground(Color.white);
-                contactPersonnalInfoPanel.add(lastname);
+                gbc.gridx = 1;
+                gbc.gridy = 5;
+                gbc.gridwidth = 1;
+                gbc.gridheight = 1;
+                gbc.anchor= GridBagConstraints.LINE_START;
+                contactPersonnalInfoPanel.add(lastname,gbc);
 
                 JLabel firstNameString = new JLabel("First name : ");
                 firstNameString.setForeground(Color.white);
-                contactPersonnalInfoPanel.add(firstNameString);
+                gbc.gridx = 0;
+                gbc.gridy = 6;
+                gbc.gridwidth = 1;
+                gbc.gridheight = 1;
+                gbc.anchor= GridBagConstraints.LINE_START;
+                contactPersonnalInfoPanel.add(firstNameString,gbc);
 
                 JLabel firstname = new JLabel (contact.getFirstName());
                 firstname.setForeground(Color.white);
-                contactPersonnalInfoPanel.add(firstname);
+                gbc.gridx = 1;
+                gbc.gridy = 6;
+                gbc.gridwidth = 1;
+                gbc.gridheight = 1;
+                gbc.anchor= GridBagConstraints.FIRST_LINE_START;
+                contactPersonnalInfoPanel.add(firstname,gbc);
 
                 JLabel cityString = new JLabel("City : ");
                 cityString.setForeground(Color.white);
-                contactPersonnalInfoPanel.add(cityString);
+                gbc.gridx = 0;
+                gbc.gridy = 7;
+                gbc.gridwidth = 1;
+                gbc.gridheight = 1;
+                gbc.anchor= GridBagConstraints.LINE_START;
+                contactPersonnalInfoPanel.add(cityString,gbc);
 
                 JLabel city = new JLabel (contact.getCity());
                 city.setForeground(Color.white);
-                contactPersonnalInfoPanel.add(city);
+                gbc.gridx = 1;
+                gbc.gridy = 7;
+                gbc.gridwidth = 1;
+                gbc.gridheight = 1;
+                gbc.anchor= GridBagConstraints.LINE_START;
+                contactPersonnalInfoPanel.add(city,gbc);
 
                 JLabel emailString = new JLabel("Email : ");
                 emailString.setForeground(Color.white);
-                contactPersonnalInfoPanel.add(emailString);
+                gbc.gridx = 0;
+                gbc.gridy = 8;
+                gbc.gridwidth = 1;
+                gbc.gridheight = 1;
+                gbc.anchor= GridBagConstraints.LINE_START;
+                contactPersonnalInfoPanel.add(emailString,gbc);
 
                 JLabel email = new JLabel (contact.getEmail());
                 email.setForeground(Color.white);
-                contactPersonnalInfoPanel.add(email);
+                gbc.gridx = 1;
+                gbc.gridy = 8;
+                gbc.gridwidth = 1;
+                gbc.gridheight = 1;
+                gbc.anchor= GridBagConstraints.LINE_START;
+                contactPersonnalInfoPanel.add(email,gbc);
 
                 JLabel phoneNumberString = new JLabel("Phone number : ");
                 phoneNumberString.setForeground(Color.white);
-                contactPersonnalInfoPanel.add(phoneNumberString);
+                gbc.gridx = 0;
+                gbc.gridy = 9;
+                gbc.gridwidth = 1;
+                gbc.gridheight = 1;
+                gbc.anchor= GridBagConstraints.LINE_START;
+                contactPersonnalInfoPanel.add(phoneNumberString,gbc);
 
                 JLabel phoneNumber = new JLabel(contact.getPhoneNumber());
                 phoneNumber.setForeground(Color.white);
-                contactPersonnalInfoPanel.add(phoneNumber);
+                gbc.gridx = 1;
+                gbc.gridy = 9;
+                gbc.gridwidth = 1;
+                gbc.gridheight = 1;
+                gbc.anchor= GridBagConstraints.LINE_START;
+                contactPersonnalInfoPanel.add(phoneNumber,gbc);
 
-                contactDisplayPanel.add(contactPersonnalInfoPanel,BorderLayout.CENTER);
+                //contactDisplayPanel.add(createContactDisplayButtonPanel());
 
-                String newPanelString = "newPanelString" + contact.getFirstName();
-                showContactListPanel.add(contactDisplayPanel,newPanelString);
+                contactDisplayPanel.add(createPhotoDisplayPanel());
 
-                contactDisplayPanel.add(createContactDisplayButtonPanel(),BorderLayout.NORTH);
+                contactDisplayPanel.add(contactPersonnalInfoPanel);
 
-                ((CardLayout)showContactListPanel.getLayout()).show(showContactListPanel,newPanelString);
+                contactDisplayPanel.add(createNoteDisplayPanel());
+
+                String contactListPanelString = "newPanelString" + contact.getFirstName();
+                showContactListPanel.add(contactDisplayPanel,contactListPanelString);
+
+                ((CardLayout)showContactListPanel.getLayout()).show(showContactListPanel,contactListPanelString);
 
             }
         });
     }
+
+    private JPanel createNoteDisplayPanel(){
+        JPanel displayNote = new JPanel(new BorderLayout());
+        displayNote.setBackground(Color.black);
+
+        JLabel noteLabel = new JLabel("Notes");
+        noteLabel.setForeground(Color.orange);
+        noteLabel.setHorizontalAlignment(JLabel.CENTER);
+        noteLabel.setFont(new Font("Calibri",Font.BOLD,20));
+
+        JButton noteTexteContainer = new JButton("texte");
+        noteTexteContainer.setForeground(Color.orange);
+
+        displayNote.add(noteLabel,BorderLayout.NORTH);
+        displayNote.add(noteTexteContainer,BorderLayout.CENTER);
+        displayNote.add(Box.createRigidArea(new Dimension(50, 0)), BorderLayout.WEST);
+        displayNote.add(Box.createRigidArea(new Dimension(50, 0)), BorderLayout.EAST);
+        displayNote.add(Box.createRigidArea(new Dimension(0, 20)), BorderLayout.SOUTH);
+
+        return displayNote;
+    }
+
+    private JPanel createPhotoDisplayPanel(){
+        JPanel displayPhoto = new JPanel();
+        displayPhoto.setLayout(new BorderLayout());
+        displayPhoto.setBackground(Color.black);
+
+        JButton photo = new JButton("Photo");
+        photo.setBackground(Color.white);
+        displayPhoto.add(createContactDisplayButtonPanel(),BorderLayout.NORTH);
+        displayPhoto.add(Box.createRigidArea(new Dimension(90, 0)), BorderLayout.WEST);
+        displayPhoto.add(Box.createRigidArea(new Dimension(90, 0)), BorderLayout.EAST);
+
+        displayPhoto.add(photo,BorderLayout.CENTER);
+
+        return displayPhoto;
+    }
+
     private JPanel createContactDisplayButtonPanel(){
+
+        JPanel containsContactDisplayButtonPanel = new JPanel();
+        containsContactDisplayButtonPanel.setLayout(new BorderLayout());
+        containsContactDisplayButtonPanel.setBackground(Color.black);
+
         JPanel contactDisplayButtonPanel = new JPanel();
-        contactDisplayButtonPanel.setLayout(new GridLayout(1,3));
+        contactDisplayButtonPanel.setLayout(new GridLayout(2,3));
         contactDisplayButtonPanel.setBackground(Color.black);
 
         JButton contactBoutonRetour = new JButton("Retour");
         contactBoutonRetour.setBackground(Color.black);
         contactBoutonRetour.setForeground(Color.orange);
-        //contactBoutonRetour.addActionListener(event -> showContactListCardLayout.show(showContactListPanel, contactPanelString));
+        contactBoutonRetour.addActionListener(event -> ((CardLayout)showContactListPanel.getLayout()).show(showContactListPanel, contactPanelString));
         contactDisplayButtonPanel.add(contactBoutonRetour);
 
         JLabel contactText = new JLabel("Contact");
         contactText.setForeground(Color.orange);
+        contactText.setBackground(Color.black);
         contactText.setHorizontalAlignment(JLabel.CENTER);
+        contactText.setFont(new Font("Calibri",Font.BOLD,25));
         contactDisplayButtonPanel.add(contactText);
 
         JButton contactBoutonModifier = new JButton("Modifier");
         contactBoutonModifier.setForeground(Color.orange);
         contactBoutonModifier.setBackground(Color.black);
-        //contactBoutonModifier.addActionListener(event -> showContactListCardLayout.show(showContactListPanel,modificationContactPanelString));
+        contactBoutonModifier.addActionListener(event -> ((CardLayout)showContactListPanel.getLayout()).show(showContactListPanel,modificationContactPanelString));
         contactDisplayButtonPanel.add(contactBoutonModifier);
-        return contactDisplayButtonPanel;
+
+        JLabel emplacementVide1 = new JLabel();
+        contactDisplayButtonPanel.add(emplacementVide1);
+        JLabel emplacementVide2 = new JLabel();
+        contactDisplayButtonPanel.add(emplacementVide2);
+        JLabel emplacementVide3 = new JLabel();
+        contactDisplayButtonPanel.add(emplacementVide3);
+
+        containsContactDisplayButtonPanel.add(contactDisplayButtonPanel,BorderLayout.NORTH);
+
+        return containsContactDisplayButtonPanel;
     }
     public static void setShowContactListPanel(JPanel showContactListPanel) {
         ContactListLabel.showContactListPanel = showContactListPanel;
@@ -113,4 +240,13 @@ public class ContactListLabel extends JLabel {
     public static void setShowContactListCardLayout(CardLayout showContactListCardLayout){
         ContactListLabel.showContactListCardLayout=showContactListCardLayout;
     }
+
+    public static void setContactPanelString(String contactPanelString){
+        ContactListLabel.contactPanelString = contactPanelString;
+    }
+
+    public static void setModificationContactPanelString(String modificationContactPanelString){
+        ContactListLabel.modificationContactPanelString = modificationContactPanelString;
+    }
+
 }

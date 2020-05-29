@@ -3,14 +3,28 @@ package applications.Contacts;
 import java.util.*;
 
 /**
- * La classe ContactList  représente plusieurs contact regrouper sous forme de liste.
+ * ContactList represents a list of contact which are stored on your phone.
  *
- * une liste de contacte est représentée par plusieurs contacts. chaque contact possède des caractéristiques.
+ * contact list is represented by more than one contacts. Each contact has it's own information.
+ *
+ * @see Contact
+ * @author Henrick neads
  */
 public class ContactList {
 
+    /**
+     * Creates a list of the contacts
+     *
+     * @see Contact
+     */
+
     protected List<Contact> contactList;
 
+    /**
+     * The empty constructor is used by the object mapper so it can read the information from a Json file containing
+     * the information about the contacts.
+     *
+     */
     public ContactList() {
 
     }

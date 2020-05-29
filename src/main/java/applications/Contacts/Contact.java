@@ -96,7 +96,7 @@ package applications.Contacts;
         }
 
         /**
-         * Returns the First name of the contact.
+         * Returns the First name of the contact as a string.
          *
          * @return first name of contact.
          */
@@ -117,7 +117,7 @@ package applications.Contacts;
         }
 
         /**
-         * Returns the last name of the contact.
+         * Returns the last name of the contact as a string.
          *
          * @return last name of contact.
          */
@@ -138,7 +138,7 @@ package applications.Contacts;
         }
 
         /**
-         * Returns the city where the contact lives
+         * Returns the city where the contact lives as a string.
          *
          * @return city of the contact.
          */
@@ -159,7 +159,7 @@ package applications.Contacts;
         }
 
         /**
-         * Returns the phone number of the contact.
+         * Returns the phone number of the contact as a string.
          *
          * @return phone number of contact.
          */
@@ -180,7 +180,7 @@ package applications.Contacts;
         }
 
         /**
-         * Returns the email of the contact.
+         * Returns the email of the contact as a string.
          *
          * @return email of contact.
          */

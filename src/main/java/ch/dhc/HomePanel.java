@@ -61,7 +61,9 @@ class HomePanel extends JPanel {
         Application[] installedApplications = ApplicationManager.getInstance().getInstalledApplications();
 
         for (Application application: installedApplications) {
-            panel.add(createAppIconPanel(application));
+            if (application != null) {
+                panel.add(createAppIconPanel(application));
+            }
         }
 
         int nbApp = panel.getComponentCount();

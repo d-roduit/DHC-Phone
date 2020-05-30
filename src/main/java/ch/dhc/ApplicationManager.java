@@ -201,7 +201,11 @@ final class ApplicationManager {
     private Application[] fetchInstalledApplications() {
         File[] foldersInDirectory = fetchFoldersInDirectory(Configuration.getInstance().getApplicationsDirectoryPath());
 
-        int nbApplications = foldersInDirectory.length;
+        int nbApplications = 0;
+
+        if (foldersInDirectory != null) {
+            nbApplications = foldersInDirectory.length;
+        }
 
         Application[] applicationList = new Application[nbApplications];
 

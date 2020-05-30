@@ -56,7 +56,7 @@ public class Configuration {
             System.out.println(e);
 
             // TODO: Retourner une configuration avec des valeurs par défaut.
-            return getInstance();
+            return null;
         }
     }
 }

@@ -1,9 +1,6 @@
 package ch.dhc;
 
-import java.io.File;
-import java.io.FileFilter;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * <b>ApplicationManager is the class that manages all operations that can be performed on applications.</b>
@@ -32,10 +29,6 @@ final class ApplicationManager {
 
     /**
      * The applications installed on the smartphone.
-     * <p>
-     *     The applications defined as "installed" are the ones found in the folder specified
-     *     by {@link Configuration#getApplicationsDirectoryPath()}.
-     * </p>
      *
      * @see Application
      * @see #fetchInstalledApplications()
@@ -194,62 +187,32 @@ final class ApplicationManager {
      * @return The array of installed applications.
      *
      * @see Application
-     * @see #fetchFoldersInDirectory(String)
-     * @see Configuration
      * @see Class
      */
     private Application[] fetchInstalledApplications() {
-        File[] foldersInDirectory = fetchFoldersInDirectory(Configuration.getInstance().getApplicationsDirectoryPath());
+        final String[] applicationFolderNames = new String[] {
+                "Contacts",
+                "Notes",
+                "Photos"
+        };
 
-        int nbApplications = 0;
+        final Application[] applicationList = new Application[applicationFolderNames.length];
 
-        if (foldersInDirectory != null) {
-            nbApplications = foldersInDirectory.length;
-        }
-
-        Application[] applicationList = new Application[nbApplications];
-
-        for (int i = 0; i < nbApplications; i++) {
+        for (int i = 0; i < applicationFolderNames.length; i++) {
             try {
-                File folder = foldersInDirectory[i];
+                String fullyQualifiedClassName = "applications." + applicationFolderNames[i] + ".Main";
 
-                String fullyQualifiedClassName = "applications." + folder.getName() + ".Main";
-
-                Class cls = Class.forName(fullyQualifiedClassName);
-                Application application = (Application) cls.getDeclaredConstructor().newInstance();
-                application.setFolder(folder.getName());
+                Class applicationClass = Class.forName(fullyQualifiedClassName);
+                Application application = (Application) applicationClass.getDeclaredConstructor().newInstance();
+                application.setFolder(applicationFolderNames[i]);
 
                 applicationList[i] = application;
             } catch (Exception e) {
-                System.out.println(e);
+                e.printStackTrace();
             }
         }
 
         return applicationList;
-    }
-
-    /**
-     * Fetches the folders inside a given directory and returns them in an array.
-     *
-     * @return The array of folders.
-     *
-     * @see File
-     */
-    private File[] fetchFoldersInDirectory(String directoryPath) {
-        try {
-            File file = new File(directoryPath);
-            File[] files = file.listFiles(new FileFilter() {
-                @Override
-                public boolean accept(File f) {
-                    return f.isDirectory();
-                }
-            });
-
-            return files;
-        } catch (Exception e) {
-            System.out.println(e);
-            return null;
-        }
     }
 
     public Application[] getInstalledApplications() {

@@ -1,4 +1,4 @@
-package applications.Notes;
+package applications.Notes.views;
 
 import ch.dhc.ImageLabel;
 import jiconfont.icons.font_awesome.FontAwesome;
@@ -8,6 +8,7 @@ import jiconfont.swing.IconFontSwing;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * <b>FolderListPanel is the class that represents the folders list.</b>
@@ -16,20 +17,24 @@ import java.awt.*;
  *
  * @author Cathy Gay
  */
-public class FolderListPanel extends JPanel {
+public class FolderListView extends JPanel {
 
     private Color mainTextColor = Color.WHITE;
     private Color secondaryTextColor = new Color(217, 169, 25);
+    private JPanel topLanePanel = createTopLanePanel();
+    private JScrollPane folderListScrollPane = createFolderListScrollPane();
+    private JPanel botLanePanel = createBotLanePanel();
+    private JButton addFolderButton;
     /**
      * FolderListPanel constructor.
      */
-    public FolderListPanel() {
+    public FolderListView() {
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
 
-        add(createTopLanePanel(), BorderLayout.NORTH);
-        add(createFolderListScrollPanel(), BorderLayout.CENTER);
-        add(createBotLanePanel(), BorderLayout.SOUTH);
+        add(topLanePanel, BorderLayout.NORTH);
+        add(folderListScrollPane, BorderLayout.CENTER);
+        add(botLanePanel, BorderLayout.SOUTH);
     }
 
     private JPanel createBotLanePanel() {
@@ -58,7 +63,7 @@ public class FolderListPanel extends JPanel {
 
         Icon addFolderIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.ADD, 28, secondaryTextColor);
 
-        JButton addFolderButton = new JButton(addFolderIcon);
+        addFolderButton = new JButton(addFolderIcon);
         addFolderButton.setToolTipText("Add a folder");
         addFolderButton.setBorderPainted(false);
         addFolderButton.setFocusPainted(false);
@@ -73,7 +78,7 @@ public class FolderListPanel extends JPanel {
         return panel;
     }
 
-    private JScrollPane createFolderListScrollPanel() {
+    private JScrollPane createFolderListScrollPane() {
         JScrollPane scrollPane = new JScrollPane(createFolderListPanel(), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
@@ -138,5 +143,9 @@ public class FolderListPanel extends JPanel {
         panel.add(eastPanel, BorderLayout.EAST);
 
         return panel;
+    }
+
+    public void addAddFolderListener(ActionListener addFolderListener) {
+        addFolderButton.addActionListener(addFolderListener);
     }
 }

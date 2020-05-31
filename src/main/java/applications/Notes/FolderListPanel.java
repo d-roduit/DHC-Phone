@@ -1,12 +1,13 @@
 package applications.Notes;
 
 import ch.dhc.ImageLabel;
+import jiconfont.icons.font_awesome.FontAwesome;
+import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
+import jiconfont.swing.IconFontSwing;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * <b>FolderListPanel is the class that represents the folders list.</b>
@@ -17,6 +18,8 @@ import java.awt.event.MouseEvent;
  */
 public class FolderListPanel extends JPanel {
 
+    private Color mainTextColor = Color.WHITE;
+    private Color secondaryTextColor = new Color(217, 169, 25);
     /**
      * FolderListPanel constructor.
      */
@@ -26,8 +29,22 @@ public class FolderListPanel extends JPanel {
 
         add(createTopLanePanel(), BorderLayout.NORTH);
         add(createFolderListScrollPanel(), BorderLayout.CENTER);
+        add(createBotLanePanel(), BorderLayout.SOUTH);
     }
 
+    private JPanel createBotLanePanel() {
+        JPanel panel = new JPanel();
+        panel.setOpaque(false);
+
+        int nbFolders = createFolderListPanel().getComponentCount() / 2;
+
+        JLabel nbFoldersLabel = new JLabel(nbFolders +" folders");
+        nbFoldersLabel.setForeground(mainTextColor);
+
+        panel.add(nbFoldersLabel);
+
+        return panel;
+    }
 
     private JPanel createTopLanePanel() {
         JPanel panel = new JPanel();
@@ -35,21 +52,18 @@ public class FolderListPanel extends JPanel {
         panel.setOpaque(false);
 
         JLabel titleLabel = new JLabel("Folders");
-        titleLabel.setForeground(Color.WHITE);
-        titleLabel.setFont(new Font("Calibri", Font.BOLD, 25));
+        titleLabel.setForeground(mainTextColor);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 25));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
 
+        Icon addFolderIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.ADD, 28, secondaryTextColor);
 
-        ImageLabel addFolderButton = null;
-
-        try {
-            String addIconPath = "icon/add_icon.png";
-            addFolderButton = new ImageLabel(ImageIO.read(FolderListPanel.class.getResourceAsStream(addIconPath)));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
+        JButton addFolderButton = new JButton(addFolderIcon);
         addFolderButton.setToolTipText("Add a folder");
+        addFolderButton.setBorderPainted(false);
+        addFolderButton.setFocusPainted(false);
+        addFolderButton.setContentAreaFilled(false);
+        addFolderButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         panel.add(Box.createRigidArea(new Dimension(30, 0)), BorderLayout.WEST);
         panel.add(titleLabel, BorderLayout.CENTER);
@@ -74,9 +88,11 @@ public class FolderListPanel extends JPanel {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setOpaque(false);
 
-        for(int i = 0; i < 15; i++) {
+        for(int i = 0; i < 10; i++) {
             panel.add(createFolderPanel("HES", "8"));
             JSeparator separator = new JSeparator();
+            separator.setPreferredSize(new Dimension(350, 2));
+            separator.setMaximumSize(new Dimension(separator.getPreferredSize()));
             separator.setBackground(new Color(49, 49, 49));
             separator.setForeground(new Color(49, 49, 49));
             panel.add(separator);
@@ -89,35 +105,34 @@ public class FolderListPanel extends JPanel {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setOpaque(false);
+        panel.setPreferredSize(new Dimension(320, 40));
+        panel.setMaximumSize(new Dimension(panel.getPreferredSize()));
 
         JPanel westPanel = new JPanel();
         westPanel.setOpaque(false);
         JPanel eastPanel = new JPanel();
+        eastPanel.setLayout(new BorderLayout());
         eastPanel.setOpaque(false);
 
-        ImageLabel folderIcon = null;
+        Icon folderIcon = IconFontSwing.buildIcon(FontAwesome.FOLDER_OPEN, 24, secondaryTextColor);
 
-        try {
-            String folderIconPath = "icon/folder_icon.png";
-            folderIcon = new ImageLabel(ImageIO.read(FolderListPanel.class.getResourceAsStream(folderIconPath)));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        JLabel folderLabel = new JLabel(folderIcon);
 
         JLabel folderName = new JLabel(name);
-        folderName.setForeground(Color.WHITE);
+        folderName.setForeground(mainTextColor);
 
-        JLabel folderNbNotes = new JLabel(nbNotes);
-        folderNbNotes.setForeground(Color.WHITE);
+        JLabel folderNbNotes = new JLabel(nbNotes+"   ");
+        folderNbNotes.setForeground(mainTextColor);
 
-        JLabel arrowIcon = new JLabel(">");
-        arrowIcon.setForeground(Color.WHITE);
+        Icon angleIcon = IconFontSwing.buildIcon(FontAwesome.ANGLE_RIGHT, 24, secondaryTextColor);
 
-        westPanel.add(folderIcon);
+        JLabel angleLabel = new JLabel(angleIcon);
+
+        westPanel.add(folderLabel);
         westPanel.add(folderName);
 
-        eastPanel.add(folderNbNotes);
-        eastPanel.add(arrowIcon);
+        eastPanel.add(folderNbNotes, BorderLayout.WEST);
+        eastPanel.add(angleLabel, BorderLayout.CENTER);
 
         panel.add(westPanel, BorderLayout.WEST);
         panel.add(eastPanel, BorderLayout.EAST);

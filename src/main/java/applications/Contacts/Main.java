@@ -38,7 +38,7 @@ public class Main extends Application {
 
         try {
 
-            File contactFile = new File(configuration.getContactDirectoryPath() + "contacts.json");
+            File contactFile = new File(configuration.getContactsFolderPath() + "contacts.json");
             ContactList contactList = new ContactList(new ArrayList<Contact>(Arrays.asList(mapper.readValue(contactFile, Contact[].class))));
 
             //contactList.addContact("Daniel","Gay","Sierre","0786789543","jesuistropbeau@gmail.com");

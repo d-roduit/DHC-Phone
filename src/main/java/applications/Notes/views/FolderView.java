@@ -1,4 +1,4 @@
-package applications.Notes;
+package applications.Notes.views;
 
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
@@ -6,6 +6,7 @@ import jiconfont.swing.IconFontSwing;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * <b>FolderPanel is the class that represents the notes list of a folder.</b>
@@ -14,21 +15,26 @@ import java.awt.*;
  *
  * @author Cathy Gay
  */
-public class FolderPanel extends JPanel {
+public class FolderView extends JPanel {
 
     private Color mainTextColor = Color.WHITE;
     private Color secondaryTextColor = new Color(217, 169, 25);
+    private JPanel topLanePanel = createTopLanePanel();
+    private JScrollPane notesListScrollPane = createNotesListScrollPane();
+    private JPanel botLanePanel = createBotLanePanel();
+    private JButton addNoteButton;
+    private JButton deleteFolderButton;
 
     /**
      * FolderPanel constructor.
      */
-    public FolderPanel() {
+    public FolderView() {
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
 
-        add(createTopLanePanel(), BorderLayout.NORTH);
-        add(createNotesListScrollPanel(), BorderLayout.CENTER);
-        add(createBotLanePanel(), BorderLayout.SOUTH);
+        add(topLanePanel, BorderLayout.NORTH);
+        add(notesListScrollPane, BorderLayout.CENTER);
+        add(botLanePanel, BorderLayout.SOUTH);
     }
 
     private JPanel createBotLanePanel() {
@@ -69,14 +75,14 @@ public class FolderPanel extends JPanel {
 
         Icon deleteFolderIcon = IconFontSwing.buildIcon(FontAwesome.TRASH_O, 24, secondaryTextColor);
 
-        JButton addNoteButton = new JButton(addNoteIcon);
+        addNoteButton = new JButton(addNoteIcon);
         addNoteButton.setFocusPainted(false);
         addNoteButton.setBorderPainted(false);
         addNoteButton.setContentAreaFilled(false);
         addNoteButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         addNoteButton.setToolTipText("Add a note");
 
-        JButton deleteFolderButton = new JButton(deleteFolderIcon);
+        deleteFolderButton = new JButton(deleteFolderIcon);
         deleteFolderButton.setFocusPainted(false);
         deleteFolderButton.setBorderPainted(false);
         deleteFolderButton.setContentAreaFilled(false);
@@ -98,7 +104,7 @@ public class FolderPanel extends JPanel {
         return panel;
     }
 
-    private JScrollPane createNotesListScrollPanel() {
+    private JScrollPane createNotesListScrollPane() {
         JScrollPane scrollPane = new JScrollPane(createNotesListPanel(), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
@@ -113,7 +119,7 @@ public class FolderPanel extends JPanel {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setOpaque(false);
 
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < 15; i++) {
             panel.add(createNotePanel("Homework"));
             JSeparator separator = new JSeparator();
             separator.setPreferredSize(new Dimension(342, 2));
@@ -147,4 +153,11 @@ public class FolderPanel extends JPanel {
         return panel;
     }
 
+    public void addAddNoteListener(ActionListener addNoteListener) {
+        addNoteButton.addActionListener(addNoteListener);
+    }
+
+    public void addDeleteFolderListener(ActionListener deleteFolderListener) {
+        deleteFolderButton.addActionListener(deleteFolderListener);
+    }
 }

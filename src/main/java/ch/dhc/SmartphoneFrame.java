@@ -51,7 +51,6 @@ class SmartphoneFrame extends JFrame {
      *     the top is draggable, and a lock and home buttons are at its right and bottom.
      * </p>
      *
-     * @see Configuration
      * @see SmartphoneFrame#createDragPanel()
      * @see SmartphoneFrame#createHomeButtonPanel()
      * @see SmartphoneFrame#createLockPanel()
@@ -65,8 +64,6 @@ class SmartphoneFrame extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setBackground(new Color(0, 0, 0, 0));
-
-        Configuration.getInstance();
 
         smartphoneBackgroundPanel.add(createDragPanel(), BorderLayout.NORTH);
 

@@ -13,7 +13,6 @@ import java.io.IOException;
  * @see ImageLabel
  *
  * @author Daniel Roduit
- * @author Cathy Gay
  */
 class AppIcon extends ImageLabel {
 

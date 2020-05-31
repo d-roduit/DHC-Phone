@@ -15,7 +15,8 @@ class ConfigurationTest {
     void getInstance_hasNotNullConfigValues() {
         Configuration configuration = Configuration.getInstance();
 
-        assertNotNull(configuration.getContactDirectoryPath(), "The property contactDirectoryPath cannot be null");
-        assertNotNull(configuration.getPicturesDirectoryPath(), "The property picturesDirectoryPath cannot be null");
+        assertNotNull(configuration.getNotesFolderPath(), "The property notesFolderPath cannot be null");
+        assertNotNull(configuration.getContactsFolderPath(), "The property contactsFolderPath cannot be null");
+        assertNotNull(configuration.getPicturesFolderPath(), "The property picturesFolderPath cannot be null");
     }
 }

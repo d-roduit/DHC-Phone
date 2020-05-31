@@ -4,20 +4,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 
 public class Configuration {
 
     private static Configuration instance;
     private static final ObjectMapper mapper = new ObjectMapper();
-    private static final String configFilePath = "config.json";
+    private static final String configFileName = "config.json";
+    private static final String jarDirectoryPath = findJarDirectoryPath();
+    private static final File configurationFile = new File(jarDirectoryPath + "/" + configFileName);
 
-    private String contactDirectoryPath;
-    private String picturesDirectoryPath;
-    private String applicationsDirectoryPath = Configuration.class.getResource("/applications/").getPath();
+    private String notesFolderPath;
+    private String contactsFolderPath;
+    private String picturesFolderPath;
 
     private Configuration() {
 
+    }
+
+    private Configuration(String contactsFolderPath, String picturesFolderPath, String notesFolderPath) {
+        this.notesFolderPath = notesFolderPath;
+        this.contactsFolderPath = contactsFolderPath;
+        this.picturesFolderPath = picturesFolderPath;
     }
 
     public static Configuration getInstance() {
@@ -25,38 +32,67 @@ public class Configuration {
             try {
                 instance = createConfigFromConfigFile();
             } catch (Exception e) {
-                System.out.println(e);
-                // TODO: Créer / écraser un fichier config.json à la racine du programme
-                // TODO: Écrire dans config.json des valeurs par défaut
-                // TODO: Attribuer à la variable la valeur ' new Configuration(defaultParam1, defaultParam2, ...) '
+                System.out.println("Unable to read file '" + configFileName + "' : " + e.getMessage());
+                System.out.println("Creating default configuration...");
+
+                // Default configuration values
+                String notesFolderPath = jarDirectoryPath + "/notes/";
+                String contactsFolderPath = jarDirectoryPath + "/contacts/";
+                String picturesFolderPath = jarDirectoryPath + "/pictures/";
+
+                // Creates default folders in accordance with the configuration default values.
+                createFolder(notesFolderPath);
+                createFolder(contactsFolderPath);
+                createFolder(picturesFolderPath);
+
+                Configuration defaultConfiguration = new Configuration(contactsFolderPath, picturesFolderPath, notesFolderPath);
+
+                try {
+                    createConfigFile(defaultConfiguration);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         }
 
         return instance;
     }
 
-    public String getContactDirectoryPath() {
-        return contactDirectoryPath;
-    }
+    private static String findJarDirectoryPath() {
+        String jarDirectoryPath = "";
 
-    public String getPicturesDirectoryPath() {
-        return picturesDirectoryPath;
-    }
-
-    public String getApplicationsDirectoryPath() {
-        return applicationsDirectoryPath;
-    }
-
-    private static Configuration createConfigFromConfigFile() {
         try {
-            File jarFilePath = new File(Configuration.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-            File configurationFile = new File(jarFilePath.getParent() + "/" + configFilePath);
-            return mapper.readValue(configurationFile, Configuration.class);
-        } catch (IOException | URISyntaxException e) {
-            System.out.println(e);
-
-            // TODO: Retourner une configuration avec des valeurs par défaut.
-            return null;
+            jarDirectoryPath = (new File(Configuration.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
+
+        return jarDirectoryPath;
     }
+
+    private static void createFolder(String folderPath) {
+        File directoryFile = new File(folderPath);
+        directoryFile.mkdir();
+    }
+
+    private static Configuration createConfigFromConfigFile() throws IOException {
+        return mapper.readValue(configurationFile, Configuration.class);
+    }
+
+    private static void createConfigFile(Configuration configuration) throws IOException {
+        mapper.writeValue(configurationFile, configuration);
+    }
+
+    public String getNotesFolderPath() {
+        return notesFolderPath;
+    }
+
+    public String getContactsFolderPath() {
+        return contactsFolderPath;
+    }
+
+    public String getPicturesFolderPath() {
+        return picturesFolderPath;
+    }
+
 }

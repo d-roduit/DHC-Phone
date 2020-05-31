@@ -22,6 +22,8 @@ public class Main {
         IconFontSwing.register(FontAwesome.getIconFont());
         IconFontSwing.register(GoogleMaterialDesignIcons.getIconFont());
 
+            Configuration.getInstance();
+
         SmartphoneFrame smartphoneFrame = new SmartphoneFrame();
 
         UIManager uiManager = UIManager.getInstance();

@@ -1,6 +1,6 @@
 package ch.dhc;
 
-//import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatDarculaLaf;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import jiconfont.swing.IconFontSwing;

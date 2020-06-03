@@ -1,7 +1,10 @@
 package applications.Contacts.models;
 
-import applications.Contacts.Contact;
+import ch.dhc.Configuration;
+import applications.Contacts.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -55,5 +58,26 @@ public class ContactListModel {
 
         Collections.sort((ArrayList) contactList);
 
+    }
+    public List<Contact> fetchContactListInformation(File contactFile){
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        try{
+            ContactList contactList = new ContactList(new ArrayList<Contact>(Arrays.asList(mapper.readValue(contactFile, Contact[].class))));
+
+        }catch(IOException e){
+
+            System.out.println("The ContactList can't be reached");
+        }
+        return contactList;
+    }
+
+    public File readAndCreateContactList(){
+        Configuration configuration = Configuration.getInstance();
+
+        File contactFile = new File(configuration.getContactsFolderPath() + "contacts.json");
+
+        return contactFile;
     }
 }

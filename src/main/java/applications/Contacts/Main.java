@@ -253,7 +253,7 @@ public class Main extends Application {
             showContactListCardLayout.show(showContactListPanel, contactPanelString);
 
         } catch (IOException excp) {
-            System.out.println("Ca marche pas");
+            System.out.println("CantactList can't be reached/read");
         }
     }
 

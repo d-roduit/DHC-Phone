@@ -1,7 +1,7 @@
 .idea/
 *.iml
 target/
-config.json
+target/config.json
 
 # Compiled class file
 *.class

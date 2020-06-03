@@ -3,6 +3,9 @@ package applications.Contacts;
 import ch.dhc.Application;
 import ch.dhc.Configuration;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
+import jiconfont.swing.IconFontSwing;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -20,6 +23,11 @@ public class Main extends Application {
     String contactPanelString = "contactPanelString";
     String modificationContactPanelString = "modificationContactPanelString";
 
+    CardLayout contactAddCardLayout = new CardLayout();
+    JPanel contactAddPanel = new JPanel(contactAddCardLayout);
+    String contactAddPanelString = "contactAddPanelString";
+
+
     String name = "Contacts";
     String iconPath = "icon/app_icon_contacts.png";
 
@@ -36,6 +44,8 @@ public class Main extends Application {
         ContactListLabel.setContactPanelString(contactPanelString);
         ContactListLabel.setModificationContactPanelString(modificationContactPanelString);
 
+        Icon saveModificationIncon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.SAVE,28,Color.orange);
+
         try {
 
             File contactFile = new File(configuration.getContactsFolderPath() + "contacts.json");
@@ -51,32 +61,155 @@ public class Main extends Application {
             contactScrollBar.createVerticalScrollBar();
 
             JPanel listeAlphabet = new JPanel();
-            listeAlphabet.setLayout(new GridLayout(2, 13));
-            listeAlphabet.setOpaque(false);
-            listeAlphabet.setBackground(Color.white);
+            listeAlphabet.setLayout(new GridLayout(1, 3));
+            listeAlphabet.setBackground(Color.black);
+            //listeAlphabet.setOpaque(false);
+            //listeAlphabet.setBackground(Color.white);
 
-            for (char c = 'A'; c <= 'Z'; c++) {
-                listeAlphabet.add(new JLabel(String.valueOf(c)));
-            }
+            //for (char c = 'A'; c <= 'Z'; c++) {
+            //    listeAlphabet.add(new JLabel(String.valueOf(c)));
+            //}
+
+            Icon returnContactIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.KEYBOARD_BACKSPACE,28,Color.orange);
+
+            JButton retourHomeFromContactListPanel = new JButton(returnContactIcon);
+            retourHomeFromContactListPanel.setBackground(Color.black);
+            retourHomeFromContactListPanel.setFocusPainted(false);
+            retourHomeFromContactListPanel.setBorderPainted(false);
+            retourHomeFromContactListPanel.setContentAreaFilled(false);
+            retourHomeFromContactListPanel.setOpaque(false);
+            retourHomeFromContactListPanel.addActionListener(event -> System.out.println("Retour Application"));
+            listeAlphabet.add(retourHomeFromContactListPanel);
+
+            JLabel contactTextListeContact = new JLabel("Contact");
+            contactTextListeContact.setForeground(Color.orange);
+            contactTextListeContact.setOpaque(false);
+            contactTextListeContact.setHorizontalAlignment(JLabel.CENTER);
+            contactTextListeContact.setFont(new Font("Calibri",Font.BOLD,25));
+            listeAlphabet.add(contactTextListeContact);
+
+            showContactListPanel.add(contactAddPanel, contactAddPanelString);
+
+            Icon addContactIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.PERSON_ADD,28,Color.orange);
+
+            JButton addContactButton = new JButton(addContactIcon);
+            addContactButton.setBackground(Color.black);
+            addContactButton.setFocusPainted(false);
+            addContactButton.setBorderPainted(false);
+            addContactButton.setContentAreaFilled(false);
+            addContactButton.setOpaque(false);
+            addContactButton.addActionListener(event -> showContactListCardLayout.show(showContactListPanel,contactAddPanelString));
+            listeAlphabet.add(addContactButton);
+
+            contactAddPanel.setLayout(new GridLayout(3,1));
+            contactAddPanel.setBackground(Color.black);
+
+            JPanel contactAddTopPanelBorderLayout = new JPanel();
+            contactAddTopPanelBorderLayout.setLayout(new BorderLayout());
+            contactAddTopPanelBorderLayout.setBackground(Color.black);
+
+            JPanel topAddContactPanel = new JPanel( new GridLayout(1,3));
+            topAddContactPanel.setOpaque(false);
+
+            JButton addContactReturnButton = new JButton(returnContactIcon);
+            addContactReturnButton.setBackground(Color.black);
+            addContactReturnButton.setFocusPainted(false);
+            addContactReturnButton.setBorderPainted(false);
+            addContactReturnButton.setContentAreaFilled(false);
+            addContactReturnButton.addActionListener((event -> showContactListCardLayout.show(showContactListPanel,contactPanelString)));
+            topAddContactPanel.add(addContactReturnButton);
+
+            JLabel contactTextAddTopContact = new JLabel("Contact");
+            contactTextAddTopContact.setForeground(Color.orange);
+            contactTextAddTopContact.setOpaque(false);
+            contactTextAddTopContact.setHorizontalAlignment(JLabel.CENTER);
+            contactTextAddTopContact.setFont(new Font("Calibri",Font.BOLD,25));
+            topAddContactPanel.add(contactTextAddTopContact);
+
+            JButton addContactSaveButton = new JButton(saveModificationIncon);
+            addContactSaveButton.setBackground(Color.black);
+            addContactSaveButton.setFocusPainted(false);
+            addContactSaveButton.setBorderPainted(false);
+            addContactSaveButton.setContentAreaFilled(false);
+            addContactSaveButton.addActionListener(event -> System.out.println("Save pressed"));
+            topAddContactPanel.add(addContactSaveButton);
+
+            JPanel displayPhotoAddContact = new JPanel();
+            displayPhotoAddContact.setLayout(new BorderLayout());
+            displayPhotoAddContact.setBackground(Color.black);
+
+            Icon addPhotoIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.ADD_A_PHOTO,28,Color.orange);
+
+            JButton photo = new JButton(addPhotoIcon);
+            photo.addActionListener(event -> System.out.println("photo cliqué"));
+            photo.setBackground(Color.black);
+            displayPhotoAddContact.add(Box.createRigidArea(new Dimension(90, 0)), BorderLayout.WEST);
+            displayPhotoAddContact.add(Box.createRigidArea(new Dimension(90, 0)), BorderLayout.EAST);
+            displayPhotoAddContact.add(Box.createRigidArea(new Dimension(0, 10)), BorderLayout.SOUTH);
+
+            displayPhotoAddContact.add(photo,BorderLayout.CENTER);
+
+            JButton test = new JButton("test1");
+            test.setBackground(Color.black);
+            test.setForeground(Color.white);
+            test.addActionListener(event -> System.out.println("Contact details clicked"));
+
+
+            contactAddTopPanelBorderLayout.add(topAddContactPanel,BorderLayout.NORTH);
+            contactAddTopPanelBorderLayout.add(displayPhotoAddContact,BorderLayout.CENTER);
+
+            Icon addNoteIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.NOTE_ADD,28,Color.orange);
+
+            JPanel displayNoteAddContact = new JPanel(new BorderLayout());
+            displayNoteAddContact.setBackground(Color.black);
+
+            JLabel noteLabel = new JLabel("Notes:");
+            noteLabel.setForeground(Color.orange);
+            noteLabel.setHorizontalAlignment(JLabel.CENTER);
+            noteLabel.setFont(new Font("Calibri",Font.BOLD,20));
+
+            JButton noteTexteContainer = new JButton(addNoteIcon);
+            noteTexteContainer.setBackground(Color.black);
+            noteTexteContainer.addActionListener(event -> System.out.println("note clicked"));
+
+            displayNoteAddContact.add(noteLabel,BorderLayout.NORTH);
+            displayNoteAddContact.add(noteTexteContainer,BorderLayout.CENTER);
+            displayNoteAddContact.add(Box.createRigidArea(new Dimension(50, 0)), BorderLayout.WEST);
+            displayNoteAddContact.add(Box.createRigidArea(new Dimension(50, 0)), BorderLayout.EAST);
+            displayNoteAddContact.add(Box.createRigidArea(new Dimension(0, 20)), BorderLayout.SOUTH);
+
+            contactAddPanel.add(contactAddTopPanelBorderLayout);
+            contactAddPanel.add(test);
+            contactAddPanel.add(displayNoteAddContact);
+
 
             JPanel CL = new JPanel();
             CL.setLayout(new BoxLayout(CL, BoxLayout.Y_AXIS));
             CL.setOpaque(false);
 
             modificationContactPanel.setBackground(Color.black);
-            modificationContactPanel.setLayout(new BorderLayout());
+            modificationContactPanel.setLayout(new GridLayout(3,1));
+
+            JPanel boutonRetourModificationContactPanelBorderLayout = new JPanel();
+            boutonRetourModificationContactPanelBorderLayout.setLayout(new BorderLayout());
+            boutonRetourModificationContactPanelBorderLayout.setBackground(Color.black);
 
             JPanel boutonRetourModificationContactPanel = new JPanel();
             boutonRetourModificationContactPanel.setLayout(new GridLayout(1, 3));
             boutonRetourModificationContactPanel.setOpaque(false);
-            modificationContactPanel.add(boutonRetourModificationContactPanel, BorderLayout.NORTH);
 
+            boutonRetourModificationContactPanelBorderLayout.add(boutonRetourModificationContactPanel,BorderLayout.NORTH);
+            modificationContactPanel.add(boutonRetourModificationContactPanelBorderLayout);
 
             showContactListPanel.add(modificationContactPanel, modificationContactPanelString);
 
-            JButton cancelContact = new JButton("Annuler");
+            Icon returnModificationtIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.KEYBOARD_BACKSPACE,28,Color.orange);
+
+            JButton cancelContact = new JButton(returnModificationtIcon);
             cancelContact.setBackground(Color.black);
-            cancelContact.setForeground(Color.orange);
+            cancelContact.setFocusPainted(false);
+            cancelContact.setBorderPainted(false);
+            cancelContact.setContentAreaFilled(false);
             cancelContact.addActionListener((event -> showContactListCardLayout.show(showContactListPanel,contactPanelString)));
             boutonRetourModificationContactPanel.add(cancelContact);
 
@@ -87,9 +220,11 @@ public class Main extends Application {
             contactTextModification.setFont(new Font("Calibri",Font.BOLD,25));
             boutonRetourModificationContactPanel.add(contactTextModification);
 
-            JButton saveContactModifications = new JButton("Sauvegarder");
+            JButton saveContactModifications = new JButton(saveModificationIncon);
             saveContactModifications.setBackground(Color.black);
-            saveContactModifications.setForeground(Color.orange);
+            saveContactModifications.setFocusPainted(false);
+            saveContactModifications.setBorderPainted(false);
+            saveContactModifications.setContentAreaFilled(false);
             saveContactModifications.addActionListener(event -> System.out.println("créer sauvegarde modification"));
             boutonRetourModificationContactPanel.add(saveContactModifications);
 

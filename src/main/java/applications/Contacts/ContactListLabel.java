@@ -1,5 +1,8 @@
 package applications.Contacts;
 
+import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
+import jiconfont.swing.IconFontSwing;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -199,12 +202,16 @@ public class ContactListLabel extends JLabel {
         containsContactDisplayButtonPanel.setBackground(Color.black);
 
         JPanel contactDisplayButtonPanel = new JPanel();
-        contactDisplayButtonPanel.setLayout(new GridLayout(2,3));
+        contactDisplayButtonPanel.setLayout(new GridLayout(1,3));
         contactDisplayButtonPanel.setBackground(Color.black);
 
-        JButton contactBoutonRetour = new JButton("Retour");
+        Icon returnContactListIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.KEYBOARD_BACKSPACE,28,Color.orange);
+
+        JButton contactBoutonRetour = new JButton(returnContactListIcon);
         contactBoutonRetour.setBackground(Color.black);
-        contactBoutonRetour.setForeground(Color.orange);
+        contactBoutonRetour.setFocusPainted(false);
+        contactBoutonRetour.setBorderPainted(false);
+        contactBoutonRetour.setContentAreaFilled(false);
         contactBoutonRetour.addActionListener(event -> ((CardLayout)showContactListPanel.getLayout()).show(showContactListPanel, contactPanelString));
         contactDisplayButtonPanel.add(contactBoutonRetour);
 
@@ -215,18 +222,15 @@ public class ContactListLabel extends JLabel {
         contactText.setFont(new Font("Calibri",Font.BOLD,25));
         contactDisplayButtonPanel.add(contactText);
 
-        JButton contactBoutonModifier = new JButton("Modifier");
-        contactBoutonModifier.setForeground(Color.orange);
+        Icon editContactIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.EDIT,28,Color.orange);
+
+        JButton contactBoutonModifier = new JButton(editContactIcon);
         contactBoutonModifier.setBackground(Color.black);
+        contactBoutonModifier.setFocusPainted(false);
+        contactBoutonModifier.setBorderPainted(false);
+        contactBoutonModifier.setContentAreaFilled(false);
         contactBoutonModifier.addActionListener(event -> ((CardLayout)showContactListPanel.getLayout()).show(showContactListPanel,modificationContactPanelString));
         contactDisplayButtonPanel.add(contactBoutonModifier);
-
-        JLabel emplacementVide1 = new JLabel();
-        contactDisplayButtonPanel.add(emplacementVide1);
-        JLabel emplacementVide2 = new JLabel();
-        contactDisplayButtonPanel.add(emplacementVide2);
-        JLabel emplacementVide3 = new JLabel();
-        contactDisplayButtonPanel.add(emplacementVide3);
 
         containsContactDisplayButtonPanel.add(contactDisplayButtonPanel,BorderLayout.NORTH);
 

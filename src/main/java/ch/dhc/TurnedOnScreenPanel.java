@@ -184,7 +184,7 @@ class TurnedOnScreenPanel extends BackgroundPanel {
             String networkIconPath = "images/statusBar/network_icon.png";
             networkIcon = new ImageLabel(ImageIO.read(TurnedOnScreenPanel.class.getResourceAsStream(networkIconPath)));
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
         JLabel networkText = new JLabel("DHCnet");
@@ -198,7 +198,7 @@ class TurnedOnScreenPanel extends BackgroundPanel {
             String wifiIconPath = "images/statusBar/wifi_icon.png";
             wifiIcon = new ImageLabel(ImageIO.read(TurnedOnScreenPanel.class.getResourceAsStream(wifiIconPath)));
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
         leftPanel.add(networkIcon);
@@ -278,7 +278,7 @@ class TurnedOnScreenPanel extends BackgroundPanel {
             String batteryIconPath = "images/statusBar/battery_icon.png";
             batteryIcon = new ImageLabel(ImageIO.read(TurnedOnScreenPanel.class.getResourceAsStream(batteryIconPath)));
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
         rightPanel.add(batteryText);

@@ -99,7 +99,7 @@ final class ApplicationManager {
                 run(application);
                 uiManager.display(application);
             } catch (Exception e) {
-                System.out.println(e);
+                e.printStackTrace();
             }
         }
 
@@ -146,7 +146,7 @@ final class ApplicationManager {
                 uiManager.getContentPanel().remove(application);
                 runningApplications.remove(application);
             } catch (Exception e) {
-                System.out.println(e);
+                e.printStackTrace();
             }
         }
     }

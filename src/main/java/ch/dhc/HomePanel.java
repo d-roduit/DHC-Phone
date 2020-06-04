@@ -101,7 +101,7 @@ class HomePanel extends JPanel {
         try {
             appIconLabel = new AppIcon(application);
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
         JLabel appTextLabel = new JLabel(application.getName());

@@ -44,6 +44,15 @@ class SmartphoneFrame extends JFrame {
     private JButton lockButton;
 
     /**
+     * The timer for handling button pressed event.
+     *
+     * @see #createPressedTimer()
+     * @see #createLockButton()
+     * @see #turnOff()
+     */
+    private final Timer pressedTimer = createPressedTimer();
+
+    /**
      * SmartphoneFrame constructor.
      * <p>
      *     SmartphoneFrame is created with a fixed size and no decoration.
@@ -127,6 +136,14 @@ class SmartphoneFrame extends JFrame {
                 super.mousePressed(e);
                 turnOff();
             }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                if (pressedTimer.isRunning()) {
+                    pressedTimer.stop();
+                }
+            }
         });
 
         return lockButton;
@@ -178,13 +195,15 @@ class SmartphoneFrame extends JFrame {
     }
 
     /**
-     * Stops and closes the program.
+     * Returns a timer for handling button pressed event.
+     *
+     * @return The timer.
      *
      * @see SmartphoneFrame#lockButton
      * @see ApplicationManager#closeAllApplications()
      * @see Timer
      */
-    private void turnOff() {
+    private Timer createPressedTimer() {
         // nb of milliseconds before firing the first event and then delay between each event firing
         int delay = 4000;
 
@@ -199,6 +218,16 @@ class SmartphoneFrame extends JFrame {
 
         Timer pressedTimer = new Timer(delay, taskPerformer);
         pressedTimer.setRepeats(false);
+
+        return pressedTimer;
+    }
+
+    /**
+     * Stops the applications and closes the program.
+     *
+     * @see #pressedTimer
+     */
+    private void turnOff() {
         pressedTimer.start();
     }
 

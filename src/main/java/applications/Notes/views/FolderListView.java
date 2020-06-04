@@ -1,11 +1,11 @@
 package applications.Notes.views;
 
-import ch.dhc.ImageLabel;
+import applications.Notes.models.FolderListModel;
+import applications.Notes.models.FolderModel;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import jiconfont.swing.IconFontSwing;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -19,18 +19,27 @@ import java.awt.event.ActionListener;
  */
 public class FolderListView extends JPanel {
 
+    private final FolderListModel folderListModel;
     private Color mainTextColor = Color.WHITE;
     private Color secondaryTextColor = new Color(217, 169, 25);
-    private JPanel topLanePanel = createTopLanePanel();
-    private JScrollPane folderListScrollPane = createFolderListScrollPane();
-    private JPanel botLanePanel = createBotLanePanel();
+    private JPanel topLanePanel;
+    private JScrollPane folderListScrollPane;
+    private JPanel botLanePanel;
     private JButton addFolderButton;
+
+
     /**
      * FolderListPanel constructor.
      */
-    public FolderListView() {
+    public FolderListView(FolderListModel folderListModel) {
+        this.folderListModel = folderListModel;
+
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
+
+        topLanePanel = createTopLanePanel();
+        folderListScrollPane = createFolderListScrollPane();
+        botLanePanel = createBotLanePanel();
 
         add(topLanePanel, BorderLayout.NORTH);
         add(folderListScrollPane, BorderLayout.CENTER);
@@ -93,20 +102,27 @@ public class FolderListView extends JPanel {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setOpaque(false);
 
-        for(int i = 0; i < 10; i++) {
-            panel.add(createFolderPanel("HES", "8"));
-            JSeparator separator = new JSeparator();
-            separator.setPreferredSize(new Dimension(350, 2));
-            separator.setMaximumSize(new Dimension(separator.getPreferredSize()));
-            separator.setBackground(new Color(49, 49, 49));
-            separator.setForeground(new Color(49, 49, 49));
-            panel.add(separator);
-        }
 
+        try {
+
+            FolderModel[] folderModels = folderListModel.getFolderModels();
+
+            for (FolderModel folderModel : folderModels) {
+                panel.add(createFolderPanel(folderModel));
+                JSeparator separator = new JSeparator();
+                separator.setPreferredSize(new Dimension(350, 2));
+                separator.setMaximumSize(new Dimension(separator.getPreferredSize()));
+                separator.setBackground(new Color(49, 49, 49));
+                separator.setForeground(new Color(49, 49, 49));
+                panel.add(separator);
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
         return panel;
     }
 
-    private JPanel createFolderPanel(String name, String nbNotes) {
+    private JPanel createFolderPanel(FolderModel folderModel) {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setOpaque(false);
@@ -123,11 +139,11 @@ public class FolderListView extends JPanel {
 
         JLabel folderLabel = new JLabel(folderIcon);
 
-        JLabel folderName = new JLabel(name);
+        JLabel folderName = new JLabel(folderModel.getFolderTitle());
         folderName.setForeground(mainTextColor);
 
-        JLabel folderNbNotes = new JLabel(nbNotes+"   ");
-        folderNbNotes.setForeground(mainTextColor);
+//        JLabel folderNbNotes = new JLabel(nbNotes+"   ");
+//        folderNbNotes.setForeground(mainTextColor);
 
         Icon angleIcon = IconFontSwing.buildIcon(FontAwesome.ANGLE_RIGHT, 24, secondaryTextColor);
 
@@ -136,7 +152,7 @@ public class FolderListView extends JPanel {
         westPanel.add(folderLabel);
         westPanel.add(folderName);
 
-        eastPanel.add(folderNbNotes, BorderLayout.WEST);
+//        eastPanel.add(folderNbNotes, BorderLayout.WEST);
         eastPanel.add(angleLabel, BorderLayout.CENTER);
 
         panel.add(westPanel, BorderLayout.WEST);

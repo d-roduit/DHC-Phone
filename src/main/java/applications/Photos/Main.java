@@ -4,6 +4,7 @@ import applications.Photos.controllers.GalleryController;
 import applications.Photos.models.GalleryModel;
 import applications.Photos.views.GalleryView;
 import ch.dhc.Application;
+import ch.dhc.Configuration;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import jiconfont.swing.IconFontSwing;
@@ -23,28 +24,57 @@ public class Main extends Application {
     public Main() {
         setBackground(backgroundColor);
         setBorder(new EmptyBorder(15, 0, 0, 0));
-
-        GalleryView galleryView = new GalleryView();
-        GalleryModel galleryModel = new GalleryModel();
-
-        GalleryController galleryController = new GalleryController(galleryView, galleryModel);
-
-        add(galleryView);
     }
 
     @Override
     public void onRun() {
 
-        File sourceFile = new File("fb.png");
+        // Regarder si de nouvelles photos ont été ajoutées
+        //  -> Lire tous les fichiers photos dans le dossier externes "photos" -> en faire un tableau.
+        //  -> Lire tous les fichiers photos de tous les albums qui sont dans le fichier `albums.json` -> en faire un tableau.
+        //  -> Faire tableauDephotosExternes.removeAll(tableauDePhotoDuAlbums.json);
 
-        try {
-            ThumbnailGenerator.generate(sourceFile, "thumbnail");
-        } catch (Exception e) {
-            e.printStackTrace();
+        // Créer le dossier thumbnails s'il n'existe pas
+
+        // Si le dossier thumbnail existe, regarder quelles thumbnails doivent être regénérés.
+        //  -> ThumbnailsQu'onDoitGénérer = faire ThumbnailsQu'onDoitAvoir[].removeAll(ThumbnailsDejaGénérées[]);
+        //  -> ThumbnailsÀSupprimer = faire ThumbnailsDejaGénérées[].removeAll(ThumbnailsQu'onDoitAvoir[])
+
+        // Supprimer les thumbnails inutiles
+
+        // Générer les thumbnails manquantes
+
+
+
+        String picturesFolderPath = Configuration.getInstance().getPicturesFolderPath();
+
+        String[] thumbnailsNames = new String[] {
+            "photo1.jpg",
+            "photo2.png",
+            "photo3.png",
+            "photo4.png",
+        };
+
+        File thumbnailsFolder = new File(picturesFolderPath + "thumbnails/");
+        if (!thumbnailsFolder.exists()) {
+            thumbnailsFolder.mkdir();
         }
 
-        // cardlayout.show(this, galleryView);
+        for (String thumbnailsName: thumbnailsNames) {
+            File sourceFile = new File(picturesFolderPath + thumbnailsName);
 
+            try {
+                ThumbnailGenerator.generate(sourceFile, picturesFolderPath + "thumbnails/" + thumbnailsName);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        GalleryModel galleryModel = new GalleryModel();
+        GalleryView galleryView = new GalleryView(galleryModel);
+        GalleryController galleryController = new GalleryController(galleryModel, galleryView);
+
+        add(galleryController.getGalleryView());
     }
 
     @Override

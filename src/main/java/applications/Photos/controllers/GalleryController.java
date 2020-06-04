@@ -1,5 +1,6 @@
 package applications.Photos.controllers;
 
+import applications.Photos.models.AlbumModel;
 import applications.Photos.models.GalleryModel;
 import applications.Photos.views.GalleryView;
 
@@ -8,15 +9,14 @@ import java.awt.event.ActionListener;
 
 public class GalleryController {
 
-    private GalleryView galleryView;
-    private GalleryModel galleryModel;
+    private final GalleryModel galleryModel;
+    private final GalleryView galleryView;
 
-    public GalleryController(GalleryView galleryView, GalleryModel galleryModel) {
-        this.galleryView = galleryView;
+    public GalleryController(GalleryModel galleryModel, GalleryView galleryView) {
         this.galleryModel = galleryModel;
+        this.galleryView = galleryView;
 
-        this.galleryView.addGoBackButtonListener(e -> goBack());
-        this.galleryView.addCreateAlbumButtonListener(e -> createAlbum());
+        initListeners();
     }
 
     private void goBack() {
@@ -24,7 +24,23 @@ public class GalleryController {
     }
 
     private void createAlbum() {
-        System.out.println("album cliqué");
+        AlbumModel newAlbumModel = galleryModel.createAlbum("Album " + galleryModel.getAlbumModels().size());
+
+        galleryView.addAlbumPreview(newAlbumModel);
+
+        System.out.println("Nouvel album créé");
     }
 
+    private void initListeners() {
+        galleryView.getGoBackButton().addActionListener(e -> goBack());
+        galleryView.getCreateAlbumButton().addActionListener(e -> createAlbum());
+    }
+
+    public GalleryModel getGalleryModel() {
+        return galleryModel;
+    }
+
+    public GalleryView getGalleryView() {
+        return galleryView;
+    }
 }

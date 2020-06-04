@@ -5,22 +5,19 @@ import applications.Photos.views.AlbumView;
 
 public class AlbumController {
 
-    private AlbumView albumView;
-    private AlbumModel albumModel;
+    private final AlbumView albumView;
+    private final AlbumModel albumModel;
 
-    public AlbumController(AlbumView albumView, AlbumModel albumModel) {
-        this.albumView = albumView;
+    public AlbumController(AlbumModel albumModel, AlbumView albumView) {
         this.albumModel = albumModel;
-
-//        this.albumView.addGoBackButtonListener(e -> goBack());
-//        this.albumView.addCreateAlbumButtonListener(e -> createAlbum());
+        this.albumView = albumView;
     }
 
-    private void goBack() {
-        System.out.println("go back cliqué");
+    public AlbumView getAlbumView() {
+        return albumView;
     }
 
-    private void createAlbum() {
-        System.out.println("album cliqué");
+    public AlbumModel getAlbumModel() {
+        return albumModel;
     }
 }

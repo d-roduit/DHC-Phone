@@ -1,8 +1,6 @@
 package applications.Notes;
 
-import applications.Notes.controllers.FolderController;
-import applications.Notes.controllers.FolderListController;
-import applications.Notes.controllers.NoteController;
+import applications.Notes.controllers.AppController;
 import applications.Notes.models.FolderListModel;
 import applications.Notes.models.FolderModel;
 import applications.Notes.models.NoteModel;
@@ -10,6 +8,8 @@ import applications.Notes.views.FolderListView;
 import applications.Notes.views.FolderView;
 import applications.Notes.views.NoteView;
 import ch.dhc.Application;
+import ch.dhc.Configuration;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.awt.*;
 
@@ -21,26 +21,32 @@ public class Main extends Application {
 
     public Main() {
 
-        FolderListView folderListView = new FolderListView();
-        FolderListModel folderListModel = new FolderListModel();
-        FolderListController folderListController = new FolderListController(folderListView, folderListModel);
-
-        FolderView folderView = new FolderView();
-        FolderModel folderModel = new FolderModel();
-        FolderController folderController = new FolderController(folderView, folderModel, folderListModel);
-
-        NoteView noteView = new NoteView();
-        NoteModel noteModel = new NoteModel();
-        NoteController noteController = new NoteController(noteView, noteModel);
-
-        add(folderView);
     }
 
     @Override
     public void onRun() {
-        //setBackground(Color.RED);
-//        add(folderListPanel);
-//        add(folderPanel);
+
+        NoteModel noteModel = new NoteModel();
+        FolderModel folderModel = new FolderModel();
+        FolderListModel folderListModel = new FolderListModel();
+
+        NoteView noteView = new NoteView();
+        FolderView folderView = new FolderView();
+        FolderListView folderListView = new FolderListView(folderListModel);
+
+
+        AppController folderController = new AppController(this, noteModel, folderModel, folderListModel, noteView, folderView, folderListView);
+
+        CardLayout cardLayout = new CardLayout();
+
+        setLayout(cardLayout);
+
+        add(folderListView, String.valueOf(folderListView.hashCode()));
+        add(folderView, String.valueOf(folderView.hashCode()));
+
+        cardLayout.show(this, String.valueOf(folderView.hashCode()));
+
+
     }
 
     @Override

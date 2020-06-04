@@ -1,5 +1,12 @@
-{
-    "recent": [
-
-    ]
-}
+[
+    {
+        "albumName": "Récent",
+        "pictures": [
+        ]
+    },
+    {
+        "albumName": "Album 1",
+        "pictures": [
+        ]
+    }
+]

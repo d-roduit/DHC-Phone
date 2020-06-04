@@ -24,6 +24,7 @@ public class FolderView extends JPanel {
     private JPanel botLanePanel = createBotLanePanel();
     private JButton addNoteButton;
     private JButton deleteFolderButton;
+    private JButton returnToFolderListButton;
 
     /**
      * FolderPanel constructor.
@@ -56,15 +57,15 @@ public class FolderView extends JPanel {
 
         Icon goBackIcon = IconFontSwing.buildIcon(FontAwesome.ANGLE_LEFT, 22, secondaryTextColor);
 
-        JButton returnToFolderList = new JButton("Folders");
-        returnToFolderList.setIcon(goBackIcon);
-        returnToFolderList.setContentAreaFilled(false);
-        returnToFolderList.setFocusPainted(false);
-        returnToFolderList.setBorderPainted(false);
-        returnToFolderList.setForeground(secondaryTextColor);
-        returnToFolderList.setFont(new Font("Arial", Font.BOLD, 17));
-        returnToFolderList.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        returnToFolderList.setToolTipText("Go back to folders");
+        returnToFolderListButton = new JButton("Folders");
+        returnToFolderListButton.setIcon(goBackIcon);
+        returnToFolderListButton.setContentAreaFilled(false);
+        returnToFolderListButton.setFocusPainted(false);
+        returnToFolderListButton.setBorderPainted(false);
+        returnToFolderListButton.setForeground(secondaryTextColor);
+        returnToFolderListButton.setFont(new Font("Arial", Font.BOLD, 17));
+        returnToFolderListButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        returnToFolderListButton.setToolTipText("Go back to folders");
 
         JLabel titleLabel = new JLabel("Notes");
         titleLabel.setForeground(mainTextColor);
@@ -96,7 +97,7 @@ public class FolderView extends JPanel {
         eastPanel.add(deleteFolderButton);
 
         panel.add(Box.createRigidArea(new Dimension(0, 10)), BorderLayout.NORTH);
-        panel.add(returnToFolderList, BorderLayout.WEST);
+        panel.add(returnToFolderListButton, BorderLayout.WEST);
         panel.add(titleLabel, BorderLayout.CENTER);
         panel.add(eastPanel, BorderLayout.EAST);
         panel.add(Box.createRigidArea(new Dimension(0, 10)), BorderLayout.SOUTH);
@@ -159,5 +160,9 @@ public class FolderView extends JPanel {
 
     public void addDeleteFolderListener(ActionListener deleteFolderListener) {
         deleteFolderButton.addActionListener(deleteFolderListener);
+    }
+
+    public void addReturnToFolderListListener(ActionListener returnToFolderList) {
+        returnToFolderListButton.addActionListener(returnToFolderList);
     }
 }

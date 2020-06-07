@@ -1,4 +1,18 @@
-# DHC Smartphone
+<div align="center">
+            <img src="dhc-phone.svg" align="center" height="150" alt="DHC Phone">
+
+#
+
+<p align="center">
+    <strong>A client-side Java smartphone emulator to display and interact with your applications</strong>
+</p>
+
+</div>
+
+
+[les screens des applications ici]
+
+<!-- ![](https://github.com/bbc/peaks.js/blob/master/peaks.png?raw=1) -->
 
 One Paragraph of project description goes here
 

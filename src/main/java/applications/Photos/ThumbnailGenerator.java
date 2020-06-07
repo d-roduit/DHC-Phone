@@ -7,15 +7,16 @@ import java.io.File;
 
 public class ThumbnailGenerator {
 
-    private static int thumbnailWidth = 100;
-    private static int thumbnailHeight = 100;
+    private static int thumbnailWidth = 60;
+    private static int thumbnailHeight = 60;
     private static FileFormat fileFormat = FileFormat.JPG;
+    private static boolean appendFileFormat = false;
 
     public enum FileFormat {
         PNG, JPG, GIF;
     }
 
-    public static void generate(File file, int thumbnailWidth, int thumbnailHeight, String outputPath, FileFormat fileFormat) throws Exception {
+    public static void generate(File file, int thumbnailWidth, int thumbnailHeight, String outputPath, FileFormat fileFormat, boolean appendFileFormat) throws Exception {
         BufferedImage img = ImageIO.read(file);
 
         int bufferedImageType;
@@ -32,6 +33,13 @@ public class ThumbnailGenerator {
         BufferedImage thumbnail = new BufferedImage(thumbnailWidth, thumbnailHeight, bufferedImageType);
 
         Graphics2D g2d = (Graphics2D) thumbnail.getGraphics();
+
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
         int sx1;
         int sy1;
@@ -65,17 +73,27 @@ public class ThumbnailGenerator {
 
         g2d.dispose();
 
-        String outputPathWithExtension = outputPath + "." + fileFormat.name().toLowerCase();
+        String outputFilePath;
 
-        ImageIO.write(thumbnail, fileFormat.name(), new File(outputPathWithExtension));
+        if (appendFileFormat) {
+            outputFilePath = outputPath + "." + fileFormat.name().toLowerCase();
+        } else {
+            outputFilePath = outputPath;
+        }
+
+        ImageIO.write(thumbnail, fileFormat.name(), new File(outputFilePath));
+    }
+
+    public static void generate(File file, String outputPath, FileFormat fileFormat, boolean appendFileFormat) throws Exception {
+        generate(file, thumbnailWidth, thumbnailHeight, outputPath, fileFormat, appendFileFormat);
     }
 
     public static void generate(File file, String outputPath, FileFormat fileFormat) throws Exception {
-        generate(file, thumbnailWidth, thumbnailHeight, outputPath, fileFormat);
+        generate(file, thumbnailWidth, thumbnailHeight, outputPath, fileFormat, appendFileFormat);
     }
 
     public static void generate(File file, String outputPath) throws Exception {
-        generate(file, thumbnailWidth, thumbnailHeight, outputPath, fileFormat);
+        generate(file, thumbnailWidth, thumbnailHeight, outputPath, fileFormat, appendFileFormat);
     }
 
     public static void setThumbnailWidth(int width) {
@@ -88,5 +106,9 @@ public class ThumbnailGenerator {
 
     public static void setFileFormat(FileFormat format) {
         fileFormat = format;
+    }
+
+    public static void setAppendFileFormat(boolean appendFileFormat) {
+        ThumbnailGenerator.appendFileFormat = appendFileFormat;
     }
 }

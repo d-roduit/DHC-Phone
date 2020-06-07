@@ -1,15 +1,16 @@
 package applications.Photos.models;
 
 import applications.Photos.controllers.PictureController;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import ch.dhc.Configuration;
 
 public class PictureModel {
 
-    @JsonProperty("pictureName")
-    String name;
+    private String name;
+    private String albumName;
 
-    public PictureModel() {
-
+    public PictureModel(String name, String albumName) {
+        this.name = name;
+        this.albumName = albumName;
     }
 
     public void copyPictureToAlbum() {
@@ -24,14 +25,23 @@ public class PictureModel {
 
     }
 
-    @JsonProperty("pictureName")
     public String getName() {
         return name;
     }
 
-    @JsonProperty("pictureName")
     public void setName(String name) {
         this.name = name;
     }
 
+    public String getAlbumName() {
+        return albumName;
+    }
+
+    public void setAlbumName(String albumName) {
+        this.albumName = albumName;
+    }
+
+    public String getPath() {
+        return Configuration.getInstance().getPicturesFolderPath() + albumName + "/" + name;
+    }
 }

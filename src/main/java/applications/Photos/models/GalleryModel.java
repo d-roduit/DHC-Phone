@@ -1,75 +1,93 @@
 package applications.Photos.models;
 
+import applications.Photos.controllers.AlbumController;
+import ch.dhc.Configuration;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GalleryModel {
 
-    String galleryTitle = "Albums";
-    List<AlbumModel> albumModels = fetchAlbums();
+    private final String galleryTitle = "Albums";
+    private final List<AlbumModel> albumModels;
+    private final String thumbnailDirectoryName = "thumbnails";
 
     public GalleryModel() {
-
+        albumModels = fetchAlbums();
     }
 
-    public AlbumModel createAlbum(String name) {
-        AlbumModel newAlbumModel = new AlbumModel(name);
+    public AlbumModel createAlbum(String albumName) {
+        AlbumModel albumModel = new AlbumModel(albumName);
 
-        albumModels.add(newAlbumModel);
+        albumModels.add(albumModel);
 
-        return newAlbumModel;
+        return albumModel;
     }
 
-    public void deleteAlbum() {
-
-    }
-
-    public void displayAlbums() {
-
+    public void deleteAlbum(AlbumModel albumModel) {
+        albumModels.remove(albumModel);
     }
 
     private List<AlbumModel> fetchAlbums() {
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        File[] albumFolders = fetchFoldersInDirectory(Configuration.getInstance().getPicturesFolderPath());
 
-        String albumsJSONFilePath = "/applications/Photos/albums.json";
+        List<AlbumModel> albumModelsList = new ArrayList<AlbumModel>();
 
-        InputStream albumsJSONFileInputStream = GalleryModel.class.getResourceAsStream(albumsJSONFilePath);
+        if (albumFolders != null) {
+            for (File albumFolder: albumFolders) {
+                // Vérifie que le dossier ne soit pas le dossier des thumbnails.
+                if (!albumFolder.getName().equals(thumbnailDirectoryName)) {
+                    AlbumModel albumModel = new AlbumModel(albumFolder.getName());
 
-        List<AlbumModel> albumModels = null;
-
-        JavaType type = objectMapper.getTypeFactory().constructCollectionType(List.class, AlbumModel.class);
-
-        try {
-            albumModels = objectMapper.readValue(albumsJSONFileInputStream, type);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        for (AlbumModel albumModel: albumModels) {
-            System.out.println(albumModel.getName());
-
-            for (PictureModel pictureModel: albumModel.getPictureModels()) {
-                System.out.println(pictureModel.getName());
+                    albumModelsList.add(albumModel);
+                }
             }
         }
 
-        return albumModels;
+        return albumModelsList;
+    }
+
+    private File[] fetchFoldersInDirectory(String directoryPath) {
+        try {
+            File directory = new File(directoryPath);
+
+            if (!directory.isDirectory()) {
+                System.err.println("The given directory path is not a directory");
+                return null;
+            }
+
+            File[] folders = directory.listFiles(new FileFilter() {
+                @Override
+                public boolean accept(File f) {
+                    return f.isDirectory();
+                }
+            });
+
+            return folders;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
     }
 
     public String getGalleryTitle() {
         return galleryTitle;
     }
 
-    public void setGalleryTitle(String galleryTitle) {
-        this.galleryTitle = galleryTitle;
-    }
-
     public List<AlbumModel> getAlbumModels() {
         return albumModels;
     }
+
+    public String getThumbnailDirectoryName() {
+        return thumbnailDirectoryName;
+    }
+
+    public String getThumbnailDirectoryPath() {
+        return Configuration.getInstance().getPicturesFolderPath() + thumbnailDirectoryName + "/";
+    }
+
 }

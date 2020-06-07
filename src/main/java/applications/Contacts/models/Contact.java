@@ -8,13 +8,18 @@ package applications.Contacts.models;
  *
  */
 
-public class ContactModel {
+public class Contact implements Comparable<Contact> {
+
+    @Override
+    public int compareTo(Contact contact) {
+        return this.lastName.compareTo(contact.lastName);
+    }
 
     /**
      * First name of the contact.It can be modified.
      *
-     * @see applications.Contacts.Contact#setFirstName(String)
-     * @see applications.Contacts.Contact#getFirstName()
+     * @see applications.Contacts.models.Contact#setFirstName(String)
+     * @see applications.Contacts.models.Contact#getFirstName()
      *
      */
     private String firstName;
@@ -22,8 +27,8 @@ public class ContactModel {
     /**
      * Last name of the contact. It can be modified.
      *
-     * @see applications.Contacts.Contact#setLastName(String)
-     * @see applications.Contacts.Contact#getLastName()
+     * @see applications.Contacts.models.Contact#setLastName(String)
+     * @see applications.Contacts.models.Contact#getLastName()
      *
      */
     private String lastName;
@@ -31,8 +36,8 @@ public class ContactModel {
     /**
      * City where the contact lives. It can be modified.
      *
-     * @see applications.Contacts.Contact#setCity(String)
-     * @see applications.Contacts.Contact#getCity()
+     * @see applications.Contacts.models.Contact#setCity(String)
+     * @see applications.Contacts.models.Contact#getCity()
      *
      */
     private String city;
@@ -40,16 +45,16 @@ public class ContactModel {
     /**
      * Phone number of the contact. It can be modified.
      *
-     * @see applications.Contacts.Contact#setEmail(String)
-     * @see applications.Contacts.Contact#getPhoneNumber()
+     * @see applications.Contacts.models.Contact#setEmail(String)
+     * @see applications.Contacts.models.Contact#getPhoneNumber()
      */
     private String phoneNumber;
 
     /**
      * Email of the contact. It can be modified.
      *
-     * @see applications.Contacts.Contact#setEmail(String)
-     * @see applications.Contacts.Contact#getEmail()
+     * @see applications.Contacts.models.Contact#setEmail(String)
+     * @see applications.Contacts.models.Contact#getEmail()
      *
      */
     private String email;
@@ -60,7 +65,7 @@ public class ContactModel {
      *
      */
 
-    public ContactModel(){}
+    public Contact(){}
 
     /**
      * ContactModel Constructor
@@ -80,14 +85,14 @@ public class ContactModel {
      * @param email
      *          Email of the contact
      *
-     * @see applications.Contacts.models.ContactModel#firstName
-     * @see applications.Contacts.models.ContactModel#lastName
-     * @see applications.Contacts.models.ContactModel#city
-     * @see applications.Contacts.models.ContactModel#phoneNumber
-     * @see applications.Contacts.models.ContactModel#email
+     * @see applications.Contacts.models.Contact#firstName
+     * @see applications.Contacts.models.Contact#lastName
+     * @see applications.Contacts.models.Contact#city
+     * @see applications.Contacts.models.Contact#phoneNumber
+     * @see applications.Contacts.models.Contact#email
      */
 
-    public ContactModel(String firstName, String lastName, String city, String phoneNumber, String email) {
+    public Contact(String firstName, String lastName, String city, String phoneNumber, String email) {
         setFirstName(firstName);
         setLastName(lastName);
         setCity(city);
@@ -102,7 +107,7 @@ public class ContactModel {
      */
 
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
     /**
@@ -123,7 +128,7 @@ public class ContactModel {
      */
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
     /**
@@ -144,7 +149,7 @@ public class ContactModel {
      */
 
     public String getCity() {
-        return city;
+        return this.city;
     }
 
     /**
@@ -165,7 +170,7 @@ public class ContactModel {
      */
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return this.phoneNumber;
     }
 
     /**
@@ -185,7 +190,7 @@ public class ContactModel {
      * @return email of contact.
      */
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     /**
@@ -199,4 +204,13 @@ public class ContactModel {
         this.email = email;
     }
 
+    /**
+     * toString methode will display the information concerning the contact the way we organize it.
+     *
+     * @return firstname
+     *      The firstname of the contact.
+     */
+    public String toString() {
+        return this.firstName;
+    }
 }

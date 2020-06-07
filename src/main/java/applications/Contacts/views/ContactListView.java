@@ -1,70 +1,98 @@
 package applications.Contacts.views;
 
-import jiconfont.icons.font_awesome.FontAwesome;
+import applications.Contacts.models.Contact;
+import applications.Contacts.models.ContactList;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import jiconfont.swing.IconFontSwing;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ContactListView extends JLabel{
+/**
+ * Contact List View
+ *
+ * @author Henrick Neads
+ *
+ */
+
+public class ContactListView extends JPanel {
+
+    // MVC Model object
+    private ContactList contactList;
+    private Contact contact;
+
+    private Map<JPanel,Contact> contactPanelsMap = new HashMap<JPanel,Contact>();
 
     private Color mainTextColor = Color.WHITE;
     private Color secondaryTextColor = new Color(217, 169, 25);
-    private JPanel topLanePanel = createTopLanePanel();
-    private JScrollPane contactListScrollPane = createContactListScrollPane();
-    private JPanel botLanePanel = createBotLanePanel();
-    private JButton addContactButton;
+    private JPanel topLanePanel;
+    private JScrollPane contactListScrollPane;
+    private JPanel botLanePanel;
 
-    public ContactListView() {
+    private JButton addContactButton;
+    private JButton returnContactButton;
+
+    public ContactListView(ContactList contactList) {
+        this.contactList = contactList;
+
+        this.topLanePanel = createTopLanePanel();
+        this.contactListScrollPane = createContactListScrollPane();
+        this.botLanePanel = createBotLanePanel();
 
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
 
-        add(topLanePanel, BorderLayout.NORTH);
-        add(contactListScrollPane, BorderLayout.CENTER);
-        add(botLanePanel, BorderLayout.SOUTH);
+        add(this.topLanePanel, BorderLayout.NORTH);
+        add(this.contactListScrollPane, BorderLayout.CENTER);
+        add(this.botLanePanel,BorderLayout.SOUTH);
+        add(Box.createRigidArea(new Dimension(20, 0)), BorderLayout.EAST);
+        add(Box.createRigidArea(new Dimension(20, 0)), BorderLayout.WEST);
     }
 
-    private JPanel createBotLanePanel() {
-        JPanel panel = new JPanel();
-        panel.setOpaque(false);
+     private JPanel createBotLanePanel() {
+     JPanel panel = new JPanel();
+     panel.setOpaque(false);
 
-        int nbContact = createContactListPanel().getComponentCount() / 2;
+     int nbContact = createContactListPanel().getComponentCount() / 2;
 
-        JLabel nbContactLabel = new JLabel(nbContact +" contacts");
-        nbContactLabel.setForeground(mainTextColor);
+     JLabel nbContactLabel = new JLabel(nbContact +" contacts");
+     nbContactLabel.setForeground(mainTextColor);
 
-        panel.add(nbContactLabel);
+     panel.add(nbContactLabel);
 
-        return panel;
-    }
+     return panel;
+     }
 
     private JPanel createTopLanePanel() {
         JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
+        panel.setLayout(new GridLayout(1,3));
         panel.setOpaque(false);
+
+        Icon returnIconForButton = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.KEYBOARD_BACKSPACE,28,secondaryTextColor);
+        returnContactButton = new JButton(returnIconForButton);
+        returnContactButton.setToolTipText("Return to previous menu");
+        returnContactButton.setBorderPainted(false);
+        returnContactButton.setFocusPainted(false);
+        returnContactButton.setContentAreaFilled(false);
+        returnContactButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        panel.add(returnContactButton);
 
         JLabel titleLabel = new JLabel("Contact");
         titleLabel.setForeground(mainTextColor);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 25));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        panel.add(titleLabel);
 
-        Icon addContactIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.ADD, 28, secondaryTextColor);
-
-        Icon addContactIcon2 = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.PERSON_ADD,28,secondaryTextColor);
-
-        addContactButton = new JButton(addContactIcon2);
+        Icon addContactIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.PERSON_ADD,28,secondaryTextColor);
+        addContactButton = new JButton(addContactIcon);
         addContactButton.setToolTipText("Add a contact");
         addContactButton.setBorderPainted(false);
         addContactButton.setFocusPainted(false);
         addContactButton.setContentAreaFilled(false);
         addContactButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        panel.add(Box.createRigidArea(new Dimension(30, 0)), BorderLayout.WEST);
-        panel.add(titleLabel, BorderLayout.CENTER);
-        panel.add(addContactButton, BorderLayout.EAST);
-        panel.add(Box.createRigidArea(new Dimension(0, 10)), BorderLayout.SOUTH);
+        panel.add(addContactButton);
 
         return panel;
     }
@@ -80,15 +108,19 @@ public class ContactListView extends JLabel{
     }
 
     private JPanel createContactListPanel() {
+
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setOpaque(false);
 
-        for(int i = 0; i < 10; i++) {
-            panel.add(createContactPanel("HES", "8"));
+        for (Contact contact : this.contactList.getContactList()) {
+            JPanel contactPanel = createContactPanel(contact);
+            panel.add(contactPanel);
+
+            // create a map which contains contacts panels associated with their contacts
+            contactPanelsMap.put(contactPanel,contact);
+
             JSeparator separator = new JSeparator();
-            separator.setPreferredSize(new Dimension(350, 2));
-            separator.setMaximumSize(new Dimension(separator.getPreferredSize()));
             separator.setBackground(new Color(49, 49, 49));
             separator.setForeground(new Color(49, 49, 49));
             panel.add(separator);
@@ -97,46 +129,46 @@ public class ContactListView extends JLabel{
         return panel;
     }
 
-    private JPanel createContactPanel(String name, String nbNotes) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        panel.setOpaque(false);
-        panel.setPreferredSize(new Dimension(320, 40));
-        panel.setMaximumSize(new Dimension(panel.getPreferredSize()));
+    private JPanel createContactPanel(Contact contact){
 
-        JPanel westPanel = new JPanel();
-        westPanel.setOpaque(false);
-        JPanel eastPanel = new JPanel();
-        eastPanel.setLayout(new BorderLayout());
-        eastPanel.setOpaque(false);
+        // Center contact name inside a JPanel with boxes to add padding
+        JPanel contactPanel = new JPanel();
+        contactPanel.setLayout(new BorderLayout());
+        contactPanel.setBackground(Color.BLACK);
+        contactPanel.add(Box.createRigidArea(new Dimension(0, 15)), BorderLayout.NORTH);
+        contactPanel.add(Box.createRigidArea(new Dimension(0, 5)), BorderLayout.SOUTH);
 
-        Icon folderIcon = IconFontSwing.buildIcon(FontAwesome.FOLDER_OPEN, 24, secondaryTextColor);
+        // create contact label
+        JLabel contactLabel = createContactLabel(contact);
 
-        JLabel folderLabel = new JLabel(folderIcon);
+        contactPanel.add(contactLabel, BorderLayout.CENTER);
 
-        JLabel folderName = new JLabel(name);
-        folderName.setForeground(mainTextColor);
+        return contactPanel;
+    }
 
-        JLabel folderNbNotes = new JLabel(nbNotes+"   ");
-        folderNbNotes.setForeground(mainTextColor);
+    private JLabel createContactLabel(Contact contact) {
 
-        Icon angleIcon = IconFontSwing.buildIcon(FontAwesome.ANGLE_RIGHT, 24, secondaryTextColor);
+        this.contact = contact;
 
-        JLabel angleLabel = new JLabel(angleIcon);
+        // Add contact name as a JLabel
+        JLabel contactLabel = new JLabel(contact.getLastName() + " " + contact.getFirstName());
+        contactLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        contactLabel.setForeground(mainTextColor);
+        contactLabel.setHorizontalAlignment(SwingConstants.LEFT);
 
-        westPanel.add(folderLabel);
-        westPanel.add(folderName);
+        return contactLabel;
+    }
 
-        eastPanel.add(folderNbNotes, BorderLayout.WEST);
-        eastPanel.add(angleLabel, BorderLayout.CENTER);
-
-        panel.add(westPanel, BorderLayout.WEST);
-        panel.add(eastPanel, BorderLayout.EAST);
-
-        return panel;
+    public Map<JPanel, Contact> getContactPanelsMap() {
+        return contactPanelsMap;
     }
 
     public void addAddContactListener(ActionListener addContactListener) {
-        addContactButton.addActionListener(addContactListener);
+        this.addContactButton.addActionListener(addContactListener);
     }
+
+    public void returnToHomePage(ActionListener returnToHomePanel){
+        this.returnContactButton.addActionListener(returnToHomePanel);
+    }
+
 }

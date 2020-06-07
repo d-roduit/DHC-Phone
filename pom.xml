@@ -89,6 +89,7 @@
             <artifactId>jiconfont-google_material_design_icons</artifactId>
             <version>2.2.0.2</version>
         </dependency>
+
     </dependencies>
 
     <build>

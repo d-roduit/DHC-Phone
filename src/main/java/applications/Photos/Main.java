@@ -1,22 +1,14 @@
 package applications.Photos;
 
 import applications.Photos.controllers.GalleryController;
-import applications.Photos.models.AlbumModel;
 import applications.Photos.models.GalleryModel;
-import applications.Photos.models.PictureModel;
 import applications.Photos.views.GalleryView;
 import ch.dhc.Application;
 import ch.dhc.Configuration;
-import jiconfont.icons.font_awesome.FontAwesome;
-import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
-import jiconfont.swing.IconFontSwing;
 
-import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
 
 public class Main extends Application {
 

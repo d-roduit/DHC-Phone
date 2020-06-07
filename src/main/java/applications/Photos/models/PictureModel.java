@@ -1,6 +1,5 @@
 package applications.Photos.models;
 
-import applications.Photos.controllers.PictureController;
 import ch.dhc.Configuration;
 
 public class PictureModel {

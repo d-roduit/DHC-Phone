@@ -1,13 +1,10 @@
 package applications.Photos.controllers;
 
 import applications.Photos.Main;
-import applications.Photos.models.AlbumModel;
 import applications.Photos.models.PictureModel;
 import applications.Photos.views.PictureView;
-import ch.dhc.Configuration;
 
 import javax.swing.*;
-import java.io.File;
 import java.util.List;
 
 public class PictureController {

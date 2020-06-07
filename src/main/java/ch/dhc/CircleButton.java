@@ -2,8 +2,6 @@ package ch.dhc;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * <b>CircleButton is the class that represents a button as a circle.</b>

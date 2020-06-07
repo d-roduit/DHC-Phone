@@ -1,11 +1,9 @@
 package applications.Photos.models;
 
-import applications.Photos.controllers.AlbumController;
 import ch.dhc.Configuration;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
 

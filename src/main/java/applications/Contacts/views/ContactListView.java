@@ -31,8 +31,10 @@ public class ContactListView extends JPanel {
     private JScrollPane contactListScrollPane;
     private JPanel botLanePanel;
 
+    private JPanel contactPanel;
+
     private JButton addContactButton;
-    private JButton returnContactButton;
+    private JLabel emptyBox;
 
     public ContactListView(ContactList contactList) {
         this.contactList = contactList;
@@ -51,7 +53,7 @@ public class ContactListView extends JPanel {
         add(Box.createRigidArea(new Dimension(20, 0)), BorderLayout.WEST);
     }
 
-     private JPanel createBotLanePanel() {
+    private JPanel createBotLanePanel() {
      JPanel panel = new JPanel();
      panel.setOpaque(false);
 
@@ -70,14 +72,8 @@ public class ContactListView extends JPanel {
         panel.setLayout(new GridLayout(1,3));
         panel.setOpaque(false);
 
-        Icon returnIconForButton = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.KEYBOARD_BACKSPACE,28,secondaryTextColor);
-        returnContactButton = new JButton(returnIconForButton);
-        returnContactButton.setToolTipText("Return to previous menu");
-        returnContactButton.setBorderPainted(false);
-        returnContactButton.setFocusPainted(false);
-        returnContactButton.setContentAreaFilled(false);
-        returnContactButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        panel.add(returnContactButton);
+        emptyBox = new JLabel("");
+        panel.add(emptyBox);
 
         JLabel titleLabel = new JLabel("Contact");
         titleLabel.setForeground(mainTextColor);
@@ -132,7 +128,7 @@ public class ContactListView extends JPanel {
     private JPanel createContactPanel(Contact contact){
 
         // Center contact name inside a JPanel with boxes to add padding
-        JPanel contactPanel = new JPanel();
+        contactPanel = new JPanel();
         contactPanel.setLayout(new BorderLayout());
         contactPanel.setBackground(Color.BLACK);
         contactPanel.add(Box.createRigidArea(new Dimension(0, 15)), BorderLayout.NORTH);
@@ -145,6 +141,7 @@ public class ContactListView extends JPanel {
 
         return contactPanel;
     }
+
 
     private JLabel createContactLabel(Contact contact) {
 
@@ -165,10 +162,6 @@ public class ContactListView extends JPanel {
 
     public void addAddContactListener(ActionListener addContactListener) {
         this.addContactButton.addActionListener(addContactListener);
-    }
-
-    public void returnToHomePage(ActionListener returnToHomePanel){
-        this.returnContactButton.addActionListener(returnToHomePanel);
     }
 
 }

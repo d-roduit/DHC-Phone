@@ -60,8 +60,6 @@ public class Main extends Application {
     @Override
     public void onClose() {
 
-        this.contactListController.saveContacts();
-
         System.out.println("Contacts dit 'Au revoir !'");
 
     }

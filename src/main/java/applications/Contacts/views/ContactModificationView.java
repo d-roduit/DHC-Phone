@@ -30,7 +30,7 @@ public class ContactModificationView extends JPanel {
     private JButton photoButton;
     private JButton deletContactbutton;
 
-    private JTextField firstNameContactString;
+    private JTextField firstNameContactTextField;
     private JTextField lastNameContactTextField;
     private JTextField cityContactTextField;
     private JTextField phoneNumberContactTextField;
@@ -182,12 +182,12 @@ public class ContactModificationView extends JPanel {
         JPanel firstNameContactPanel = new JPanel();
         firstNameContactPanel.setLayout(new BorderLayout());
 
-        firstNameContactString = new JTextField(contact.getFirstName());
-        firstNameContactString.setOpaque(false);
-        firstNameContactString.setHorizontalAlignment(SwingConstants.LEFT);
-        firstNameContactString.setForeground(mainTextColor);
+        firstNameContactTextField = new JTextField(contact.getFirstName());
+        firstNameContactTextField.setOpaque(false);
+        firstNameContactTextField.setHorizontalAlignment(SwingConstants.LEFT);
+        firstNameContactTextField.setForeground(mainTextColor);
 
-        firstNameContactPanel.add(firstNameContactString);
+        firstNameContactPanel.add(firstNameContactTextField);
 
         return firstNameContactPanel;
 
@@ -348,6 +348,26 @@ public class ContactModificationView extends JPanel {
         displayNoteAddContact.add(Box.createRigidArea(new Dimension(0, 20)), BorderLayout.SOUTH);
 
         return displayNoteAddContact;
+    }
+
+    public JTextField getFirstNameContactTextField() {
+        return firstNameContactTextField;
+    }
+
+    public JTextField getLastNameContactTextField() {
+        return lastNameContactTextField;
+    }
+
+    public JTextField getCityContactTextField() {
+        return cityContactTextField;
+    }
+
+    public JTextField getPhoneNumberContactTextField() {
+        return phoneNumberContactTextField;
+    }
+
+    public JTextField getEmailContactTextField() {
+        return emailContactTextField;
     }
 
     public void removeContactListener(ActionListener removeContact){

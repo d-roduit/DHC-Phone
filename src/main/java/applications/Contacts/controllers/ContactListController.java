@@ -31,6 +31,26 @@ public class ContactListController {
         this.contactListView = contactListView;
         this.contactAddView = contactAddView;
 
+        initListeners();
+    }
+
+    // Update views after adding or removing a contact
+    private void updateContactList(ContactList contactList) {
+        main.remove(contactListView);
+
+        contactListView = new ContactListView(contactList);
+
+        main.add(contactListView, String.valueOf(contactListView.hashCode()));
+
+        main.getCardLayout().show(main, String.valueOf(contactListView.hashCode()));
+
+        initListeners();
+    }
+
+
+    // initiate all the listeners
+    private void initListeners(){
+
         this.contactAddView.addSaveContactListener(e-> {
             String firstName = contactAddView.getFirstNameContactTextField().getText();
             String lastName = contactAddView.getLastNameContactTextField().getText();
@@ -41,7 +61,7 @@ public class ContactListController {
             contactList.addContact(firstName,lastName,city,phoneNumber,email);
             saveContacts();
             contactList.sortContact();
-            contactListView.repaint(); //comment rafraichir la contact list pour l'affichage ?
+            updateContactList(contactList);
             this.main.getCardLayout().show(this.main,String.valueOf(contactListView.hashCode()));
 
         });
@@ -49,7 +69,6 @@ public class ContactListController {
         this.contactAddView.addPhotoToContactListener(e -> System.out.println("photo clicked"));
 
         this.contactListView.addAddContactListener(e->this.main.getCardLayout().show(this.main, String.valueOf(contactAddView.hashCode())));
-        this.contactListView.returnToHomePage(e-> System.out.println("return to home panel "));
         this.contactListView.getContactPanelsMap().forEach((contactPanel,contact) ->{
 
             contactPanel.addMouseListener(new MouseAdapter() {
@@ -63,17 +82,24 @@ public class ContactListController {
                         main.getCardLayout().show(main,String.valueOf(contactModificationView.hashCode()));
 
                         contactModificationView.modificationContacteSaveListener(evt->{
-                            System.out.println("button pressed");
+                            String firstName = contactModificationView.getFirstNameContactTextField().getText();
+                            String lastName = contactModificationView.getLastNameContactTextField().getText();
+                            String city = contactModificationView.getCityContactTextField().getText();
+                            String phoneNumber = contactModificationView.getPhoneNumberContactTextField().getText();
+                            String email = contactModificationView.getEmailContactTextField().getText();
 
-                            main.getCardLayout().show(main,String.valueOf(contactView.hashCode()));
+                            modifiyContact(contact,firstName,lastName,city,phoneNumber,email);
+                            saveContacts();
+                            contactList.sortContact();
+                            updateContactList(contactList);
+                            main.getCardLayout().show(main,String.valueOf(contactListView.hashCode()));
                         });
 
                         contactModificationView.removeContactListener(evt -> {
-                            System.out.println("remove contact");
                             removeContact(contact);
                             saveContacts();
                             contactList.sortContact();
-                            contactListView.repaint();//comment rafraichir la contact list pour l'affichage ?
+                            updateContactList(contactList);
                             main.getCardLayout().show(main,String.valueOf(contactListView.hashCode()));
                         });
 
@@ -86,6 +112,10 @@ public class ContactListController {
                 }
             });
         });
+    }
+
+    public void modifiyContact(Contact contact,String firstName,String lastName,String city,String phoneNumber,String email){
+        this.contactList.modifyContact(contact,firstName,lastName,city,phoneNumber,email);
     }
 
     public void removeContact(Contact contact){

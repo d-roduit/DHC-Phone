@@ -74,8 +74,8 @@ public class AlbumModel {
         }
     }
 
-    public void addPicture() {
-
+    public void addPicture(PictureModel pictureModel) {
+        pictureModels.add(pictureModel);
     }
 
     public void deletePicture(PictureModel pictureModel) {

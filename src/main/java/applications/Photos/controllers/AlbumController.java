@@ -27,7 +27,7 @@ public class AlbumController {
     private final Main main;
 
     public enum MoveDirection {
-        NEXT_ONLY, PREVIOUS_ONLY, PREVIOUS_NEXT
+        NONE, NEXT_ONLY, PREVIOUS_ONLY, PREVIOUS_NEXT
     }
 
     public AlbumController(AlbumModel albumModel, AlbumView albumView, GalleryController galleryController) {
@@ -67,10 +67,14 @@ public class AlbumController {
 
         MoveDirection moveDirection = MoveDirection.PREVIOUS_NEXT;
 
-        if (pictureModelIndex == 0) {
-            moveDirection = MoveDirection.NEXT_ONLY;
-        } else if (pictureModelIndex == pictureModelsList.size() - 1) {
-            moveDirection = MoveDirection.PREVIOUS_ONLY;
+        if (pictureModelsList.size() == 1) {
+            moveDirection = MoveDirection.NONE;
+        } else {
+            if (pictureModelIndex == 0) {
+                moveDirection = MoveDirection.NEXT_ONLY;
+            } else if (pictureModelIndex == pictureModelsList.size() - 1) {
+                moveDirection = MoveDirection.PREVIOUS_ONLY;
+            }
         }
 
         // Create pictureView and show it with CardLayout
@@ -151,6 +155,8 @@ public class AlbumController {
 
                         // Update the view to display the copied files.
                         PictureModel pictureModel = new PictureModel(selectedFile.getName(), albumName);
+
+                        albumModel.addPicture(pictureModel);
 
                         albumView.addPictureLabel(pictureModel);
 

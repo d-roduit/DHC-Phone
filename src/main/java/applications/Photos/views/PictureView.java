@@ -86,6 +86,10 @@ public class PictureView extends JPanel {
                 bottomBarPanel.add(previousPictureButton, BorderLayout.WEST);
                 bottomBarPanel.add(nextPictureButton, BorderLayout.EAST);
                 break;
+            case NONE:
+                bottomBarPanel.add(Box.createRigidArea(new Dimension(30, 40)), BorderLayout.WEST);
+                bottomBarPanel.add(Box.createRigidArea(new Dimension(30, 40)), BorderLayout.EAST);
+                break;
             case NEXT_ONLY:
                 bottomBarPanel.add(Box.createRigidArea(new Dimension(30, 0)), BorderLayout.WEST);
                 bottomBarPanel.add(nextPictureButton, BorderLayout.EAST);

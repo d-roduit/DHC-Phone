@@ -27,7 +27,7 @@ public class AlbumController {
     private final Main main;
 
     public enum MoveDirection {
-        NEXT_ONLY, PREVIOUS_ONLY, PREVIOUS_NEXT
+        NONE, NEXT_ONLY, PREVIOUS_ONLY, PREVIOUS_NEXT
     }
 
     public AlbumController(AlbumModel albumModel, AlbumView albumView, GalleryController galleryController) {
@@ -67,10 +67,14 @@ public class AlbumController {
 
         MoveDirection moveDirection = MoveDirection.PREVIOUS_NEXT;
 
-        if (pictureModelIndex == 0) {
-            moveDirection = MoveDirection.NEXT_ONLY;
-        } else if (pictureModelIndex == pictureModelsList.size() - 1) {
-            moveDirection = MoveDirection.PREVIOUS_ONLY;
+        if (pictureModelsList.size() == 1) {
+            moveDirection = MoveDirection.NONE;
+        } else {
+            if (pictureModelIndex == 0) {
+                moveDirection = MoveDirection.NEXT_ONLY;
+            } else if (pictureModelIndex == pictureModelsList.size() - 1) {
+                moveDirection = MoveDirection.PREVIOUS_ONLY;
+            }
         }
 
         // Create pictureView and show it with CardLayout
@@ -152,9 +156,7 @@ public class AlbumController {
                         // Update the view to display the copied files.
                         PictureModel pictureModel = new PictureModel(selectedFile.getName(), albumName);
 
-                        albumView.addPictureLabel(pictureModel);
-
-                        initListeners();
+                        albumModel.addPicture(pictureModel);
 
                     } catch (IOException e) {
                         System.err.println("Copying files failed.");
@@ -162,6 +164,10 @@ public class AlbumController {
                     }
                 }
             }
+
+            // Update the view after adding all the picturePreviews
+            updateAlbumView(albumModel);
+
         } else {
             System.out.println("No files have been chosen.");
         }
@@ -184,20 +190,23 @@ public class AlbumController {
         albumModel.deletePicture(pictureModelToDelete);
         albumModel.updateThumbnail();
 
-        // Remove ancient album view from main.
-        main.remove(albumView);
-
-        // Create a new album view.
-        albumView = new AlbumView(albumModel);
-
-        // Add the new gallery view to main.
-        main.add(albumView, String.valueOf(albumView.hashCode()));
-
-        // Add the events on the albumPanels
-        initListeners();
+        // Update the view
+        updateAlbumView(albumModel);
 
         // Show the galleryView
         displayAlbumView();
+    }
+
+    private void updateAlbumView(AlbumModel albumModel) {
+        main.remove(albumView);
+
+        albumView = new AlbumView(albumModel);
+
+        main.add(albumView, String.valueOf(albumView.hashCode()));
+
+        main.getCardLayout().show(main, String.valueOf(albumView.hashCode()));
+
+        initListeners();
     }
 
     public AlbumView getAlbumView() {

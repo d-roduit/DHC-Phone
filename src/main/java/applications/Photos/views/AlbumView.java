@@ -95,7 +95,7 @@ public class AlbumView extends JPanel {
         return picturesScrollPane;
     }
 
-    public void addPictureLabel(PictureModel pictureModel) {
+    private void addPictureLabel(PictureModel pictureModel) {
         JPanel pictureLabelPanel = createPictureLabelPanel(pictureModel);
 
         pictureLabelPanelMap.put(pictureLabelPanel, pictureModel);

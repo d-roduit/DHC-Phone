@@ -1,18 +1,21 @@
 package applications.Photos.views;
 
-import applications.Photos.AlbumPreviewPanel;
 import applications.Photos.ComponentUtility;
 import applications.Photos.IconsUtility;
 import applications.Photos.models.AlbumModel;
 import applications.Photos.models.GalleryModel;
+import ch.dhc.ImageLabel;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import jiconfont.swing.IconFontSwing;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.ArrayList;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GalleryView extends JPanel {
 
@@ -22,7 +25,7 @@ public class GalleryView extends JPanel {
     private JScrollPane albumsScrollPane;
     private JPanel albumsPanel;
     private JButton createAlbumButton;
-    private List<AlbumPreviewPanel> albumPreviewPanelList = new ArrayList<AlbumPreviewPanel>();
+    private Map<JPanel, AlbumModel> panelAlbumModelMap = new HashMap<JPanel, AlbumModel>();
 
     public GalleryView(GalleryModel galleryModel) {
         this.galleryModel = galleryModel;
@@ -68,7 +71,9 @@ public class GalleryView extends JPanel {
         albumsPanel.add(ComponentUtility.createSeparator());
 
         for (AlbumModel albumModel: albumModels) {
-            addAlbumPreview(albumModel);
+            JPanel albumPreviewPanel = addAlbumPreview(albumModel);
+
+            panelAlbumModelMap.put(albumPreviewPanel, albumModel);
         }
 
         JScrollPane albumsScrollPane = new JScrollPane(albumsPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -80,16 +85,82 @@ public class GalleryView extends JPanel {
         return albumsScrollPane;
     }
 
-    public AlbumPreviewPanel addAlbumPreview(AlbumModel albumModel) {
-        AlbumPreviewPanel albumPreviewPanel = new AlbumPreviewPanel(albumModel);
-
-        albumPreviewPanelList.add(albumPreviewPanel);
+    private JPanel addAlbumPreview(AlbumModel albumModel) {
+        JPanel albumPreviewPanel = createAlbumPreviewPanel(albumModel);
 
         albumsPanel.add(albumPreviewPanel);
         albumsPanel.add(ComponentUtility.createSeparator());
 
-        albumsPanel.revalidate();
-        albumsPanel.repaint();
+        return albumPreviewPanel;
+    }
+
+    private JPanel createAlbumPreviewPanel(AlbumModel albumModel) {
+        JPanel albumPreviewPanel = new JPanel();
+
+        Dimension dimension = new Dimension(345, 60);
+
+        albumPreviewPanel.setOpaque(false);
+        albumPreviewPanel.setLayout(new BorderLayout());
+        albumPreviewPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        albumPreviewPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        albumPreviewPanel.setMinimumSize(dimension);
+        albumPreviewPanel.setPreferredSize(dimension);
+        albumPreviewPanel.setMaximumSize(dimension);
+
+        // Création de la thumbnail s'il existe une image dans l'album.
+        ImageLabel thumbnailImageLabel = null;
+
+        try {
+            BufferedImage thumbnailImage = albumModel.getThumbnailImage();
+
+            if (thumbnailImage != null) {
+                thumbnailImageLabel = new ImageLabel(thumbnailImage);
+            }
+        } catch (IOException e) {
+            System.out.println("Exception levée : Création d'un panel de remplacement pour l'image.");
+            e.printStackTrace();
+        }
+
+        JPanel imageReplacementPanel = new JPanel();
+        imageReplacementPanel.setLayout(new BorderLayout());
+        Dimension imageReplacementPanelDimension = new Dimension(60, 0);
+        imageReplacementPanel.setOpaque(true);
+        imageReplacementPanel.setBackground(Color.GRAY);
+        imageReplacementPanel.setPreferredSize(imageReplacementPanelDimension);
+        imageReplacementPanel.setMaximumSize(imageReplacementPanelDimension);
+
+        Icon imageReplacementIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.FILTER, 24, Color.BLACK);
+        JLabel imageReplacementLabel = new JLabel(imageReplacementIcon);
+
+        JPanel albumNamePanel = new JPanel();
+        albumNamePanel.setLayout(new BorderLayout());
+        albumNamePanel.setOpaque(false);
+        albumNamePanel.setBorder(new EmptyBorder(0, 15, 0, 0));
+
+        JLabel albumName = new JLabel(albumModel.getName());
+        albumName.setHorizontalAlignment(SwingConstants.LEFT);
+
+        JPanel albumNbPicturesPanel = new JPanel();
+        albumNbPicturesPanel.setLayout(new BorderLayout());
+        albumNbPicturesPanel.setOpaque(false);
+        albumNbPicturesPanel.setBorder(new EmptyBorder(0, 0, 0, 15));
+
+        JLabel albumNbPictures = new JLabel(String.valueOf(albumModel.getNbPictures()));
+        albumNbPictures.setHorizontalAlignment(SwingConstants.LEFT);
+
+        albumNamePanel.add(albumName, BorderLayout.WEST);
+
+        albumNbPicturesPanel.add(albumNbPictures, BorderLayout.EAST);
+
+        if (thumbnailImageLabel != null) {
+            albumPreviewPanel.add(thumbnailImageLabel, BorderLayout.WEST);
+        } else {
+            imageReplacementPanel.add(imageReplacementLabel, BorderLayout.CENTER);
+            albumPreviewPanel.add(imageReplacementPanel, BorderLayout.WEST);
+        }
+
+        albumPreviewPanel.add(albumNamePanel, BorderLayout.CENTER);
+        albumPreviewPanel.add(albumNbPicturesPanel, BorderLayout.EAST);
 
         return albumPreviewPanel;
     }
@@ -102,7 +173,7 @@ public class GalleryView extends JPanel {
         return createAlbumButton;
     }
 
-    public List<AlbumPreviewPanel> getAlbumPreviewPanelList() {
-        return albumPreviewPanelList;
+    public Map<JPanel, AlbumModel> getPanelAlbumModelMap() {
+        return panelAlbumModelMap;
     }
 }

@@ -1,6 +1,5 @@
 package applications.Photos.controllers;
 
-import applications.Photos.AlbumPreviewPanel;
 import applications.Photos.Main;
 import applications.Photos.models.AlbumModel;
 import applications.Photos.models.GalleryModel;
@@ -30,7 +29,10 @@ public class GalleryController {
 
     private void initListeners() {
         galleryView.getCreateAlbumButton().addActionListener(e -> createAlbum());
-        galleryView.getAlbumPreviewPanelList().forEach(panel -> panel.addMouseListener(albumPreviewPanelMouseListener(panel)));
+
+        galleryView.getPanelAlbumModelMap().forEach((albumPreviewPanel, albumModel) -> {
+            albumPreviewPanel.addMouseListener(albumPreviewPanelMouseListener(albumModel));
+        });
     }
 
     public void deleteAlbum(AlbumController albumController) {
@@ -45,20 +47,8 @@ public class GalleryController {
         // Update the model.
         galleryModel.deleteAlbum(albumModelToDelete);
 
-        // Remove ancient gallery view from main.
-        main.remove(galleryView);
-
-        // Create a new gallery view.
-        galleryView = new GalleryView(galleryModel);
-
-        // Add the new gallery view to main.
-        main.add(galleryView, String.valueOf(galleryView.hashCode()));
-
-        // Add the events on the albumPanels
-        initListeners();
-
-        // Show the galleryView
-        displayGalleryView();
+        // Refreshes the gallery view
+        updateGalleryView(galleryModel);
     }
 
     private void createAlbum() {
@@ -82,9 +72,7 @@ public class GalleryController {
 
                     AlbumModel newAlbumModel = galleryModel.createAlbum(albumName);
 
-                    AlbumPreviewPanel albumPreviewPanelAdded = galleryView.addAlbumPreview(newAlbumModel);
-
-                    albumPreviewPanelAdded.addMouseListener(albumPreviewPanelMouseListener(albumPreviewPanelAdded));
+                    updateGalleryView(galleryModel);
                 } else {
                     JOptionPane.showMessageDialog(
                             main,
@@ -97,27 +85,46 @@ public class GalleryController {
         }
     }
 
-    private MouseAdapter albumPreviewPanelMouseListener(AlbumPreviewPanel albumPreviewPanel) {
+    private MouseAdapter albumPreviewPanelMouseListener(AlbumModel albumModel) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                displayAlbum(albumPreviewPanel);
+                displayAlbum(albumModel);
             }
         };
     }
 
-    private void displayAlbum(AlbumPreviewPanel albumPreviewPanel) {
-        System.out.println("album '" + albumPreviewPanel.getAlbumModel().getName() + "' cliqué");
+    private void displayAlbum(AlbumModel albumModel) {
+        System.out.println("Album '" + albumModel.getName() + "' cliqué");
 
         // Create albumView and show it with CardLayout
-        AlbumModel albumModel = albumPreviewPanel.getAlbumModel();
         AlbumView albumView = new AlbumView(albumModel);
         AlbumController albumController = new AlbumController(albumModel, albumView, this);
 
         main.add(albumView, String.valueOf(albumView.hashCode()));
 
         main.getCardLayout().show(main, String.valueOf(albumView.hashCode()));
+    }
+
+    private void updateGalleryView(GalleryModel galleryModel) {
+        // Remove ancient gallery view from main.
+        main.remove(galleryView);
+
+        // Create a new gallery view.
+        galleryView = new GalleryView(galleryModel);
+
+        // Add the new gallery view to main.
+        main.add(galleryView, String.valueOf(galleryView.hashCode()));
+
+        main.revalidate();
+        main.repaint();
+
+        // Show the galleryView
+        displayGalleryView();
+
+        // Add the events on the albumPanels
+        initListeners();
     }
 
     public void displayGalleryView() {

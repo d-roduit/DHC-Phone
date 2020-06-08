@@ -16,14 +16,6 @@ public class PictureModel {
 
     }
 
-    public void displayRealSizePicture() {
-
-    }
-
-    public void displayThumbnail() {
-
-    }
-
     public String getName() {
         return name;
     }

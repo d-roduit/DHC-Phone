@@ -2,6 +2,8 @@ package applications.Photos.views;
 
 import applications.Photos.ComponentUtility;
 import applications.Photos.IconsUtility;
+import applications.Photos.ThumbnailGenerator;
+import applications.Photos.WrapLayout;
 import applications.Photos.models.AlbumModel;
 import applications.Photos.models.GalleryModel;
 import ch.dhc.ImageLabel;
@@ -23,7 +25,6 @@ public class GalleryView extends JPanel {
 
     private JPanel topBarPanel;
     private JScrollPane albumsScrollPane;
-    private JPanel albumsPanel;
     private JButton createAlbumButton;
     private Map<JPanel, AlbumModel> panelAlbumModelMap = new HashMap<JPanel, AlbumModel>();
 
@@ -61,17 +62,16 @@ public class GalleryView extends JPanel {
     }
 
     private JScrollPane createAlbumsScrollPane() {
-        albumsPanel = new JPanel();
+        JPanel albumsPanel = new JPanel();
         albumsPanel.setOpaque(false);
-        albumsPanel.setLayout(new BoxLayout(albumsPanel, BoxLayout.Y_AXIS));
-        albumsPanel.setPreferredSize(null);
+        albumsPanel.setLayout(new WrapLayout(WrapLayout.LEFT, 10, 15));
 
         List<AlbumModel> albumModels = galleryModel.getAlbumModels();
 
-        albumsPanel.add(ComponentUtility.createSeparator());
-
         for (AlbumModel albumModel: albumModels) {
-            JPanel albumPreviewPanel = addAlbumPreview(albumModel);
+            JPanel albumPreviewPanel = createAlbumPreviewPanel(albumModel);
+
+            albumsPanel.add(albumPreviewPanel);
 
             panelAlbumModelMap.put(albumPreviewPanel, albumModel);
         }
@@ -79,33 +79,19 @@ public class GalleryView extends JPanel {
         JScrollPane albumsScrollPane = new JScrollPane(albumsPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         albumsScrollPane.setOpaque(false);
         albumsScrollPane.getViewport().setOpaque(false);
-        albumsScrollPane.setBorder(new EmptyBorder(20, 0, 0, 0));
+        albumsScrollPane.setBorder(new EmptyBorder(20, 3, 0, 0));
+        albumsScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
         albumsScrollPane.getVerticalScrollBar().setUnitIncrement(10); // Change the scrolling speed
 
         return albumsScrollPane;
     }
 
-    private JPanel addAlbumPreview(AlbumModel albumModel) {
-        JPanel albumPreviewPanel = createAlbumPreviewPanel(albumModel);
-
-        albumsPanel.add(albumPreviewPanel);
-        albumsPanel.add(ComponentUtility.createSeparator());
-
-        return albumPreviewPanel;
-    }
-
     private JPanel createAlbumPreviewPanel(AlbumModel albumModel) {
         JPanel albumPreviewPanel = new JPanel();
-
-        Dimension dimension = new Dimension(345, 60);
 
         albumPreviewPanel.setOpaque(false);
         albumPreviewPanel.setLayout(new BorderLayout());
         albumPreviewPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        albumPreviewPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        albumPreviewPanel.setMinimumSize(dimension);
-        albumPreviewPanel.setPreferredSize(dimension);
-        albumPreviewPanel.setMaximumSize(dimension);
 
         // Création de la thumbnail s'il existe une image dans l'album.
         ImageLabel thumbnailImageLabel = null;
@@ -121,52 +107,34 @@ public class GalleryView extends JPanel {
             e.printStackTrace();
         }
 
+        Dimension imageReplacementPanelDimension = ThumbnailGenerator.getThumbnailDimension();
         JPanel imageReplacementPanel = new JPanel();
         imageReplacementPanel.setLayout(new BorderLayout());
-        Dimension imageReplacementPanelDimension = new Dimension(60, 0);
         imageReplacementPanel.setOpaque(true);
         imageReplacementPanel.setBackground(Color.GRAY);
         imageReplacementPanel.setPreferredSize(imageReplacementPanelDimension);
         imageReplacementPanel.setMaximumSize(imageReplacementPanelDimension);
 
-        Icon imageReplacementIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.FILTER, 24, Color.BLACK);
+        Icon imageReplacementIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.FILTER, 35, Color.BLACK);
         JLabel imageReplacementLabel = new JLabel(imageReplacementIcon);
 
-        JPanel albumNamePanel = new JPanel();
-        albumNamePanel.setLayout(new BorderLayout());
-        albumNamePanel.setOpaque(false);
-        albumNamePanel.setBorder(new EmptyBorder(0, 15, 0, 0));
+        JLabel albumNameLabel = new JLabel(albumModel.getName());
+        albumNameLabel.setHorizontalAlignment(SwingConstants.LEFT);
 
-        JLabel albumName = new JLabel(albumModel.getName());
-        albumName.setHorizontalAlignment(SwingConstants.LEFT);
-
-        JPanel albumNbPicturesPanel = new JPanel();
-        albumNbPicturesPanel.setLayout(new BorderLayout());
-        albumNbPicturesPanel.setOpaque(false);
-        albumNbPicturesPanel.setBorder(new EmptyBorder(0, 0, 0, 15));
-
-        JLabel albumNbPictures = new JLabel(String.valueOf(albumModel.getNbPictures()));
-        albumNbPictures.setHorizontalAlignment(SwingConstants.LEFT);
-
-        albumNamePanel.add(albumName, BorderLayout.WEST);
-
-        albumNbPicturesPanel.add(albumNbPictures, BorderLayout.EAST);
+        JLabel albumNbPicturesLabel = new JLabel(String.valueOf(albumModel.getNbPictures()));
+        albumNbPicturesLabel.setHorizontalAlignment(SwingConstants.LEFT);
 
         if (thumbnailImageLabel != null) {
-            albumPreviewPanel.add(thumbnailImageLabel, BorderLayout.WEST);
+            albumPreviewPanel.add(thumbnailImageLabel, BorderLayout.NORTH);
         } else {
             imageReplacementPanel.add(imageReplacementLabel, BorderLayout.CENTER);
-            albumPreviewPanel.add(imageReplacementPanel, BorderLayout.WEST);
+            albumPreviewPanel.add(imageReplacementPanel, BorderLayout.NORTH);
         }
 
-        albumPreviewPanel.add(albumNamePanel, BorderLayout.CENTER);
-        albumPreviewPanel.add(albumNbPicturesPanel, BorderLayout.EAST);
+        albumPreviewPanel.add(albumNameLabel, BorderLayout.CENTER);
+        albumPreviewPanel.add(albumNbPicturesLabel, BorderLayout.SOUTH);
 
         return albumPreviewPanel;
-    }
-
-    public GalleryModel getGalleryModel() {
-        return galleryModel;
     }
 
     public JButton getCreateAlbumButton() {

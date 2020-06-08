@@ -1,12 +1,14 @@
 package applications.Notes.views;
 
+import applications.Notes.models.FolderModel;
+import applications.Notes.models.NoteModel;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import jiconfont.swing.IconFontSwing;
+import java.util.List;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 /**
  * <b>FolderPanel is the class that represents the notes list of a folder.</b>
@@ -17,11 +19,12 @@ import java.awt.event.ActionListener;
  */
 public class FolderView extends JPanel {
 
+    private final FolderModel folderModel;
     private Color mainTextColor = Color.WHITE;
     private Color secondaryTextColor = new Color(217, 169, 25);
-    private JPanel topLanePanel = createTopLanePanel();
-    private JScrollPane notesListScrollPane = createNotesListScrollPane();
-    private JPanel botLanePanel = createBotLanePanel();
+    private JPanel topLanePanel;
+    private JScrollPane notesListScrollPane;
+    private JPanel botLanePanel;
     private JButton addNoteButton;
     private JButton deleteFolderButton;
     private JButton returnToFolderListButton;
@@ -29,9 +32,15 @@ public class FolderView extends JPanel {
     /**
      * FolderPanel constructor.
      */
-    public FolderView() {
+    public FolderView(FolderModel folderModel) {
+        this.folderModel = folderModel;
+
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
+
+        topLanePanel = createTopLanePanel();
+        notesListScrollPane = createNotesListScrollPane();
+        botLanePanel = createBotLanePanel();
 
         add(topLanePanel, BorderLayout.NORTH);
         add(notesListScrollPane, BorderLayout.CENTER);
@@ -120,27 +129,33 @@ public class FolderView extends JPanel {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setOpaque(false);
 
-        for(int i = 0; i < 15; i++) {
-            panel.add(createNotePanel("Homework"));
-            JSeparator separator = new JSeparator();
-            separator.setPreferredSize(new Dimension(342, 2));
-            separator.setMaximumSize(new Dimension(separator.getPreferredSize()));
-            separator.setBackground(new Color(49, 49, 49));
-            separator.setForeground(new Color(49, 49, 49));
-            panel.add(separator);
-        }
+        try {
 
+            List<NoteModel> noteModels = folderModel.getNotes();
+
+            for (NoteModel noteModel : noteModels) {
+                panel.add(createNotePanel(noteModel));
+                JSeparator separator = new JSeparator();
+                separator.setPreferredSize(new Dimension(342, 2));
+                separator.setMaximumSize(new Dimension(separator.getPreferredSize()));
+                separator.setBackground(new Color(49, 49, 49));
+                separator.setForeground(new Color(49, 49, 49));
+                panel.add(separator);
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
         return panel;
     }
 
-    private JPanel createNotePanel(String name) {
+    private JPanel createNotePanel(NoteModel noteModel) {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setOpaque(false);
         panel.setPreferredSize(new Dimension(320, 40));
         panel.setMaximumSize(new Dimension(panel.getPreferredSize()));
 
-        JLabel noteTitle = new JLabel(name);
+        JLabel noteTitle = new JLabel(noteModel.getNoteTitle());
         noteTitle.setForeground(mainTextColor);
 
         Icon goToNoteIcon = IconFontSwing.buildIcon(FontAwesome.ANGLE_RIGHT, 20, mainTextColor);
@@ -154,15 +169,15 @@ public class FolderView extends JPanel {
         return panel;
     }
 
-    public void addAddNoteListener(ActionListener addNoteListener) {
-        addNoteButton.addActionListener(addNoteListener);
+    public JButton getAddNoteButton() {
+        return addNoteButton;
     }
 
-    public void addDeleteFolderListener(ActionListener deleteFolderListener) {
-        deleteFolderButton.addActionListener(deleteFolderListener);
+    public JButton getDeleteFolderButton() {
+        return deleteFolderButton;
     }
 
-    public void addReturnToFolderListListener(ActionListener returnToFolderList) {
-        returnToFolderListButton.addActionListener(returnToFolderList);
+    public JButton getReturnToFolderListButton() {
+        return returnToFolderListButton;
     }
 }

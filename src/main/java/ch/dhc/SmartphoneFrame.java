@@ -44,13 +44,21 @@ class SmartphoneFrame extends JFrame {
     private JButton lockButton;
 
     /**
-     * The timer for handling button pressed event.
+     * The action listener for handling lock button clicked event.
      *
-     * @see #createPressedTimer()
+     * @see #createLockButton()
+     * @see ScreenPanel#toggleScreen()
+     */
+    private ActionListener toggleScreenActionListener;
+
+    /**
+     * The timer for handling lock button pressed event.
+     *
+     * @see #createPressedTimer(int, ActionListener)
      * @see #createLockButton()
      * @see #turnOff()
      */
-    private final Timer pressedTimer = createPressedTimer();
+    private Timer pressedTimer;
 
     /**
      * SmartphoneFrame constructor.
@@ -118,7 +126,9 @@ class SmartphoneFrame extends JFrame {
      * @see JButton
      * @see SmartphoneFrame#screenPanel
      * @see ScreenPanel#toggleScreen()
+     * @see #createPressedTimer(int, ActionListener)
      * @see SmartphoneFrame#turnOff()
+     * @see JOptionPane#showConfirmDialog(Component, Object, String, int) 
      */
     public JButton createLockButton() {
         lockButton = new JButton();
@@ -127,19 +137,48 @@ class SmartphoneFrame extends JFrame {
         lockButton.setBorderPainted(false);
         lockButton.setFocusPainted(false);
         lockButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        toggleScreenActionListener = actionEvent -> screenPanel.toggleScreen();
 
-        lockButton.addActionListener(actionEvent -> screenPanel.toggleScreen());
+        lockButton.addActionListener(toggleScreenActionListener);
+
+        ActionListener taskPerformer = (e) -> {
+            if (lockButton.getModel().isPressed()) {
+
+                lockButton.removeActionListener(toggleScreenActionListener);
+
+                int turnOffOption = JOptionPane.showConfirmDialog(
+                        SmartphoneFrame.this,
+                        "Éteindre le smartphone ?",
+                        "Smartphone",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE
+                );
+
+                if (turnOffOption == JOptionPane.YES_OPTION) {
+                    turnOff();
+                } else {
+                    pressedTimer.stop();
+
+                    lockButton.addActionListener(toggleScreenActionListener);
+                }
+            }
+        };
+
+        pressedTimer = createPressedTimer(4000, taskPerformer);
 
         lockButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
-                turnOff();
+
+                pressedTimer.start();
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
+
                 if (pressedTimer.isRunning()) {
                     pressedTimer.stop();
                 }
@@ -199,24 +238,16 @@ class SmartphoneFrame extends JFrame {
      *
      * @return The timer.
      *
-     * @see SmartphoneFrame#lockButton
-     * @see ApplicationManager#closeAllApplications()
+     * @param delay Number of milliseconds before firing the first event and then delay between each event firing.
+     * @param actionListener The task to execute when the delay is reached.
+     *
+     * @see #createLockButton()
+     * @see #lockButton
      * @see Timer
+     * @see #pressedTimer
      */
-    private Timer createPressedTimer() {
-        // nb of milliseconds before firing the first event and then delay between each event firing
-        int delay = 4000;
-
-        ActionListener taskPerformer = new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                if (lockButton.getModel().isPressed()) {
-                    ApplicationManager.getInstance().closeAllApplications();
-                    dispose();
-                }
-            }
-        };
-
-        Timer pressedTimer = new Timer(delay, taskPerformer);
+    private Timer createPressedTimer(int delay, ActionListener actionListener) {
+        Timer pressedTimer = new Timer(delay, actionListener);
         pressedTimer.setRepeats(false);
 
         return pressedTimer;
@@ -226,9 +257,14 @@ class SmartphoneFrame extends JFrame {
      * Stops the applications and closes the program.
      *
      * @see #pressedTimer
+     * @see #lockButton
+     * @see #createLockButton()
+     * @see ApplicationManager#closeAllApplications()
+     * @see #dispose()
      */
     private void turnOff() {
-        pressedTimer.start();
+        ApplicationManager.getInstance().closeAllApplications();
+        dispose();
     }
 
     /**

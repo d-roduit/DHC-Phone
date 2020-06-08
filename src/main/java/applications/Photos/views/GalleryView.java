@@ -71,7 +71,9 @@ public class GalleryView extends JPanel {
         albumsPanel.add(ComponentUtility.createSeparator());
 
         for (AlbumModel albumModel: albumModels) {
-            addAlbumPreview(albumModel);
+            JPanel albumPreviewPanel = addAlbumPreview(albumModel);
+
+            panelAlbumModelMap.put(albumPreviewPanel, albumModel);
         }
 
         JScrollPane albumsScrollPane = new JScrollPane(albumsPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -83,16 +85,11 @@ public class GalleryView extends JPanel {
         return albumsScrollPane;
     }
 
-    public JPanel addAlbumPreview(AlbumModel albumModel) {
+    private JPanel addAlbumPreview(AlbumModel albumModel) {
         JPanel albumPreviewPanel = createAlbumPreviewPanel(albumModel);
-
-        panelAlbumModelMap.put(albumPreviewPanel, albumModel);
 
         albumsPanel.add(albumPreviewPanel);
         albumsPanel.add(ComponentUtility.createSeparator());
-
-        albumsPanel.revalidate();
-        albumsPanel.repaint();
 
         return albumPreviewPanel;
     }

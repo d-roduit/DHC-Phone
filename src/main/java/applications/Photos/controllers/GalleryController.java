@@ -47,20 +47,8 @@ public class GalleryController {
         // Update the model.
         galleryModel.deleteAlbum(albumModelToDelete);
 
-        // Remove ancient gallery view from main.
-        main.remove(galleryView);
-
-        // Create a new gallery view.
-        galleryView = new GalleryView(galleryModel);
-
-        // Add the new gallery view to main.
-        main.add(galleryView, String.valueOf(galleryView.hashCode()));
-
-        // Add the events on the albumPanels
-        initListeners();
-
-        // Show the galleryView
-        displayGalleryView();
+        // Refreshes the gallery view
+        updateGalleryView(galleryModel);
     }
 
     private void createAlbum() {
@@ -84,9 +72,7 @@ public class GalleryController {
 
                     AlbumModel newAlbumModel = galleryModel.createAlbum(albumName);
 
-                    JPanel albumPreviewPanelAdded = galleryView.addAlbumPreview(newAlbumModel);
-
-                    albumPreviewPanelAdded.addMouseListener(albumPreviewPanelMouseListener(newAlbumModel));
+                    updateGalleryView(galleryModel);
                 } else {
                     JOptionPane.showMessageDialog(
                             main,
@@ -119,6 +105,26 @@ public class GalleryController {
         main.add(albumView, String.valueOf(albumView.hashCode()));
 
         main.getCardLayout().show(main, String.valueOf(albumView.hashCode()));
+    }
+
+    private void updateGalleryView(GalleryModel galleryModel) {
+        // Remove ancient gallery view from main.
+        main.remove(galleryView);
+
+        // Create a new gallery view.
+        galleryView = new GalleryView(galleryModel);
+
+        // Add the new gallery view to main.
+        main.add(galleryView, String.valueOf(galleryView.hashCode()));
+
+        main.revalidate();
+        main.repaint();
+
+        // Show the galleryView
+        displayGalleryView();
+
+        // Add the events on the albumPanels
+        initListeners();
     }
 
     public void displayGalleryView() {

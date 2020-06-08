@@ -76,7 +76,7 @@ public class FolderView extends JPanel {
         returnToFolderListButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         returnToFolderListButton.setToolTipText("Go back to folders");
 
-        JLabel titleLabel = new JLabel("Notes");
+        JLabel titleLabel = new JLabel(folderModel.getFolderTitle());
         titleLabel.setForeground(mainTextColor);
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 25));

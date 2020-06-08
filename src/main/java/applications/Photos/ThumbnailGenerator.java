@@ -8,8 +8,8 @@ import java.io.IOException;
 
 public class ThumbnailGenerator {
 
-    private static int thumbnailWidth = 60;
-    private static int thumbnailHeight = 60;
+    private static int thumbnailWidth = 155;
+    private static int thumbnailHeight = 155;
     private static FileFormat fileFormat = FileFormat.JPG;
     private static boolean appendFileFormat = false;
 
@@ -101,6 +101,26 @@ public class ThumbnailGenerator {
         g2d.dispose();
 
         return thumbnail;
+    }
+
+    public static Dimension getThumbnailDimension() {
+        return new Dimension(thumbnailWidth, thumbnailHeight);
+    }
+
+    public static int getThumbnailWidth() {
+        return thumbnailWidth;
+    }
+
+    public static int getThumbnailHeight() {
+        return thumbnailHeight;
+    }
+
+    public static FileFormat getFileFormat() {
+        return fileFormat;
+    }
+
+    public static boolean hasAppendFileFormat() {
+        return appendFileFormat;
     }
 
     public static void setThumbnailWidth(int width) {

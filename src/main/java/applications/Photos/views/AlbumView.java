@@ -1,19 +1,16 @@
 package applications.Photos.views;
 
-import applications.Photos.ComponentUtility;
 import applications.Photos.IconsUtility;
 import applications.Photos.ThumbnailGenerator;
+import applications.Photos.WrapLayout;
 import applications.Photos.models.AlbumModel;
 import applications.Photos.models.PictureModel;
-import ch.dhc.Configuration;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import jiconfont.swing.IconFontSwing;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImagingOpException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,7 +22,6 @@ public class AlbumView extends JPanel {
 
     private final JPanel topBarPanel;
     private JScrollPane picturesScrollPane;
-    private JPanel picturesPanel;
     private JButton goBackButton;
     private JButton addPictureButton;
     private JButton deleteAlbumButton;
@@ -79,42 +75,36 @@ public class AlbumView extends JPanel {
     }
 
     private JScrollPane createPicturesScrollPane() {
-        picturesPanel = new JPanel();
+        JPanel picturesPanel = new JPanel();
         picturesPanel.setOpaque(false);
-        picturesPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-        picturesPanel.setPreferredSize(new Dimension(345, 500));
+        picturesPanel.setLayout(new WrapLayout(WrapLayout.LEFT, 5, 5));
 
         List<PictureModel> pictureModels = albumModel.getPictureModels();
 
         for (PictureModel pictureModel: pictureModels) {
-            addPictureLabel(pictureModel);
+            JLabel pictureLabel = createPictureLabel(pictureModel);
+
+            picturesPanel.add(pictureLabel);
+
+            labelToModelMap.put(pictureLabel, pictureModel);
         }
 
         JScrollPane picturesScrollPane = new JScrollPane(picturesPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         picturesScrollPane.setOpaque(false);
         picturesScrollPane.getViewport().setOpaque(false);
-        picturesScrollPane.setBorder(new EmptyBorder(20, 0, 0, 0));
+        picturesScrollPane.setBorder(new EmptyBorder(20, 3, 0, 0));
+        picturesScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
         picturesScrollPane.getVerticalScrollBar().setUnitIncrement(10); // Change the scrolling speed
 
         return picturesScrollPane;
     }
 
-    private void addPictureLabel(PictureModel pictureModel) {
-        JLabel pictureLabel = createPictureLabel(pictureModel);
-
-        labelToModelMap.put(pictureLabel, pictureModel);
-
-        picturesPanel.add(pictureLabel);
-
-//        picturesPanel.revalidate();
-//        picturesPanel.repaint();
-    }
-
     private JLabel createPictureLabel(PictureModel pictureModel) {
         JLabel pictureLabel = new JLabel();
+        pictureLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         try {
-            pictureLabel.setIcon(new ImageIcon(ThumbnailGenerator.generate(new File(pictureModel.getPath()), 108, 108)));
+            pictureLabel.setIcon(new ImageIcon(ThumbnailGenerator.generate(new File(pictureModel.getPath()), 106, 106)));
         } catch (IOException e) {
             e.printStackTrace();
         }

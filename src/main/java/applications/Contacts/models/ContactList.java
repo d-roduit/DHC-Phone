@@ -56,6 +56,24 @@ public class ContactList {
         this.contactList.add(new Contact(firstName, lastName, city, phoneNumber, email));
     }
 
+
+    /**
+     * modifyContact function will modify the contact with the information entered by the user.
+     *
+     */
+    public void modifyContact(Contact contact,String firstName,String lastName,String city,String phoneNumber,String email){
+        for(Contact cont : contactList) {
+            if(contact.getLastName()==(cont.getLastName())) {
+                contact.setFirstName(firstName);
+                contact.setLastName(lastName);
+                contact.setCity(city);
+                contact.setPhoneNumber(phoneNumber);
+                contact.setEmail(email);
+                break;
+            }
+        }
+    }
+
     /**
      * removeContact removes a contact from the contact list.
      *

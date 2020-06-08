@@ -5,10 +5,13 @@ import applications.Notes.models.NoteModel;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import jiconfont.swing.IconFontSwing;
+
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
 
 /**
  * <b>FolderPanel is the class that represents the notes list of a folder.</b>
@@ -25,9 +28,12 @@ public class FolderView extends JPanel {
     private JPanel topLanePanel;
     private JScrollPane notesListScrollPane;
     private JPanel botLanePanel;
+    private JPanel notePanel;
     private JButton addNoteButton;
     private JButton deleteFolderButton;
     private JButton returnToFolderListButton;
+    private JLabel folderTitleLabel;
+    private Map<JPanel, NoteModel> panelNoteModelMap = new HashMap<>();
 
     /**
      * FolderPanel constructor.
@@ -76,10 +82,11 @@ public class FolderView extends JPanel {
         returnToFolderListButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         returnToFolderListButton.setToolTipText("Go back to folders");
 
-        JLabel titleLabel = new JLabel(folderModel.getFolderTitle());
-        titleLabel.setForeground(mainTextColor);
-        titleLabel.setHorizontalAlignment(JLabel.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 25));
+        folderTitleLabel = new JLabel(folderModel.getFolderTitle());
+        folderTitleLabel.setForeground(mainTextColor);
+        folderTitleLabel.setHorizontalAlignment(JLabel.CENTER);
+        folderTitleLabel.setFont(new Font("Arial", Font.BOLD, 25));
+        folderTitleLabel.setCursor(new Cursor(Cursor.TEXT_CURSOR));
 
         Icon addNoteIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.ADD, 28, secondaryTextColor);
 
@@ -105,11 +112,14 @@ public class FolderView extends JPanel {
         eastPanel.add(addNoteButton);
         eastPanel.add(deleteFolderButton);
 
+        JLabel folderCreationDateLabel = new JLabel("       créé le "+folderModel.getFolderCreationDate());
+        folderCreationDateLabel.setFont(new Font("Arial", Font.ITALIC, 12));
+
         panel.add(Box.createRigidArea(new Dimension(0, 10)), BorderLayout.NORTH);
         panel.add(returnToFolderListButton, BorderLayout.WEST);
-        panel.add(titleLabel, BorderLayout.CENTER);
+        panel.add(folderTitleLabel, BorderLayout.CENTER);
         panel.add(eastPanel, BorderLayout.EAST);
-        panel.add(Box.createRigidArea(new Dimension(0, 10)), BorderLayout.SOUTH);
+        panel.add(folderCreationDateLabel, BorderLayout.SOUTH);
 
         return panel;
     }
@@ -134,7 +144,9 @@ public class FolderView extends JPanel {
             List<NoteModel> noteModels = folderModel.getNotes();
 
             for (NoteModel noteModel : noteModels) {
-                panel.add(createNotePanel(noteModel));
+                notePanel = createNotePanel(noteModel);
+                panel.add(notePanel);
+                panelNoteModelMap.put(notePanel, noteModel);
                 JSeparator separator = new JSeparator();
                 separator.setPreferredSize(new Dimension(342, 2));
                 separator.setMaximumSize(new Dimension(separator.getPreferredSize()));
@@ -154,6 +166,7 @@ public class FolderView extends JPanel {
         panel.setOpaque(false);
         panel.setPreferredSize(new Dimension(320, 40));
         panel.setMaximumSize(new Dimension(panel.getPreferredSize()));
+        panel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         JLabel noteTitle = new JLabel(noteModel.getNoteTitle());
         noteTitle.setForeground(mainTextColor);
@@ -179,5 +192,13 @@ public class FolderView extends JPanel {
 
     public JButton getReturnToFolderListButton() {
         return returnToFolderListButton;
+    }
+
+    public JLabel getFolderTitleLabel() {
+        return folderTitleLabel;
+    }
+
+    public Map<JPanel, NoteModel> getPanelNoteModelMap() {
+        return panelNoteModelMap;
     }
 }

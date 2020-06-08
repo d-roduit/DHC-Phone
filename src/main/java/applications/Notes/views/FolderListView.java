@@ -8,7 +8,9 @@ import jiconfont.swing.IconFontSwing;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <b>FolderListPanel is the class that represents the folders list.</b>
@@ -26,6 +28,7 @@ public class FolderListView extends JPanel {
     private JScrollPane folderListScrollPane;
     private JPanel botLanePanel;
     private JButton addFolderButton;
+    private Map<JPanel, FolderModel> panelFolderModelMap = new HashMap<>();
 
 
     /**
@@ -105,10 +108,12 @@ public class FolderListView extends JPanel {
 
         try {
 
-            FolderModel[] folderModels = folderListModel.getFolderModels();
+            List<FolderModel> folderModels = folderListModel.getFolderModels();
 
             for (FolderModel folderModel : folderModels) {
-                panel.add(createFolderPanel(folderModel));
+                JPanel folderPanel = createFolderPanel(folderModel);
+                panel.add(folderPanel);
+                panelFolderModelMap.put(folderPanel, folderModel);
                 JSeparator separator = new JSeparator();
                 separator.setPreferredSize(new Dimension(350, 2));
                 separator.setMaximumSize(new Dimension(separator.getPreferredSize()));
@@ -128,6 +133,7 @@ public class FolderListView extends JPanel {
         panel.setOpaque(false);
         panel.setPreferredSize(new Dimension(320, 40));
         panel.setMaximumSize(new Dimension(panel.getPreferredSize()));
+        panel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         JPanel westPanel = new JPanel();
         westPanel.setOpaque(false);
@@ -142,8 +148,8 @@ public class FolderListView extends JPanel {
         JLabel folderName = new JLabel(folderModel.getFolderTitle());
         folderName.setForeground(mainTextColor);
 
-//        JLabel folderNbNotes = new JLabel(nbNotes+"   ");
-//        folderNbNotes.setForeground(mainTextColor);
+        JLabel folderNbNotes = new JLabel(folderModel.getNotes().size() + "   ");
+        folderNbNotes.setForeground(mainTextColor);
 
         Icon angleIcon = IconFontSwing.buildIcon(FontAwesome.ANGLE_RIGHT, 24, secondaryTextColor);
 
@@ -152,7 +158,7 @@ public class FolderListView extends JPanel {
         westPanel.add(folderLabel);
         westPanel.add(folderName);
 
-//        eastPanel.add(folderNbNotes, BorderLayout.WEST);
+        eastPanel.add(folderNbNotes, BorderLayout.WEST);
         eastPanel.add(angleLabel, BorderLayout.CENTER);
 
         panel.add(westPanel, BorderLayout.WEST);
@@ -161,7 +167,11 @@ public class FolderListView extends JPanel {
         return panel;
     }
 
-    public void addAddFolderListener(ActionListener addFolderListener) {
-        addFolderButton.addActionListener(addFolderListener);
+    public Map<JPanel, FolderModel> getPanelFolderModelMap() {
+        return panelFolderModelMap;
+    }
+
+    public JButton getAddFolderButton() {
+        return addFolderButton;
     }
 }

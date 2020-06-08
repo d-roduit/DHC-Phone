@@ -42,13 +42,13 @@ public class AlbumController {
     private void initListeners() {
         albumView.getGoBackButton().addActionListener(e -> goBack());
         albumView.getDeleteAlbumButton().addActionListener(e -> deleteAlbum());
-        albumView.getPictureLabelPanelMap().forEach((pictureLabelPanel, pictureModel) -> {
-            pictureLabelPanel.addMouseListener(pictureLabelPanelMouseListener(pictureModel));
+        albumView.getLabelToModelMap().forEach((pictureLabel, pictureModel) -> {
+            pictureLabel.addMouseListener(pictureLabelMouseListener(pictureModel));
         });
         albumView.getAddPictureButton().addActionListener(e -> addPictures());
     }
 
-    private MouseAdapter pictureLabelPanelMouseListener(PictureModel pictureModel) {
+    private MouseAdapter pictureLabelMouseListener(PictureModel pictureModel) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

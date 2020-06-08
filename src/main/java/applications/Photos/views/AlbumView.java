@@ -2,14 +2,20 @@ package applications.Photos.views;
 
 import applications.Photos.ComponentUtility;
 import applications.Photos.IconsUtility;
+import applications.Photos.ThumbnailGenerator;
 import applications.Photos.models.AlbumModel;
 import applications.Photos.models.PictureModel;
+import ch.dhc.Configuration;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import jiconfont.swing.IconFontSwing;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImagingOpException;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,7 +29,7 @@ public class AlbumView extends JPanel {
     private JButton goBackButton;
     private JButton addPictureButton;
     private JButton deleteAlbumButton;
-    HashMap<JPanel, PictureModel> pictureLabelPanelMap = new HashMap<JPanel, PictureModel>();
+    HashMap<JLabel, PictureModel> labelToModelMap = new HashMap<JLabel, PictureModel>();
 
     public AlbumView(AlbumModel albumModel) {
         this.albumModel = albumModel;
@@ -75,12 +81,10 @@ public class AlbumView extends JPanel {
     private JScrollPane createPicturesScrollPane() {
         picturesPanel = new JPanel();
         picturesPanel.setOpaque(false);
-        picturesPanel.setLayout(new BoxLayout(picturesPanel, BoxLayout.Y_AXIS));
-        picturesPanel.setPreferredSize(null);
+        picturesPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+        picturesPanel.setPreferredSize(new Dimension(345, 500));
 
         List<PictureModel> pictureModels = albumModel.getPictureModels();
-
-        picturesPanel.add(ComponentUtility.createSeparator());
 
         for (PictureModel pictureModel: pictureModels) {
             addPictureLabel(pictureModel);
@@ -96,43 +100,26 @@ public class AlbumView extends JPanel {
     }
 
     private void addPictureLabel(PictureModel pictureModel) {
-        JPanel pictureLabelPanel = createPictureLabelPanel(pictureModel);
+        JLabel pictureLabel = createPictureLabel(pictureModel);
 
-        pictureLabelPanelMap.put(pictureLabelPanel, pictureModel);
+        labelToModelMap.put(pictureLabel, pictureModel);
 
-        picturesPanel.add(pictureLabelPanel);
-        picturesPanel.add(ComponentUtility.createSeparator());
+        picturesPanel.add(pictureLabel);
 
-        picturesPanel.revalidate();
-        picturesPanel.repaint();
+//        picturesPanel.revalidate();
+//        picturesPanel.repaint();
     }
 
-    private JPanel createPictureLabelPanel(PictureModel pictureModel) {
-        Dimension dimension = new Dimension(345, 60);
+    private JLabel createPictureLabel(PictureModel pictureModel) {
+        JLabel pictureLabel = new JLabel();
 
-        JPanel pictureLabelPanel = new JPanel();
-        pictureLabelPanel.setOpaque(false);
-        pictureLabelPanel.setLayout(new BorderLayout());
-        pictureLabelPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        pictureLabelPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        pictureLabelPanel.setMinimumSize(dimension);
-        pictureLabelPanel.setPreferredSize(dimension);
-        pictureLabelPanel.setMaximumSize(dimension);
-        pictureLabelPanel.setBorder(new EmptyBorder(0, 20, 0, 15));
+        try {
+            pictureLabel.setIcon(new ImageIcon(ThumbnailGenerator.generate(new File(pictureModel.getPath()), 108, 108)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        JLabel pictureLabel = new JLabel(pictureModel.getName());
-
-        Icon goToImageIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.KEYBOARD_ARROW_RIGHT, 22, IconsUtility.iconsColor);
-        JLabel goToImageIconLabel = new JLabel(goToImageIcon);
-
-        pictureLabelPanel.add(pictureLabel, BorderLayout.WEST);
-        pictureLabelPanel.add(goToImageIconLabel, BorderLayout.EAST);
-
-        return pictureLabelPanel;
-    }
-
-    public AlbumModel getAlbumModel() {
-        return albumModel;
+        return pictureLabel;
     }
 
     public JButton getGoBackButton() {
@@ -147,7 +134,7 @@ public class AlbumView extends JPanel {
         return deleteAlbumButton;
     }
 
-    public HashMap<JPanel, PictureModel> getPictureLabelPanelMap() {
-        return pictureLabelPanelMap;
+    public HashMap<JLabel, PictureModel> getLabelToModelMap() {
+        return labelToModelMap;
     }
 }

@@ -4,12 +4,15 @@ import applications.Notes.models.FolderModel;
 import applications.Notes.models.NoteModel;
 import applications.Notes.views.FolderListView;
 import applications.Notes.views.FolderView;
+import applications.Notes.views.NoteView;
 import ch.dhc.Configuration;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.List;
 
@@ -42,6 +45,31 @@ public class FolderController {
         //Listener for going back to the FolderList.
         folderView.getReturnToFolderListButton().addActionListener(e ->
                 folderListController.updateFolderListView(folderListController.getFolderListModel()));
+
+        //Listener for going to a note view.
+        folderView.getPanelNoteModelMap().forEach((panel, noteModel) -> {
+            panel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    NoteView noteView = new NoteView(noteModel);
+                    NoteController noteController = new NoteController(noteModel, noteView, FolderController.this);
+                    folderListController.getMain().add(noteView, String.valueOf(noteView.hashCode()));
+                    folderListController.getMain().getCardLayout().show(folderListController.getMain(), String.valueOf(noteView.hashCode()));
+                }
+            });
+        });
+
+        //Listener for modifying the folder title.
+        folderView.getFolderTitleLabel().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(e.getClickCount() == 2) {
+                    super.mouseClicked(e);
+                    modifyFolderTitle();
+                }
+            }
+        });
 
     }
 
@@ -103,6 +131,37 @@ public class FolderController {
         }
     }
 
+    private void modifyFolderTitle() {
+        String newFolderTitle = (String) JOptionPane.showInputDialog(
+                folderListController.getMain(),
+                "Folder Title :",
+                "Folder Title",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                null,
+                folderModel.getFolderTitle()
+        );
+
+        try {
+            if(newFolderTitle != null) {
+                Configuration configuration = Configuration.getInstance();
+                ObjectMapper mapper = new ObjectMapper();
+                ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+                File folderFile = new File(configuration.getNotesFolderPath() + "folders.json");
+
+                folderModel.setFolderTitle(newFolderTitle);
+
+                List<FolderModel> folderModels = folderListController.getFolderListModel().getFolderModels();
+
+                writer.writeValue(folderFile, folderModels);
+
+                updateFolderView(folderModel);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void updateFolderView(FolderModel folderModel) {
         folderListController.getMain().remove(folderView);
         folderView = new FolderView(folderModel);
@@ -111,5 +170,17 @@ public class FolderController {
         folderListController.getMain().repaint();
         folderListController.getMain().getCardLayout().show(folderListController.getMain(), String.valueOf(folderView.hashCode()));
         initListeners();
+    }
+
+    public FolderModel getFolderModel() {
+        return folderModel;
+    }
+
+    public FolderView getFolderView() {
+        return folderView;
+    }
+
+    public FolderListController getFolderListController() {
+        return folderListController;
     }
 }

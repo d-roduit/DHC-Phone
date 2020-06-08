@@ -1,6 +1,8 @@
 package applications.Notes.models;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FolderModel {
@@ -21,14 +23,17 @@ public class FolderModel {
 
     public NoteModel addNote(String noteTitle) {
         System.out.println("Add note clicked");
-        NoteModel note = new NoteModel(noteTitle, "", "");
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        NoteModel note = new NoteModel(noteTitle, dateFormat.format(date), "");
         notes.add(note);
 
         return note;
     }
 
-    public void deleteNote() {
-
+    public void deleteNote(NoteModel noteModel) {
+        System.out.println("Delete note clicked : " + noteModel.getNoteTitle());
+        notes.remove(noteModel);
     }
 
     public void modifyFolder() {

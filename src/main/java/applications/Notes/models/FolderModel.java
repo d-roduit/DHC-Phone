@@ -19,8 +19,12 @@ public class FolderModel {
         this.notes = noteModels;
     }
 
-    public void addNote() {
+    public NoteModel addNote(String noteTitle) {
         System.out.println("Add note clicked");
+        NoteModel note = new NoteModel(noteTitle, "", "");
+        notes.add(note);
+
+        return note;
     }
 
     public void deleteNote() {

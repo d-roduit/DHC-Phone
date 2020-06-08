@@ -46,13 +46,7 @@ public class FolderListController {
         //Listener for adding a folder.
         this.folderListView.getAddFolderButton().addActionListener(e -> {
             createNewFolder();
-            main.remove(folderListView);
-            folderListView = new FolderListView(folderListModel);
-            main.add(folderListView, String.valueOf(folderListView.hashCode()));
-            main.revalidate();
-            main.repaint();
-            main.getCardLayout().show(main, String.valueOf(folderListView.hashCode()));
-            initListeners();
+            updateFolderListView(folderListModel);
         });
 
         //Listener for going to a folder view.
@@ -95,6 +89,16 @@ public class FolderListController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void updateFolderListView(FolderListModel folderListModel) {
+        main.remove(folderListView);
+        folderListView = new FolderListView(folderListModel);
+        main.add(folderListView, String.valueOf(folderListView.hashCode()));
+        main.revalidate();
+        main.repaint();
+        main.getCardLayout().show(main, String.valueOf(folderListView.hashCode()));
+        initListeners();
     }
 
     public FolderListModel getFolderListModel() {

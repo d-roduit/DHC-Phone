@@ -1,6 +1,5 @@
 package applications.Photos.controllers;
 
-import applications.Photos.AlbumPreviewPanel;
 import applications.Photos.Main;
 import applications.Photos.models.AlbumModel;
 import applications.Photos.models.GalleryModel;
@@ -30,7 +29,10 @@ public class GalleryController {
 
     private void initListeners() {
         galleryView.getCreateAlbumButton().addActionListener(e -> createAlbum());
-        galleryView.getAlbumPreviewPanelList().forEach(panel -> panel.addMouseListener(albumPreviewPanelMouseListener(panel)));
+
+        galleryView.getPanelAlbumModelMap().forEach((albumPreviewPanel, albumModel) -> {
+            albumPreviewPanel.addMouseListener(albumPreviewPanelMouseListener(albumModel));
+        });
     }
 
     public void deleteAlbum(AlbumController albumController) {
@@ -82,9 +84,9 @@ public class GalleryController {
 
                     AlbumModel newAlbumModel = galleryModel.createAlbum(albumName);
 
-                    AlbumPreviewPanel albumPreviewPanelAdded = galleryView.addAlbumPreview(newAlbumModel);
+                    JPanel albumPreviewPanelAdded = galleryView.addAlbumPreview(newAlbumModel);
 
-                    albumPreviewPanelAdded.addMouseListener(albumPreviewPanelMouseListener(albumPreviewPanelAdded));
+                    albumPreviewPanelAdded.addMouseListener(albumPreviewPanelMouseListener(newAlbumModel));
                 } else {
                     JOptionPane.showMessageDialog(
                             main,
@@ -97,21 +99,20 @@ public class GalleryController {
         }
     }
 
-    private MouseAdapter albumPreviewPanelMouseListener(AlbumPreviewPanel albumPreviewPanel) {
+    private MouseAdapter albumPreviewPanelMouseListener(AlbumModel albumModel) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                displayAlbum(albumPreviewPanel);
+                displayAlbum(albumModel);
             }
         };
     }
 
-    private void displayAlbum(AlbumPreviewPanel albumPreviewPanel) {
-        System.out.println("album '" + albumPreviewPanel.getAlbumModel().getName() + "' cliqué");
+    private void displayAlbum(AlbumModel albumModel) {
+        System.out.println("Album '" + albumModel.getName() + "' cliqué");
 
         // Create albumView and show it with CardLayout
-        AlbumModel albumModel = albumPreviewPanel.getAlbumModel();
         AlbumView albumView = new AlbumView(albumModel);
         AlbumController albumController = new AlbumController(albumModel, albumView, this);
 

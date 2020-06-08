@@ -158,16 +158,16 @@ public class AlbumController {
 
                         albumModel.addPicture(pictureModel);
 
-                        albumView.addPictureLabel(pictureModel);
-
-                        initListeners();
-
                     } catch (IOException e) {
                         System.err.println("Copying files failed.");
                         e.printStackTrace();
                     }
                 }
             }
+
+            // Update the view after adding all the picturePreviews
+            updateAlbumView(albumModel);
+
         } else {
             System.out.println("No files have been chosen.");
         }
@@ -190,20 +190,23 @@ public class AlbumController {
         albumModel.deletePicture(pictureModelToDelete);
         albumModel.updateThumbnail();
 
-        // Remove ancient album view from main.
-        main.remove(albumView);
-
-        // Create a new album view.
-        albumView = new AlbumView(albumModel);
-
-        // Add the new gallery view to main.
-        main.add(albumView, String.valueOf(albumView.hashCode()));
-
-        // Add the events on the albumPanels
-        initListeners();
+        // Update the view
+        updateAlbumView(albumModel);
 
         // Show the galleryView
         displayAlbumView();
+    }
+
+    private void updateAlbumView(AlbumModel albumModel) {
+        main.remove(albumView);
+
+        albumView = new AlbumView(albumModel);
+
+        main.add(albumView, String.valueOf(albumView.hashCode()));
+
+        main.getCardLayout().show(main, String.valueOf(albumView.hashCode()));
+
+        initListeners();
     }
 
     public AlbumView getAlbumView() {

@@ -37,7 +37,7 @@ public class GalleryModel {
 
         if (albumFolders != null) {
             for (File albumFolder: albumFolders) {
-                // Vérifie que le dossier ne soit pas le dossier des thumbnails.
+                // Check that the folder is not the thumbnails folder.
                 if (!albumFolder.getName().equals(thumbnailDirectoryName)) {
                     AlbumModel albumModel = new AlbumModel(albumFolder.getName());
 

@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.List;
 
 public class AlbumController {
@@ -142,6 +143,9 @@ public class AlbumController {
         // Files have been chosen and OK button clicked.
         if (fileChooserResponse == JFileChooser.APPROVE_OPTION) {
             File[] selectedFiles = fileChooser.getSelectedFiles();
+
+            // Sort the file names alphabetically
+            Arrays.sort(selectedFiles);
 
             String picturesFolderPath = Configuration.getInstance().getPicturesFolderPath();
             String albumName = albumModel.getName();

@@ -128,7 +128,7 @@ class SmartphoneFrame extends JFrame {
      * @see ScreenPanel#toggleScreen()
      * @see #createPressedTimer(int, ActionListener)
      * @see SmartphoneFrame#turnOff()
-     * @see JOptionPane#showConfirmDialog(Component, Object, String, int) 
+     * @see JOptionPane#showConfirmDialog(Component, Object, String, int)
      */
     public JButton createLockButton() {
         lockButton = new JButton();

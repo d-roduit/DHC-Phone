@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 public class ThumbnailGenerator {
 
@@ -17,6 +18,32 @@ public class ThumbnailGenerator {
     }
 
     public static void generate(File file, int thumbnailWidth, int thumbnailHeight, String outputPath, FileFormat fileFormat, boolean appendFileFormat) throws Exception {
+        BufferedImage thumbnail = (BufferedImage) generate(file, thumbnailWidth, thumbnailHeight);
+
+        String outputFilePath;
+
+        if (appendFileFormat) {
+            outputFilePath = outputPath + "." + fileFormat.name().toLowerCase();
+        } else {
+            outputFilePath = outputPath;
+        }
+
+        ImageIO.write(thumbnail, fileFormat.name(), new File(outputFilePath));
+    }
+
+    public static void generate(File file, String outputPath, FileFormat fileFormat, boolean appendFileFormat) throws Exception {
+        generate(file, thumbnailWidth, thumbnailHeight, outputPath, fileFormat, appendFileFormat);
+    }
+
+    public static void generate(File file, String outputPath, FileFormat fileFormat) throws Exception {
+        generate(file, thumbnailWidth, thumbnailHeight, outputPath, fileFormat, appendFileFormat);
+    }
+
+    public static void generate(File file, String outputPath) throws Exception {
+        generate(file, thumbnailWidth, thumbnailHeight, outputPath, fileFormat, appendFileFormat);
+    }
+
+    public static Image generate(File file, int thumbnailWidth, int thumbnailHeight) throws IOException {
         BufferedImage img = ImageIO.read(file);
 
         int bufferedImageType;
@@ -73,27 +100,7 @@ public class ThumbnailGenerator {
 
         g2d.dispose();
 
-        String outputFilePath;
-
-        if (appendFileFormat) {
-            outputFilePath = outputPath + "." + fileFormat.name().toLowerCase();
-        } else {
-            outputFilePath = outputPath;
-        }
-
-        ImageIO.write(thumbnail, fileFormat.name(), new File(outputFilePath));
-    }
-
-    public static void generate(File file, String outputPath, FileFormat fileFormat, boolean appendFileFormat) throws Exception {
-        generate(file, thumbnailWidth, thumbnailHeight, outputPath, fileFormat, appendFileFormat);
-    }
-
-    public static void generate(File file, String outputPath, FileFormat fileFormat) throws Exception {
-        generate(file, thumbnailWidth, thumbnailHeight, outputPath, fileFormat, appendFileFormat);
-    }
-
-    public static void generate(File file, String outputPath) throws Exception {
-        generate(file, thumbnailWidth, thumbnailHeight, outputPath, fileFormat, appendFileFormat);
+        return thumbnail;
     }
 
     public static void setThumbnailWidth(int width) {

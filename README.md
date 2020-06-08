@@ -1,5 +1,5 @@
 <div align="center">
-            <img src="dhc-phone.svg" align="center" height="150" alt="DHC Phone">
+            <a href="https://gitlab.com/d-roduit/projet-smartphone-dhc/"><img src="dhc-phone.svg" align="center" height="150" alt="DHC Phone"></a>
 
 #
 

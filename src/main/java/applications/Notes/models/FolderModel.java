@@ -1,13 +1,22 @@
 package applications.Notes.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FolderModel {
 
     private String folderTitle;
     private String folderCreationDate;
-//    private NoteModel[] notes;
+    private List<NoteModel> notes;
 
     public FolderModel() {
 
+    }
+
+    public FolderModel(String folderTitle, String folderCreationDate, List<NoteModel> noteModels) {
+        this.folderTitle = folderTitle;
+        this.folderCreationDate = folderCreationDate;
+        this.notes = noteModels;
     }
 
     public void addNote() {
@@ -37,12 +46,12 @@ public class FolderModel {
     public void setFolderCreationDate(String folderCreationDate) {
         this.folderCreationDate = folderCreationDate;
     }
-//
-//    public NoteModel[] getNotes() {
-//        return notes;
-//    }
-//
-//    public void setNotes(NoteModel[] notes) {
-//        this.notes = notes;
-//    }
+
+    public List<NoteModel> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<NoteModel> noteModels) {
+        this.notes = noteModels;
+    }
 }

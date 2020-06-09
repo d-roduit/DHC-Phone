@@ -1,11 +1,14 @@
 package applications.Contacts.views;
 
 import applications.Contacts.models.ContactList;
+import applications.Photos.ThumbnailGenerator;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import jiconfont.swing.IconFontSwing;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Add Contact View
@@ -28,13 +31,18 @@ public class ContactAddView extends JPanel {
     private JButton returnContactButton;
     private JButton photoButton;
 
+    private String imagePath;
+
     private JTextField firstNameContactString;
     private JTextField lastNameContactTextField;
     private JTextField cityContactTextField;
     private JTextField phoneNumberContactTextField;
     private JTextField emailContactTextField;
 
-    public ContactAddView() {
+    public ContactAddView(String imagePath) {
+
+        this.imagePath = imagePath;
+
         this.topGridLayoutPanel = createTopGridLayout();
         this.midGridLayoutPanel = createMidGridLayout();
         this.bottomGridLayoutPanel = createBottomGridLayout();
@@ -53,6 +61,11 @@ public class ContactAddView extends JPanel {
         topGridLayout.setOpaque(false);
 
         topGridLayout.add(createTopPanel(),BorderLayout.NORTH);
+        if(imagePath != null){
+            topGridLayout.add(createPhotoLabel(),BorderLayout.CENTER);
+        } else {
+            topGridLayout.add(createPhotoButton(),BorderLayout.CENTER);
+        }
         topGridLayout.add(createPhotoButton(),BorderLayout.CENTER);
         topGridLayout.add(Box.createRigidArea(new Dimension(90, 0)), BorderLayout.WEST);
         topGridLayout.add(Box.createRigidArea(new Dimension(90, 0)), BorderLayout.EAST);
@@ -108,6 +121,20 @@ public class ContactAddView extends JPanel {
         photoButton.setBackground(Color.black);
 
         return photoButton;
+    }
+
+    private JLabel createPhotoLabel(){
+
+        File imageFile = new File(imagePath);
+
+        JLabel imageLabel = new JLabel();
+
+        try {
+            imageLabel.setIcon(new ImageIcon(ThumbnailGenerator.generate(imageFile, 165, 165)));
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        return imageLabel;
     }
 
     private JPanel createMidGridLayout(){

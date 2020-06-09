@@ -39,7 +39,7 @@ public class Main extends Application {
 
         // Initiate unique views
         ContactListView contactListView = new ContactListView(contactList);
-        ContactAddView contactAddView = new ContactAddView();
+        ContactAddView contactAddView = new ContactAddView(null);
 
         // Initiate controller
         ContactListController contactListController = new ContactListController(this, contactList, contactListView, contactAddView);

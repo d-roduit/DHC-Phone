@@ -26,7 +26,7 @@ public class Main extends Application {
     private final Color backgroundColor = Color.BLACK;
 
     public Main() {
-        new Main(GalleryRunningMode.NORMAL);
+        this(GalleryRunningMode.NORMAL);
     }
 
     public Main(GalleryRunningMode galleryRunningMode) {

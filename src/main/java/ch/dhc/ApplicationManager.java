@@ -193,8 +193,7 @@ public final class ApplicationManager {
         final String[] applicationFolderNames = new String[] {
                 "Contacts",
                 "Notes",
-                "Photos",
-                "WhatsApp"
+                "Photos"
         };
 
         final Application[] applicationList = new Application[applicationFolderNames.length];

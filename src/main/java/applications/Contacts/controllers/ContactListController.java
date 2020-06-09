@@ -1,13 +1,25 @@
 package applications.Contacts.controllers;
 
+import applications.Contacts.Main;
 import applications.Contacts.models.Contact;
 import applications.Contacts.models.ContactList;
 import applications.Contacts.views.ContactAddView;
 import applications.Contacts.views.ContactListView;
 import applications.Contacts.views.ContactModificationView;
 import applications.Contacts.views.ContactView;
-import applications.Contacts.Main;
-import java.awt.event.*;
+import applications.Photos.ThumbnailGenerator;
+import applications.Photos.models.PictureModel;
+import ch.dhc.ApplicationManager;
+
+import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.function.Consumer;
+
+import static applications.Photos.Main.GalleryEvent;
+import static applications.Photos.Main.GalleryRunningMode;
 
 /**
  * ContactList Controller
@@ -48,10 +60,11 @@ public class ContactListController {
     }
 
     // Reseting view in order to remove additional Listeners
-    private void updateContactAddView() {
+    private void updateContactAddView(String imagePath) {
+        
         main.remove(contactAddView);
 
-        contactAddView = new ContactAddView();
+        contactAddView = new ContactAddView(imagePath);
 
         main.add(contactAddView, String.valueOf(contactAddView.hashCode()));
 
@@ -76,7 +89,7 @@ public class ContactListController {
             contactList.sortContact();
             updateContactListView(contactList);
 
-            updateContactAddView();
+            updateContactAddView(null);
             contactAddView.getFirstNameContactTextField().setText("");
             contactAddView.getLastNameContactTextField().setText("");
             contactAddView.getCityContactTextField().setText("");
@@ -87,7 +100,25 @@ public class ContactListController {
 
         });
         this.contactAddView.addReturnToContactList(e -> this.main.getCardLayout().show(this.main, String.valueOf(contactListView.hashCode())));
-        this.contactAddView.addPhotoToContactListener(e -> System.out.println("photo clicked"));
+        this.contactAddView.addPhotoToContactListener(e -> {
+
+            // Ouvrir mon application en mode pictureSelection
+            applications.Photos.Main galleryApp = new applications.Photos.Main(GalleryRunningMode.PICTURE_SELECTION);
+
+            galleryApp.addEventListener(GalleryEvent.CLICK_PICTURE_THUMBNAIL, new Consumer<PictureModel>() {
+                @Override
+                public void accept(PictureModel pictureModel) {
+                    String imagePath = pictureModel.getPath();
+
+                    //Revenir à mon application
+                    ApplicationManager.getInstance().open(main);
+
+                    updateContactAddView(imagePath);
+                }
+            });
+
+            ApplicationManager.getInstance().open(galleryApp);
+        });
 
         this.contactListView.addAddContactListener(e->this.main.getCardLayout().show(this.main, String.valueOf(contactAddView.hashCode())));
         this.contactListView.getContactPanelsMap().forEach((contactPanel,contact) ->{

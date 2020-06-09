@@ -13,9 +13,9 @@ import java.awt.*;
 
 public class PictureView extends JPanel {
 
-    PictureModel pictureModel;
-    AlbumController.MoveDirection moveDirection;
-
+    private PictureModel pictureModel;
+    private AlbumController.MoveDirection moveDirection;
+    private JLabel pictureNameLabel;
     private final JPanel topBarPanel;
     private final JPanel picturePanel;
     private final JPanel bottomBarPanel;
@@ -47,10 +47,10 @@ public class PictureView extends JPanel {
         topBarPanel.setLayout(new BorderLayout());
         topBarPanel.setBorder(new EmptyBorder(0, 2, 0, 2));
 
-        JLabel viewTitle = new JLabel(pictureModel.getName());
-        viewTitle.setFont(new Font("Arial", Font.BOLD, 15));
-        viewTitle.setHorizontalAlignment(JLabel.CENTER);
-        viewTitle.setForeground(Color.WHITE);
+        pictureNameLabel = new JLabel(pictureModel.getName());
+        pictureNameLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        pictureNameLabel.setHorizontalAlignment(JLabel.CENTER);
+        pictureNameLabel.setForeground(Color.WHITE);
 
         Icon goBackIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.KEYBOARD_ARROW_LEFT, 29, IconsUtility.iconsColor);
         goBackButton = IconsUtility.createIconButton(goBackIcon);
@@ -59,7 +59,7 @@ public class PictureView extends JPanel {
         deletePictureButton = IconsUtility.createIconButton(deletePictureIcon);
 
         topBarPanel.add(goBackButton, BorderLayout.WEST);
-        topBarPanel.add(viewTitle, BorderLayout.CENTER);
+        topBarPanel.add(pictureNameLabel, BorderLayout.CENTER);
         topBarPanel.add(deletePictureButton, BorderLayout.EAST);
 
         return topBarPanel;
@@ -101,6 +101,14 @@ public class PictureView extends JPanel {
         }
         
         return bottomBarPanel;
+    }
+
+    public AlbumController.MoveDirection getMoveDirection() {
+        return moveDirection;
+    }
+
+    public JLabel getPictureNameLabel() {
+        return pictureNameLabel;
     }
 
     public JButton getGoBackButton() {

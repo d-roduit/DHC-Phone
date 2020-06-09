@@ -35,7 +35,7 @@ public class ContactListController {
     }
 
     // Update views after adding or removing a contact
-    private void updateContactList(ContactList contactList) {
+    private void updateContactListView(ContactList contactList) {
         main.remove(contactListView);
 
         contactListView = new ContactListView(contactList);
@@ -43,6 +43,19 @@ public class ContactListController {
         main.add(contactListView, String.valueOf(contactListView.hashCode()));
 
         main.getCardLayout().show(main, String.valueOf(contactListView.hashCode()));
+
+        initListeners();
+    }
+
+    // Reseting view in order to remove additional Listeners
+    private void updateContactAddView() {
+        main.remove(contactAddView);
+
+        contactAddView = new ContactAddView();
+
+        main.add(contactAddView, String.valueOf(contactAddView.hashCode()));
+
+        main.getCardLayout().show(main, String.valueOf(contactAddView.hashCode()));
 
         initListeners();
     }
@@ -61,7 +74,15 @@ public class ContactListController {
             contactList.addContact(firstName,lastName,city,phoneNumber,email);
             saveContacts();
             contactList.sortContact();
-            updateContactList(contactList);
+            updateContactListView(contactList);
+
+            updateContactAddView();
+            contactAddView.getFirstNameContactTextField().setText("");
+            contactAddView.getLastNameContactTextField().setText("");
+            contactAddView.getCityContactTextField().setText("");
+            contactAddView.getPhoneNumberContactTextField().setText("");
+            contactAddView.getEmailContactTextField().setText("");
+
             this.main.getCardLayout().show(this.main,String.valueOf(contactListView.hashCode()));
 
         });
@@ -91,7 +112,7 @@ public class ContactListController {
                             modifiyContact(contact,firstName,lastName,city,phoneNumber,email);
                             saveContacts();
                             contactList.sortContact();
-                            updateContactList(contactList);
+                            updateContactListView(contactList);
                             main.getCardLayout().show(main,String.valueOf(contactListView.hashCode()));
                         });
 
@@ -99,7 +120,7 @@ public class ContactListController {
                             removeContact(contact);
                             saveContacts();
                             contactList.sortContact();
-                            updateContactList(contactList);
+                            updateContactListView(contactList);
                             main.getCardLayout().show(main,String.valueOf(contactListView.hashCode()));
                         });
 

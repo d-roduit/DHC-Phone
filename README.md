@@ -33,9 +33,9 @@ The technology used for this project is based on Java Swing and libraries such a
 
 ## <a name="getting-started"></a>Getting Started
 
-Once you have downloaded your copy of the DHC project, you will have to enter the paths of the files which will be used for this project in the config file.
+Once you have downloaded your copy of the DHC project, you will have to enter the paths of the files which will be used for this project in the configuration file.
 
-Below you will find an example of the config file : 
+Below you will find an example of the configuration file : 
 ```json
 {
     "notesFolderPath": "Absolute_path_to_your_notes_folder",
@@ -56,21 +56,17 @@ You will need the following folders / files to install the applications and be a
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+You will need to follow the steps below in order to launch the Java smartphone emulation.
 
 ```
-Give the example
+1. Unzip the file downloaded
+
+2. Insert the absolute paths of the requiered folders in the config file
+
+3. Launch the project by clicking on the smartphone jar
 ```
 
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+Once these three steps have been executed, you will be able to use the smartphone emulation.
 
 
 ## <a name="deployment"></a>Deployment

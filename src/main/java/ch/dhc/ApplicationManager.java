@@ -7,7 +7,7 @@ import java.util.ArrayList;
  *
  * @author Daniel Roduit
  */
-final class ApplicationManager {
+public final class ApplicationManager {
 
     /**
      * The instance of a ApplicationManager object.
@@ -193,7 +193,8 @@ final class ApplicationManager {
         final String[] applicationFolderNames = new String[] {
                 "Contacts",
                 "Notes",
-                "Photos"
+                "Photos",
+                "WhatsApp"
         };
 
         final Application[] applicationList = new Application[applicationFolderNames.length];

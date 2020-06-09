@@ -1,6 +1,7 @@
 package applications.Photos.controllers;
 
 import applications.Photos.Main;
+import static applications.Photos.Main.*;
 import applications.Photos.models.AlbumModel;
 import applications.Photos.models.GalleryModel;
 import applications.Photos.models.PictureModel;
@@ -19,6 +20,8 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class AlbumController {
 
@@ -43,20 +46,36 @@ public class AlbumController {
     private void initListeners() {
         albumView.getGoBackButton().addActionListener(e -> goBack());
         albumView.getDeleteAlbumButton().addActionListener(e -> deleteAlbum());
-        albumView.getLabelToModelMap().forEach((pictureLabel, pictureModel) -> {
-            pictureLabel.addMouseListener(pictureLabelMouseListener(pictureModel));
-        });
         albumView.getAddPictureButton().addActionListener(e -> addPictures());
-
         albumView.getAlbumNameLabel().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(e.getClickCount() == 2) {
+                if (e.getClickCount() == 2) {
                     super.mouseClicked(e);
                     modifyAlbumName();
                 }
             }
         });
+
+        if (main.getGalleryRunningMode() == GalleryRunningMode.NORMAL) {
+            albumView.getLabelToModelMap().forEach((pictureLabel, pictureModel) -> {
+                pictureLabel.addMouseListener(pictureLabelMouseListener(pictureModel));
+            });
+        } else if (main.getGalleryRunningMode() == GalleryRunningMode.PICTURE_SELECTION) {
+            albumView.getLabelToModelMap().forEach((pictureLabel, pictureModel) -> {
+                pictureLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        super.mouseClicked(e);
+                        Consumer<PictureModel> lambda = main.getEventListeners().get(Main.GalleryEvent.CLICK_PICTURE_THUMBNAIL);
+
+                        if (lambda != null) {
+                            lambda.accept(pictureModel);
+                        }
+                    }
+                });
+            });
+        }
     }
 
     private MouseAdapter pictureLabelMouseListener(PictureModel pictureModel) {

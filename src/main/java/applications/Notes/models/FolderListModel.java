@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FolderListModel {
@@ -19,7 +21,9 @@ public class FolderListModel {
 
     public FolderModel addFolder(String folderTitle) {
         System.out.println("Add folder clicked");
-        FolderModel folderModel = new FolderModel(folderTitle, "", new ArrayList<>());
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        FolderModel folderModel = new FolderModel(folderTitle, dateFormat.format(date), new ArrayList<>());
         folderModels.add(folderModel);
 
         return folderModel;

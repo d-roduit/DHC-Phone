@@ -9,11 +9,10 @@
 
 </div>
 
-
-[les screens des applications ici]
-
-<!-- ![](https://github.com/bbc/peaks.js/blob/master/peaks.png?raw=1) -->
-
+<div align="center">
+    <a href="https://gitlab.com/d-roduit/projet-smartphone-dhc/"><img src="examples.jpg" align="center" height="400" alt="Examples"></a>
+</div>
+<br>
 One Paragraph of project description goes here
 
 ## Table of Contents

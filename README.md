@@ -9,11 +9,16 @@
 
 </div>
 
+
 <div align="center">
     <a href="https://gitlab.com/d-roduit/projet-smartphone-dhc/"><img src="examples.jpg" align="center" height="400" alt="Examples"></a>
 </div>
 <br>
-One Paragraph of project description goes here
+
+<!-- ![](https://github.com/bbc/peaks.js/blob/master/peaks.png?raw=1) -->
+
+The DHC project's goal is to create and simulate a smartphone with applications such as contacts, picture gallery and notes. The technology used for this project is based on Java Swing and libraries such as Jackson, Junit, Flatlaf and Font Awsome.   
+
 
 ## Table of Contents
 
@@ -27,14 +32,26 @@ One Paragraph of project description goes here
 
 ## <a name="getting-started"></a>Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Once you have downloaded your copy of the DHC project, you will have to enter the paths of the files which will be used for this project in the config file.
+
+```
+Below you will find an example of the config file : 
+
+{"notesFolderPath":"Enter your link here for the notes folder",
+  "contactsFolderPath":"Enter your link here for the contact file",
+  "picturesFolderPath":"Enter your link here for the picture folder"}
+```
+
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+You will need the following folders / files to install the applications and be able to run it on your system:
 
 ```
-Give examples
+    - Smartphone.Jar
+    - Contact.Json
+    - Note Folder
+    - Picture folder
 ```
 
 ### Installing

@@ -47,6 +47,16 @@ public class AlbumController {
             pictureLabel.addMouseListener(pictureLabelMouseListener(pictureModel));
         });
         albumView.getAddPictureButton().addActionListener(e -> addPictures());
+
+        albumView.getAlbumNameLabel().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(e.getClickCount() == 2) {
+                    super.mouseClicked(e);
+                    modifyAlbumName();
+                }
+            }
+        });
     }
 
     private MouseAdapter pictureLabelMouseListener(PictureModel pictureModel) {
@@ -199,6 +209,45 @@ public class AlbumController {
 
         // Show the galleryView
         displayAlbumView();
+    }
+
+    private void modifyAlbumName() {
+        String newAlbumName = (String) JOptionPane.showInputDialog(
+                main,
+                "Album name :",
+                "Album name :",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                null,
+                albumModel.getName()
+        );
+
+        if (newAlbumName != null) {
+
+            String picturesFolderPath = Configuration.getInstance().getPicturesFolderPath();
+
+            File currentAlbumFolderPath = new File(picturesFolderPath + albumModel.getName());
+            File newAlbumFolderPath = new File(picturesFolderPath + newAlbumName);
+
+            boolean renamedSuccessfully = currentAlbumFolderPath.renameTo(newAlbumFolderPath);
+
+            if (renamedSuccessfully) {
+                albumModel.setName(newAlbumName);
+
+                for (PictureModel pictureModel: albumModel.getPictureModels()) {
+                    pictureModel.setAlbumName(newAlbumName);
+                }
+
+                updateAlbumView(albumModel);
+            } else {
+                JOptionPane.showMessageDialog(
+                    main,
+                    "Error when renaming the album. Try another name.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
+            }
+        }
     }
 
     private void updateAlbumView(AlbumModel albumModel) {

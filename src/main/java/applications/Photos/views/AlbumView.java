@@ -20,6 +20,7 @@ public class AlbumView extends JPanel {
 
     AlbumModel albumModel;
 
+    private JLabel albumNameLabel;
     private final JPanel topBarPanel;
     private JScrollPane picturesScrollPane;
     private JButton goBackButton;
@@ -46,10 +47,10 @@ public class AlbumView extends JPanel {
         topBarPanel.setLayout(new BorderLayout());
         topBarPanel.setBorder(new EmptyBorder(0, 2, 0, 2));
 
-        JLabel viewTitle = new JLabel(albumModel.getName());
-        viewTitle.setFont(new Font("Arial", Font.BOLD, 25));
-        viewTitle.setHorizontalAlignment(JLabel.CENTER);
-        viewTitle.setForeground(Color.WHITE);
+        albumNameLabel = new JLabel(albumModel.getName());
+        albumNameLabel.setFont(new Font("Arial", Font.BOLD, 25));
+        albumNameLabel.setHorizontalAlignment(JLabel.CENTER);
+        albumNameLabel.setForeground(Color.WHITE);
 
         Icon goBackIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.KEYBOARD_ARROW_LEFT, 29, IconsUtility.iconsColor);
         goBackButton = IconsUtility.createIconButton(goBackIcon);
@@ -68,7 +69,7 @@ public class AlbumView extends JPanel {
         albumOperationsButtonsPanel.add(deleteAlbumButton, BorderLayout.EAST);
 
         topBarPanel.add(goBackButton, BorderLayout.WEST);
-        topBarPanel.add(viewTitle, BorderLayout.CENTER);
+        topBarPanel.add(albumNameLabel, BorderLayout.CENTER);
         topBarPanel.add(albumOperationsButtonsPanel, BorderLayout.EAST);
 
         return topBarPanel;
@@ -112,6 +113,10 @@ public class AlbumView extends JPanel {
         return pictureLabel;
     }
 
+    public JLabel getAlbumNameLabel() {
+        return albumNameLabel;
+    }
+
     public JButton getGoBackButton() {
         return goBackButton;
     }
@@ -127,4 +132,5 @@ public class AlbumView extends JPanel {
     public HashMap<JLabel, PictureModel> getLabelToModelMap() {
         return labelToModelMap;
     }
+
 }

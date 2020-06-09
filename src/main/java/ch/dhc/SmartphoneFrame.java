@@ -165,7 +165,7 @@ class SmartphoneFrame extends JFrame {
             }
         };
 
-        pressedTimer = createPressedTimer(4000, taskPerformer);
+        pressedTimer = createPressedTimer(2200, taskPerformer);
 
         lockButton.addMouseListener(new MouseAdapter() {
             @Override

@@ -61,6 +61,7 @@ public class ContactListController {
 
     // Reseting view in order to remove additional Listeners
     private void updateContactAddView(String imagePath) {
+        
         main.remove(contactAddView);
 
         contactAddView = new ContactAddView(imagePath);

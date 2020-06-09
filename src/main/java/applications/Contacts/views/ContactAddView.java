@@ -61,12 +61,12 @@ public class ContactAddView extends JPanel {
         topGridLayout.setOpaque(false);
 
         topGridLayout.add(createTopPanel(),BorderLayout.NORTH);
-        if(imagePath != null){
+        if (imagePath != null){
             topGridLayout.add(createPhotoLabel(),BorderLayout.CENTER);
         } else {
             topGridLayout.add(createPhotoButton(),BorderLayout.CENTER);
         }
-        topGridLayout.add(createPhotoButton(),BorderLayout.CENTER);
+
         topGridLayout.add(Box.createRigidArea(new Dimension(90, 0)), BorderLayout.WEST);
         topGridLayout.add(Box.createRigidArea(new Dimension(90, 0)), BorderLayout.EAST);
         topGridLayout.add(Box.createRigidArea(new Dimension(0, 10)), BorderLayout.SOUTH);
@@ -124,7 +124,6 @@ public class ContactAddView extends JPanel {
     }
 
     private JLabel createPhotoLabel(){
-
         File imageFile = new File(imagePath);
 
         JLabel imageLabel = new JLabel();
@@ -134,6 +133,7 @@ public class ContactAddView extends JPanel {
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
+
         return imageLabel;
     }
 
@@ -379,7 +379,9 @@ public class ContactAddView extends JPanel {
     }
 
     public void addPhotoToContactListener (ActionListener addPhotoToContact){
-        photoButton.addActionListener(addPhotoToContact);
+        if (photoButton != null) {
+            photoButton.addActionListener(addPhotoToContact);
+        }
     }
 
     public void addSaveContactListener(ActionListener addSaveListener) {

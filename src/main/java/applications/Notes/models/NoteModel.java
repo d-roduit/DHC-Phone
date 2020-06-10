@@ -21,8 +21,11 @@ public class NoteModel {
      * The note content.
      */
     private String content;
-//    private String [] contacts;
-//    private String [] pictures;
+
+    /**
+     * The note picture path.
+     */
+    private String picturePath;
 
     /**
      * NoteModel empty constructor.
@@ -45,10 +48,11 @@ public class NoteModel {
      * @see NoteModel#setNoteCreationDate(String)
      * @see NoteModel#setContent(String)
      */
-    public NoteModel(String noteTitle, String noteCreationDate, String content) {
+    public NoteModel(String noteTitle, String noteCreationDate, String content, String picturePath) {
         setNoteTitle(noteTitle);
         setNoteCreationDate(noteCreationDate);
         setContent(content);
+        this.picturePath = picturePath;
 //        setContacts(contacts);
 //        setPictures(pictures);
     }
@@ -122,19 +126,23 @@ public class NoteModel {
         this.content = note;
     }
 
-//    public String[] getContacts() {
-//        return contacts;
-//    }
-//
-//    public void setContacts(String[] contacts) {
-//        this.contacts = contacts;
-//    }
-//
-//    public String[] getPictures() {
-//        return pictures;
-//    }
-//
-//    public void setPictures(String[] pictures) {
-//        this.pictures = pictures;
-//    }
+
+    /**
+     * Returns the note picture path.
+     *
+     * @return The note picture path.
+     */
+    public String getPicturePath() {
+        return picturePath;
+    }
+
+    /**
+     * Sets the note picture path.
+     *
+     * @param picturePath
+     *              The note picture path.
+     */
+    public void setPicturePath(String picturePath) {
+        this.picturePath = picturePath;
+    }
 }

@@ -68,7 +68,7 @@ public class PicturePanel extends JPanel {
         }
     }
 
-    private static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
+    public static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
         int originalWidth = imgSize.width;
         int originalHeight = imgSize.height;
         int boundWidth = boundary.width;

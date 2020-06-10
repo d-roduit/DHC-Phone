@@ -43,9 +43,7 @@ public class ThumbnailGenerator {
         generate(file, thumbnailWidth, thumbnailHeight, outputPath, fileFormat, appendFileFormat);
     }
 
-    public static Image generate(File file, int thumbnailWidth, int thumbnailHeight) throws IOException {
-        BufferedImage img = ImageIO.read(file);
-
+    public static Image generate(BufferedImage bufferedImage, int thumbnailWidth, int thumbnailHeight) throws IOException {
         int bufferedImageType;
         Color bgColor;
 
@@ -73,8 +71,8 @@ public class ThumbnailGenerator {
         int sx2;
         int sy2;
 
-        int imgWidth = img.getWidth();
-        int imgHeight = img.getHeight();
+        int imgWidth = bufferedImage.getWidth();
+        int imgHeight = bufferedImage.getHeight();
 
         if (imgWidth < imgHeight) {
             sx1 = 0;
@@ -94,13 +92,27 @@ public class ThumbnailGenerator {
         }
 
         g2d.drawImage(
-                img, 0, 0, thumbnail.getWidth(), thumbnail.getHeight(),
+                bufferedImage, 0, 0, thumbnail.getWidth(), thumbnail.getHeight(),
                 sx1, sy1, sx2, sy2, bgColor, null
         );
 
         g2d.dispose();
 
         return thumbnail;
+    }
+
+    public static Image generate(File file, int thumbnailWidth, int thumbnailHeight) throws IOException {
+        BufferedImage bufferedImage = ImageIO.read(file);
+
+        return generate(bufferedImage, thumbnailWidth, thumbnailHeight);
+    }
+
+    public static Image generate(String filePath, int thumbnailWidth, int thumbnailHeight) throws IOException {
+        File imageFile = new File(filePath);
+
+        BufferedImage bufferedImage = ImageIO.read(imageFile);
+
+        return generate(bufferedImage, thumbnailWidth, thumbnailHeight);
     }
 
     public static Dimension getThumbnailDimension() {

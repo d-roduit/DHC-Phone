@@ -16,13 +16,11 @@ class ScreenPanel extends JPanel {
     /**
      * The state of the screen.
      *
-     * <p>
      *     It can only take two values :
      *     <ul>
      *         <li>{@link State#TURNEDON}</li>
      *         <li>{@link State#TURNEDOFF}</li>
      *     </ul>
-     * </p>
      *
      * @see State
      * @see State#TURNEDOFF
@@ -49,17 +47,14 @@ class ScreenPanel extends JPanel {
     /**
      * The state the screen can be in.
      *
-     * <p>
      *     The state is used to determine if the screen must be turned on
      *     or turned off when the smartphone home button is clicked.
-     *</p>
-     * <p>
+     *
      *     The states that can be used :
      *     <ul>
      *         <li>{@link #TURNEDON}</li>
      *         <li>{@link #TURNEDOFF}</li>
      *     </ul>
-     * </p>
      *
      * @see ScreenPanel#turnOn()
      * @see ScreenPanel#turnOff()

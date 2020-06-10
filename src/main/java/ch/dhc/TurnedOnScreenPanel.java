@@ -13,7 +13,6 @@ import java.util.Date;
 /**
  * <b>TurnedOnScreenPanel is the class that is used to display a turned on screen.</b>
  *
- * <p>
  *     It contains two panels used to display content :
  *     <ul>
  *         <li>
@@ -25,7 +24,6 @@ import java.util.Date;
  *             the useful content (for example the applications)
  *         </li>
  *     </ul>
- * </p>
  *
  *
  * @author Daniel Roduit
@@ -289,6 +287,9 @@ class TurnedOnScreenPanel extends BackgroundPanel {
 
     /**
      * Creates a generic empty FlowLayout JPanel
+     *
+     * @param flowLayoutAlignment
+     *              The flowLayout alignement.
      *
      * @return The FlowLayout JPanel.
      *

@@ -27,7 +27,6 @@ class AppIcon extends ImageLabel {
     /**
      * AppIcon constructor
      *
-     * <p>
      *     AppIcon is constructed with an Application object which is the application
      *     that will be opened when the AppIcon object is clicked.
      *     This Application object is used to get two things :
@@ -35,7 +34,6 @@ class AppIcon extends ImageLabel {
      *         <li>the application icon path, which is used to retrieve the icon image file.</li>
      *         <li>the application name, which is displayed under the application icon.</li>
      *     </ol>
-     * </p>
      *
      * @param application
      *              The Application object.

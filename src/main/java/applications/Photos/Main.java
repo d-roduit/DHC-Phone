@@ -60,7 +60,7 @@ public class Main extends Application {
 
     @Override
     public void onClose() {
-        System.out.println("Photos dit 'Au revoir !'");
+        removeAll();
     }
 
     @Override

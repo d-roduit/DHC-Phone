@@ -2,10 +2,7 @@ package ch.dhc;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 /**
  * <b>SmartphoneFrame is the class that represents the smartphone JFrame.</b>
@@ -204,7 +201,20 @@ class SmartphoneFrame extends JFrame {
         JPanel homeButtonPanel = new JPanel();
 
         CircleButton circleButton = new CircleButton(57);
-        circleButton.addActionListener(actionEvent -> screenPanel.toggleHome());
+//        circleButton.addActionListener(actionEvent -> screenPanel.toggleHome());
+
+        circleButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    UIManager.getInstance().display(new ApplicationManagerPanel());
+                    System.out.println("HomeButton clicked 2 times");
+                } else if (e.getClickCount() == 1) {
+                    screenPanel.toggleHome();
+                }
+            }
+        });
+
 
         GridBagConstraints gbc = new GridBagConstraints();
         homeButtonPanel.add(circleButton, gbc);

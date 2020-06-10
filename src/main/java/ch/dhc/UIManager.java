@@ -9,7 +9,7 @@ import java.awt.*;
  *
  * @author Daniel Roduit
  */
-final class UIManager {
+public final class UIManager {
 
     /**
      * The instance of a UIManager object.
@@ -44,7 +44,7 @@ final class UIManager {
     /**
      * The cardLayout layout.
      * <p>
-     *     It is a reference to the cardLayout layout that of the turnedOnScreen object.
+     *     It is a reference to the cardLayout layout of the turnedOnScreen object.
      *     Is is used to display a specific panel to the user, for example an application.
      * </p>
      *
@@ -119,6 +119,20 @@ final class UIManager {
     }
 
     /**
+     * Displays a JPanel in the {@link #contentPanel} using the {@link #cardLayout}.
+     *
+     * @param panel The JPanel which will be displayed.
+     *
+     * @see JPanel
+     * @see #cardLayout
+     * @see CardLayout#show(Container, String)
+     */
+    public void display(JPanel panel) {
+        contentPanel.add(panel, String.valueOf(panel.hashCode()));
+        cardLayout.show(contentPanel, String.valueOf(panel.hashCode()));
+    }
+
+    /**
      * Displays an application in the {@link #contentPanel} using the {@link #cardLayout}.
      *
      * <p>
@@ -137,6 +151,7 @@ final class UIManager {
         statusBarPanel.setBackground(application.getStatusBarBackgroundColor());
         statusBarPanel.revalidate();
         statusBarPanel.repaint();
+
         cardLayout.show(contentPanel, String.valueOf(application.hashCode()));
     }
     

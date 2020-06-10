@@ -64,6 +64,7 @@ class TurnedOnScreenPanel extends BackgroundPanel {
 
     /**
      * The content panel that displays content on the screen.
+     * It has a dimension of 345px x 586px.
      *
      * @see JPanel
      */

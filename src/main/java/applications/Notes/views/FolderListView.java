@@ -24,9 +24,6 @@ public class FolderListView extends JPanel {
     private final FolderListModel folderListModel;
     private Color mainTextColor = Color.WHITE;
     private Color secondaryTextColor = new Color(217, 169, 25);
-    private JPanel topLanePanel;
-    private JScrollPane folderListScrollPane;
-    private JPanel botLanePanel;
     private JButton addFolderButton;
     private Map<JPanel, FolderModel> panelFolderModelMap = new HashMap<>();
 
@@ -40,9 +37,9 @@ public class FolderListView extends JPanel {
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
 
-        topLanePanel = createTopLanePanel();
-        folderListScrollPane = createFolderListScrollPane();
-        botLanePanel = createBotLanePanel();
+        JPanel topLanePanel = createTopLanePanel();
+        JScrollPane folderListScrollPane = createFolderListScrollPane();
+        JPanel botLanePanel = createBotLanePanel();
 
         add(topLanePanel, BorderLayout.NORTH);
         add(folderListScrollPane, BorderLayout.CENTER);

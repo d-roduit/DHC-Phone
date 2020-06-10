@@ -49,7 +49,6 @@ public class FolderListModel {
      * @see SimpleDateFormat
      */
     public FolderModel addFolder(String folderTitle) {
-        System.out.println("Add folder clicked");
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
         FolderModel folderModel = new FolderModel(folderTitle, dateFormat.format(date), new ArrayList<>());
@@ -70,7 +69,6 @@ public class FolderListModel {
      * @see FolderModel
      */
     public void deleteFolder(FolderModel folderModel) {
-        System.out.println("Delete folder clicked : " + folderModel.getFolderTitle());
         folderModels.remove(folderModel);
     }
 

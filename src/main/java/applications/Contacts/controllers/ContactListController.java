@@ -127,6 +127,7 @@ public class ContactListController {
             });
 
             ApplicationManager.getInstance().open(galleryApp);
+
         });
 
         this.contactListView.addAddContactListener(e->this.main.getCardLayout().show(this.main, String.valueOf(contactAddView.hashCode())));

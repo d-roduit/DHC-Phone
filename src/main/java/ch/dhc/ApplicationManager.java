@@ -1,6 +1,7 @@
 package ch.dhc;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <b>ApplicationManager is the class that manages all operations that can be performed on applications.</b>
@@ -44,7 +45,7 @@ public final class ApplicationManager {
      *
      * @see ArrayList
      * @see Application
-     * @see #run(Application)
+     * @see #run(Application, boolean)
      * @see #close(Application)
      * @see #closeAllApplications()
      * @see #isRunning(Application)
@@ -89,20 +90,35 @@ public final class ApplicationManager {
      * @see Application
      * @see #isRunning(Application)
      * @see UIManager#display(Application)
-     * @see #run(Application)
+     * @see #run(Application, boolean)
      */
-    public void open(Application application) {
+    public void open(Application application, boolean addToRunningApps) {
         if (isRunning(application)) {
+            moveToEnd(runningApplications, application);
             uiManager.display(application);
         } else {
             try {
-                run(application);
+                run(application, addToRunningApps);
                 uiManager.display(application);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
+    }
+
+    /**
+     * Runs an application if it has not been run yet, displays it otherwise.
+     * Overloading of {@link #open(Application, boolean)}
+     *
+     * @param application
+     *              The application which will be opened.
+     *
+     * @see Application
+     * @see #open(Application, boolean) 
+     */
+    public void open(Application application) {
+        open(application, true);
     }
 
     /**
@@ -115,14 +131,23 @@ public final class ApplicationManager {
      * @param application
      *              The application which will be run.
      *
+     * @param addToRunningApps
+     *              A boolean that says if the application must be added to the list of running applications.
+     *              If you wish to open an application as a sub-process of another application,
+     *              put its value to false.
+     *
      * @see Application
      * @see Application#onRun()
      * @see #runningApplications
      */
-    private void run(Application application) {
+    private void run(Application application, boolean addToRunningApps) {
         application.onRun();
+
         uiManager.getContentPanel().add(application, String.valueOf(application.hashCode()));
-        runningApplications.add(application);
+
+        if (addToRunningApps) {
+            runningApplications.add(application);
+        }
     }
 
     /**
@@ -215,10 +240,58 @@ public final class ApplicationManager {
         return applicationList;
     }
 
+    /**
+     * Returns if there are applications that are currently running or not.
+     *
+     * @return true if there are applications that are currently running on the smartphone, false otherwise.
+     */
+    public boolean hasRunningApplications() {
+        return runningApplications.size() > 0;
+    }
+
+    /**
+     * Move an application to the end of an applicationList.
+     * It is used to keep track of which application has been opened or reopened at last.
+     *
+     * @param applicationList The list of applications in which the application is moved to the end.
+     * @param application The application that will be moved to the end of the list.
+     */
+    private void moveToEnd(List<Application> applicationList, Application application) {
+        applicationList.remove(application);
+        applicationList.add(application);
+    }
+
+    /**
+     * Returns the list of applications that are currently running.
+     *
+     * @return The list of currently running applications.
+     *
+     * @see Application
+     * @see ArrayList
+     */
+    public ArrayList<Application> getRunningApplications() {
+        return runningApplications;
+    }
+
+    /**
+     * Returns the array of applications that are installed on the smartphone.
+     *
+     * @return The array of applications that are installed on the smartphone.
+     *
+     * @see Application
+     */
     public Application[] getInstalledApplications() {
         return installedApplications;
     }
 
+    /**
+     * Sets the UIManager object that is used to handle graphic / display operations.
+     *
+     * @param uiManager
+     *              The UIManager object that handle graphic / display operations.
+     *
+     * @see UIManager
+     */
     public void setUiManager(UIManager uiManager) {
         this.uiManager = uiManager;
     }

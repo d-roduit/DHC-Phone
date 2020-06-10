@@ -26,14 +26,27 @@ The technology used for this project is based on Java Swing and libraries such a
 
 1. [Getting Started](#getting-started)
 2. [Running the tests](#running-the-tests)
-3. [Deployment](#deployment)
-4. [Authors](#authors)
-5. [Guides and resources](#guides-and-resources)
-6. [License](#license)
+3. [Authors](#authors)
+4. [Guides and resources](#guides-and-resources)
+5. [License](#license)
 
 ## <a name="getting-started"></a>Getting Started
 
-Once you have downloaded your copy of the DHC project, you will have to enter the paths of the files which will be used for this project in the configuration file.
+### Installing
+
+You will need to follow the steps below in order to launch the Java smartphone emulation.
+
+1. Unzip the file downloaded.
+2. Insert the absolute paths of the requiered folders in the config file. *(explained in [Prerequisites](###Prerequisites) section)*
+3. Launch the project by clicking on the smartphone jar.
+
+Once these three steps have been executed, you will be able to use the smartphone emulation.
+
+### Prerequisites
+
+Once you have downloaded your copy of the DHC project, you will have to enter the paths of the files which will be used by the smartphone in the configuration file *(`config.json`)*.
+
+The `config.json` file must be placed at the root of the folder that contains the JAR Archive.
 
 Below you will find an example of the configuration file : 
 ```json
@@ -44,34 +57,20 @@ Below you will find an example of the configuration file :
 }
 ```
 
-
-### Prerequisites
-
-You will need the following folders / files to install the applications and be able to run it on your system:
-
-- Smartphone.jar
-- Contact.json
-- Note Folder
-- Picture folder
-
-### Installing
-
-You will need to follow the steps below in order to launch the Java smartphone emulation.
-
-```
-1. Unzip the file downloaded
-
-2. Insert the absolute paths of the requiered folders in the config file
-
-3. Launch the project by clicking on the smartphone jar
-```
-
-Once these three steps have been executed, you will be able to use the smartphone emulation.
+**:warning: The absolute paths must obligatorily finish with `/` or `\\`.**
 
 
-## <a name="deployment"></a>Deployment
+### How to use
 
-Add additional notes about how to deploy this on a live system
+All the actions you can do with the smartphone are copied from a real iPhone.
+
+Possible actions :
+- **Turn the screen on** : click on the home button OR click on the lock button (top right button).
+- **Turn the screen off** : click on the lock button.
+- **Stop the program** : Long press on the lock button.
+- **Run an application** : Click on an app icon.
+- **Open the application manager** : double click on the home button.
+- **Go back to home** : click on the home button.
 
 ## <a name="authors"></a>Authors
 

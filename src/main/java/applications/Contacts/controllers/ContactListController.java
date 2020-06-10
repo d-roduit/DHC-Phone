@@ -126,7 +126,7 @@ public class ContactListController {
                 }
             });
 
-            ApplicationManager.getInstance().open(galleryApp);
+            ApplicationManager.getInstance().open(galleryApp,false);
 
         });
 

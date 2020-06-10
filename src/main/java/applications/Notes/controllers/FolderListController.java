@@ -74,7 +74,7 @@ public class FolderListController {
         );
 
         try {
-            if(newFolderTitle != null) {
+            if(!newFolderTitle.equals("")) {
                 Configuration configuration = Configuration.getInstance();
                 ObjectMapper mapper = new ObjectMapper();
                 ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
@@ -85,6 +85,11 @@ public class FolderListController {
                 List<FolderModel> folderModels = folderListModel.getFolderModels();
 
                 writer.writeValue(folderFile, folderModels);
+            } else {
+                JOptionPane.showMessageDialog(main,
+                        "The folder title is empty !",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
             }
         } catch (Exception e) {
             e.printStackTrace();

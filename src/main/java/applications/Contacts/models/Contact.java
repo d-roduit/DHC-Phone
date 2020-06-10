@@ -60,6 +60,15 @@ public class Contact implements Comparable<Contact> {
     private String email;
 
     /**
+     * Path of the Photo of the contact. it can be modified.
+     *
+     * @see applications.Contacts.models.Contact#setPhotoPath(String)
+     * @see applications.Contacts.models.Contact#getPhotoPath()
+     */
+
+    private String photoPath;
+
+    /**
      * The empty constructor is used by the object mapper so it can read the information from a Json file containing
      * the information about the contacts.
      *
@@ -92,12 +101,13 @@ public class Contact implements Comparable<Contact> {
      * @see applications.Contacts.models.Contact#email
      */
 
-    public Contact(String firstName, String lastName, String city, String phoneNumber, String email) {
+    public Contact(String firstName, String lastName, String city, String phoneNumber, String email,String photoPath) {
         setFirstName(firstName);
         setLastName(lastName);
         setCity(city);
         setPhoneNumber(phoneNumber);
         setEmail(email);
+        setPhotoPath(photoPath);
     }
 
     /**
@@ -205,12 +215,22 @@ public class Contact implements Comparable<Contact> {
     }
 
     /**
-     * toString methode will display the information concerning the contact the way we organize it.
+     * Returns the path of the picture of the contact.
      *
-     * @return firstname
-     *      The firstname of the contact.
+     * @return photoPath
      */
-    public String toString() {
-        return this.firstName;
+    public String getPhotoPath() {
+        return photoPath;
     }
+
+    /**
+     * Update the path of the picture of the contact.
+     *
+     * @param photoPath
+     *      the new path of the picture of the contact.
+     */
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
+    }
+
 }

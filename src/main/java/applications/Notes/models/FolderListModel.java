@@ -11,14 +11,43 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * <b>FolderListModel is the class that represents a folder list with its properties and its methods.</b>
+ *
+ * @author Cathy Gay
+ */
 public class FolderListModel {
 
+    /**
+     * The folderlist list of folders.
+     */
     private List<FolderModel> folderModels;
 
+    /**
+     * FolderListModel constructor.
+     *
+     * @see FolderListModel#fetchFolders()
+     */
     public FolderListModel() {
         folderModels = fetchFolders();
     }
 
+    /**
+     * Returns a new folder.
+     * <p>
+     *    The new folder is created with a title, a creation date that is the current date, and en empty list of NoteModel.
+     *    The new folder is then added to the list of FolderModel.
+     * </p>
+     *
+     * @param folderTitle
+     *              The folder title.
+     *
+     * @return The new FolderModel.
+     *
+     * @see FolderModel
+     * @see Date
+     * @see SimpleDateFormat
+     */
     public FolderModel addFolder(String folderTitle) {
         System.out.println("Add folder clicked");
         Date date = new Date();
@@ -29,11 +58,35 @@ public class FolderListModel {
         return folderModel;
     }
 
+    /**
+     * Delete a folder.
+     * <p>
+     *     The folder is removed from the list of FolderModel.
+     * </p>
+     *
+     * @param folderModel
+     *              The FolderModel that should be deleted.
+     *
+     * @see FolderModel
+     */
     public void deleteFolder(FolderModel folderModel) {
         System.out.println("Delete folder clicked : " + folderModel.getFolderTitle());
         folderModels.remove(folderModel);
     }
 
+    /**
+     * Returns a list of folders read from a json file.
+     * <p>
+     *     This will read the folder json file which path is gotten from the configuration file.
+     * </p>
+     *
+     * @return A list of FolderModel.
+     *
+     * @see FolderModel
+     * @see ObjectMapper
+     * @see Configuration
+     * @see File
+     */
     private List<FolderModel> fetchFolders() {
 
         ObjectMapper mapper = new ObjectMapper();
@@ -52,21 +105,15 @@ public class FolderListModel {
             e.printStackTrace();
         }
 
-//        for(FolderModel folderModel : folderModels) {
-//
-//            NoteModel[] noteModels = folderModel.getNotes();
-//
-//            for(NoteModel noteModel : noteModels) {
-//                System.out.println(noteModel.getNoteTitle());
-//                System.out.println(noteModel.getNoteCreationDate());
-//                System.out.println(noteModel.getContent());
-//            }
-//        }
-
         return folderModels;
 
     }
 
+    /**
+     * Returns the list of folders.
+     *
+     * @return The list of FolderModel.
+     */
     public List<FolderModel> getFolderModels() {
         return folderModels;
     }

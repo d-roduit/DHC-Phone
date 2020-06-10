@@ -1,6 +1,5 @@
 package applications.Contacts;
 
-import applications.Contacts.controllers.ContactController;
 import applications.Contacts.controllers.ContactListController;
 import applications.Contacts.models.ContactList;
 import applications.Contacts.views.ContactAddView;
@@ -15,7 +14,6 @@ public class Main extends Application {
     private CardLayout cardLayout = new CardLayout();
 
     // MVC Controllers
-    private ContactController contactController;
     private ContactListController contactListController;
 
     // App name and Icon
@@ -49,6 +47,7 @@ public class Main extends Application {
         add(contactAddView,String.valueOf((contactAddView.hashCode())));
         add(contactListView, String.valueOf(contactListView.hashCode()));
 
+        // Show contact list card layout
         cardLayout.show(this, String.valueOf(contactListView.hashCode()));
 
     }

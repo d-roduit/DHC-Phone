@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * ContactList represents a list of contact which are stored on your phone.
+ * <b>ContactList represents a list of contact which are stored on your phone. it has its own properties and methods.</b>
  *
  * contact list is represented by more than one contacts. Each contact has it's own information.
  *
@@ -52,8 +52,8 @@ public class ContactList {
     }
 
 
-    public void addContact(String firstName, String lastName, String city, String phoneNumber, String email) {
-        this.contactList.add(new Contact(firstName, lastName, city, phoneNumber, email));
+    public void addContact(String firstName, String lastName, String city, String phoneNumber, String email,String photoPath) {
+        this.contactList.add(new Contact(firstName, lastName, city, phoneNumber, email, photoPath));
     }
 
 
@@ -61,7 +61,7 @@ public class ContactList {
      * modifyContact function will modify the contact with the information entered by the user.
      *
      */
-    public void modifyContact(Contact contact,String firstName,String lastName,String city,String phoneNumber,String email){
+    public void modifyContact(Contact contact,String firstName,String lastName,String city,String phoneNumber,String email,String photoPath){
         for(Contact cont : contactList) {
             if(contact.getLastName()==(cont.getLastName())) {
                 contact.setFirstName(firstName);
@@ -69,6 +69,7 @@ public class ContactList {
                 contact.setCity(city);
                 contact.setPhoneNumber(phoneNumber);
                 contact.setEmail(email);
+                contact.setPhotoPath(photoPath);
                 break;
             }
         }
@@ -139,13 +140,5 @@ public class ContactList {
         } catch(IOException e) {
             System.out.println("Le programme n'a pas pu écrire la liste de contact dans le fichier");
         }
-    }
-
-    public String toString() {
-        String output = "";
-        for (Contact c : this.contactList) {
-            output += " " + c.toString();
-        }
-        return output;
     }
 }

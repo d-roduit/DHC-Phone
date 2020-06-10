@@ -1,18 +1,23 @@
 package applications.Contacts.views;
 
+import applications.Photos.ThumbnailGenerator;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import jiconfont.swing.IconFontSwing;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 import applications.Contacts.models.Contact;
 
 /**
- *Contact View
+ * <b>ContactView is the class that represents the display a single contact.</b>
+ *
+ * @see JPanel
  *
  * @author Henrick Neads
- *
  */
 
 public class ContactView extends JPanel {
@@ -21,6 +26,8 @@ public class ContactView extends JPanel {
 
     private Color mainTextColor = Color.WHITE;
     private Color secondaryTextColor = new Color(217, 169, 25);
+
+    private String contactPhotoPath;
 
     private JPanel topLanePanel;
     private JPanel midLanePanel;
@@ -35,10 +42,11 @@ public class ContactView extends JPanel {
     private JLabel phoneNumberContactTextField;
     private JLabel emailContactTextField;
 
-    JButton contactphotoButton;
+    private JLabel contactphotoLabel;
 
     public ContactView(Contact contact) {
         this.contact = contact;
+        contactPhotoPath = contact.getPhotoPath();
 
         this.topLanePanel = createTopGridLayout();
         this.midLanePanel = createContactPanel();
@@ -58,7 +66,11 @@ public class ContactView extends JPanel {
         topGridLayout.setOpaque(false);
 
         topGridLayout.add(createTopLanePanel(),BorderLayout.NORTH);
-        topGridLayout.add(createPhotoButton(),BorderLayout.CENTER);
+        if (contactPhotoPath != null){
+            topGridLayout.add(createPhotoLabel(),BorderLayout.CENTER);
+        } else {
+            topGridLayout.add(createPhotoButton(),BorderLayout.CENTER);
+        }
         topGridLayout.add(Box.createRigidArea(new Dimension(90, 0)), BorderLayout.WEST);
         topGridLayout.add(Box.createRigidArea(new Dimension(90, 0)), BorderLayout.EAST);
         topGridLayout.add(Box.createRigidArea(new Dimension(0, 10)), BorderLayout.SOUTH);
@@ -103,15 +115,33 @@ public class ContactView extends JPanel {
         return panel;
     }
 
-    private JButton createPhotoButton(){
+    private JLabel createPhotoButton(){
 
         Icon addPhotoIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.ADD_A_PHOTO,28,Color.orange);
 
-        contactphotoButton = new JButton(addPhotoIcon);
-        contactphotoButton.setOpaque(false);
-        contactphotoButton.setBackground(Color.black);
+        Border border = BorderFactory.createLineBorder(Color.white);
 
-        return contactphotoButton;
+        contactphotoLabel = new JLabel(addPhotoIcon);
+        contactphotoLabel.setOpaque(false);
+        contactphotoLabel.setBackground(Color.black);
+        contactphotoLabel.setBorder(border);
+
+
+        return contactphotoLabel;
+    }
+
+    private JLabel createPhotoLabel(){
+        File imageFile = new File(contactPhotoPath);
+
+        JLabel imageLabel = new JLabel();
+
+        try {
+            imageLabel.setIcon(new ImageIcon(ThumbnailGenerator.generate(imageFile, 165, 165)));
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+
+        return imageLabel;
     }
 
     public JPanel createContactPanel(){

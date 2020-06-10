@@ -11,10 +11,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Contact List View
+ * <b>ContactListView is the class that represents the view of the contact list.</b>
+ *
+ * @see JPanel
  *
  * @author Henrick Neads
- *
  */
 
 public class ContactListView extends JPanel {

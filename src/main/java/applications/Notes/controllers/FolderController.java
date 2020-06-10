@@ -14,6 +14,11 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.List;
 
+/**
+ * <b>FolderController is the class that controls the FolderModel and FolderView Classes together.</b>
+ *
+ * @author Cathy Gay
+ */
 public class FolderController {
 
     private FolderModel folderModel;
@@ -32,7 +37,6 @@ public class FolderController {
 
         //Listener for adding a note.
         folderView.getAddNoteButton().addActionListener(e -> {
-//            folderModel.addNote();
             createNewNote();
             updateFolderView(folderModel);
         });

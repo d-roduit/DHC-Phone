@@ -6,11 +6,10 @@ import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import jiconfont.swing.IconFontSwing;
 
-import java.util.HashMap;
-import java.util.List;
-
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,10 +24,6 @@ public class FolderView extends JPanel {
     private final FolderModel folderModel;
     private Color mainTextColor = Color.WHITE;
     private Color secondaryTextColor = new Color(217, 169, 25);
-    private JPanel topLanePanel;
-    private JScrollPane notesListScrollPane;
-    private JPanel botLanePanel;
-    private JPanel notePanel;
     private JButton addNoteButton;
     private JButton deleteFolderButton;
     private JButton returnToFolderListButton;
@@ -44,9 +39,9 @@ public class FolderView extends JPanel {
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
 
-        topLanePanel = createTopLanePanel();
-        notesListScrollPane = createNotesListScrollPane();
-        botLanePanel = createBotLanePanel();
+        JPanel topLanePanel = createTopLanePanel();
+        JScrollPane notesListScrollPane = createNotesListScrollPane();
+        JPanel botLanePanel = createBotLanePanel();
 
         add(topLanePanel, BorderLayout.NORTH);
         add(notesListScrollPane, BorderLayout.CENTER);
@@ -144,7 +139,7 @@ public class FolderView extends JPanel {
             List<NoteModel> noteModels = folderModel.getNotes();
 
             for (NoteModel noteModel : noteModels) {
-                notePanel = createNotePanel(noteModel);
+                JPanel notePanel = createNotePanel(noteModel);
                 panel.add(notePanel);
                 panelNoteModelMap.put(notePanel, noteModel);
                 JSeparator separator = new JSeparator();

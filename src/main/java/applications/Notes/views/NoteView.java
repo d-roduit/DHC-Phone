@@ -1,13 +1,11 @@
 package applications.Notes.views;
 
-import applications.Notes.models.FolderModel;
 import applications.Notes.models.NoteModel;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import jiconfont.swing.IconFontSwing;
 
 import javax.swing.*;
-import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
 
 public class NoteView extends JPanel {
@@ -15,8 +13,6 @@ public class NoteView extends JPanel {
     private final NoteModel noteModel;
     private Color mainTextColor = Color.WHITE;
     private Color secondaryTextColor = new Color(217, 169, 25);
-    private JPanel topLanePanel;
-    private JPanel centerPanel;
     private JButton returnToNoteListButton;
     private JButton deleteNoteButton;
     private JButton saveNoteButton;
@@ -35,8 +31,8 @@ public class NoteView extends JPanel {
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
 
-        topLanePanel = createTopLanePanel();
-        centerPanel = createCenterPanel();
+        JPanel topLanePanel = createTopLanePanel();
+        JPanel centerPanel = createCenterPanel();
 
         add(topLanePanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);

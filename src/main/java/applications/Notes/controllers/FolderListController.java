@@ -14,13 +14,10 @@ import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
 import java.util.List;
 
 /**
- * <b>Folder controller.</b>
+ * <b>FolderListController is the class that controls the FolderListModel and FolderListView Classes together.</b>
  *
  * @author Cathy Gay
  */

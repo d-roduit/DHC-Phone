@@ -1,11 +1,12 @@
 package applications.Notes.controllers;
 
+import applications.Notes.models.FolderListModel;
 import applications.Notes.models.FolderModel;
 import applications.Notes.models.NoteModel;
-import applications.Notes.views.FolderView;
 import applications.Notes.views.NoteView;
 import applications.Photos.Main;
 import applications.Photos.models.PictureModel;
+import ch.dhc.Application;
 import ch.dhc.ApplicationManager;
 import ch.dhc.Configuration;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
@@ -23,12 +24,46 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * <b>NoteController is the class that controls the NoteModel and NoteView Classes together.</b>
+ *
+ * @author Cathy Gay
+ */
 public class NoteController {
 
+    /**
+     * The note model.
+     *
+     * @see NoteModel
+     */
     private NoteModel noteModel;
+
+    /**
+     * The note view.
+     *
+     * @see NoteView
+     */
     private NoteView noteView;
+
+    /**
+     * The folder controller.
+     *
+     * @see FolderController
+     */
     private FolderController folderController;
 
+    /**
+     * NoteController constructor.
+     * <p>
+     *     NoteController is created with all its listeners.
+     * </p>
+     * @param noteModel
+     *              The note model.
+     * @param noteView
+     *              The note view.
+     * @param folderController
+     *              The folder controller.
+     */
     public NoteController(NoteModel noteModel, NoteView noteView, FolderController folderController) {
         this.noteModel = noteModel;
         this.noteView = noteView;
@@ -37,6 +72,31 @@ public class NoteController {
         initListeners();
     }
 
+    /**
+     * Initialize all listeners for the note view.
+     *
+     * @see NoteView#getReturnToNoteListButton()
+     * @see FolderController#updateFolderView(FolderModel)
+     * @see FolderController#getFolderModel()
+     * @see NoteView#getDeleteNoteButton()
+     * @see NoteController#deleteNote()
+     * @see NoteView#getNoteTitleLabel()
+     * @see NoteController#modifyNoteTitle()
+     * @see NoteView#getSaveNoteButton()
+     * @see NoteController#saveNote()
+     * @see NoteView#getPreviewButton()
+     * @see NoteController#showPreview()
+     * @see NoteView#getAddPhotoButton()
+     * @see NoteController#addPicture()
+     * @see NoteView#getBoldButton()
+     * @see NoteController#bold()
+     * @see NoteView#getItalicButton()
+     * @see NoteController#italic()
+     * @see NoteView#getUnderlineButton()
+     * @see NoteController#underline()
+     * @see NoteView#getComboBox()
+     * @see NoteController#changeColor()
+     */
     private void initListeners() {
 
         //Listener for going back to the folder.
@@ -81,6 +141,19 @@ public class NoteController {
         noteView.getComboBox().addActionListener(e -> changeColor());
     }
 
+    /**
+     * Delete a note.
+     * <p>
+     *     It will ask if you are sure you want to delete the note.
+     * </p>
+     *
+     * @see Configuration
+     * @see ObjectMapper
+     * @see ObjectWriter
+     * @see File
+     * @see FolderModel#deleteNote(NoteModel)
+     * @see FolderController#updateFolderView(FolderModel)
+     */
     private void deleteNote() {
 
         int option = JOptionPane.showConfirmDialog(
@@ -111,6 +184,22 @@ public class NoteController {
         }
     }
 
+    /**
+     * Modify the title of a note.
+     * <p>
+     *     This won't let you put an empty note title.
+     * </p>
+     *
+     * @see FolderListController#getMain()
+     * @see NoteModel#getNoteTitle()
+     * @see Configuration
+     * @see ObjectWriter
+     * @see ObjectMapper
+     * @see File
+     * @see Configuration#getNotesFolderPath()
+     * @see FolderListModel#getFolderModels()
+     * @see NoteController#updateNoteView(NoteModel)
+     */
     private void modifyNoteTitle() {
         String newNoteTitle = (String) JOptionPane.showInputDialog(
                 folderController.getFolderListController().getMain(),
@@ -147,6 +236,16 @@ public class NoteController {
         }
     }
 
+    /**
+     * Save a note.
+     * @see Configuration
+     * @see ObjectWriter
+     * @see ObjectMapper
+     * @see File
+     * @see Configuration#getNotesFolderPath()
+     * @see FolderListModel#getFolderModels()
+     * @see NoteView#getEditorPane()
+     */
     private void saveNote() {
         try {
             if (noteView.getEditorPane().getContentType().equals("text/plain")) {
@@ -178,6 +277,25 @@ public class NoteController {
             }
     }
 
+    /**
+     * Adds a picture.
+     * <p>
+     *     This will open the Photos App and make you select a picture.
+     *     The picture is then rescaled and resized so that it fits the size of the screen.
+     *     The picture is finally added to the note.
+     * </p>
+     *
+     * @see Configuration
+     * @see ObjectWriter
+     * @see ObjectMapper
+     * @see File
+     * @see Configuration#getNotesFolderPath()
+     * @see FolderListModel#getFolderModels()
+     * @see applications.Photos.Main
+     * @see BufferedImage
+     * @see applications.Photos.PicturePanel#getScaledDimension(Dimension, Dimension)
+     * @see ApplicationManager#open(Application)
+     */
     private void addPicture() {
 
             saveNote();
@@ -235,10 +353,19 @@ public class NoteController {
                 }
             });
 
-            ApplicationManager.getInstance().open(galleryApp);
+            ApplicationManager.getInstance().open(galleryApp, false);
 
     }
 
+    /**
+     * Shows the preview of the note.
+     *
+     * @see NoteController#saveNote()
+     * @see NoteView#getEditorPane()
+     * @see NoteController#updateHtmlNoteView(NoteModel)
+     * @see NoteView#getPreviewButton()
+     * @see NoteController#updateNoteView(NoteModel)
+     */
     private void showPreview() {
             saveNote();
             if(noteView.getEditorPane().getContentType().equals("text/plain")) {
@@ -252,6 +379,13 @@ public class NoteController {
             }
     }
 
+    /**
+     * Change the text color of the selected text of the note.
+     *
+     * @see NoteView#getEditorPane()
+     * @see NoteView#getComboBox()
+     * @see FolderListController#getMain()
+     */
     private void changeColor() {
         String selectedText = noteView.getEditorPane().getSelectedText();
         JComboBox comboBox = noteView.getComboBox();
@@ -280,6 +414,12 @@ public class NoteController {
         }
     }
 
+    /**
+     * Sets the selected text of the note in bold.
+     *
+     * @see NoteView#getEditorPane()
+     * @see FolderListController#getMain()
+     */
     private void bold() {
         String selectedText = noteView.getEditorPane().getSelectedText();
 
@@ -293,6 +433,12 @@ public class NoteController {
         }
     }
 
+    /**
+     * Sets the selected text of the note in italic.
+     *
+     * @see NoteView#getEditorPane()
+     * @see FolderListController#getMain()
+     */
     private void italic() {
         String selectedText = noteView.getEditorPane().getSelectedText();
 
@@ -306,6 +452,12 @@ public class NoteController {
         }
     }
 
+    /**
+     * Underline the selected text of the note.
+     *
+     * @see NoteView#getEditorPane()
+     * @see FolderListController#getMain()
+     */
     private void underline() {
         String selectedText = noteView.getEditorPane().getSelectedText();
 
@@ -319,6 +471,19 @@ public class NoteController {
         }
     }
 
+    /**
+     * Update the note view and sets the content type of the editorPane so that it can read html.
+     *
+     * @param noteModel
+     *              The note model.
+     *
+     * @see FolderListController#getMain()
+     * @see NoteModel
+     * @see NoteView#NoteView(NoteModel)
+     * @see NoteView#getEditorPane()
+     * @see Main#getCardLayout()
+     * @see NoteController#initListeners()
+     */
     public void updateHtmlNoteView(NoteModel noteModel) {
         folderController.getFolderListController().getMain().remove(noteView);
         noteView = new NoteView(noteModel);
@@ -333,6 +498,18 @@ public class NoteController {
         initListeners();
     }
 
+    /**
+     * Update the note view.
+     *
+     * @param noteModel
+     *              The note model.
+     *
+     * @see FolderListController#getMain()
+     * @see NoteModel
+     * @see NoteView#NoteView(NoteModel)
+     * @see Main#getCardLayout()
+     * @see NoteController#initListeners()
+     */
     public void updateNoteView(NoteModel noteModel) {
         folderController.getFolderListController().getMain().remove(noteView);
         noteView = new NoteView(noteModel);

@@ -11,10 +11,11 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Add Contact View
+ * <b>ContactAddView is the class that represents the display of adding a new contact.</b>
+ *
+ * @see JPanel
  *
  * @author Henrick Neads
- *
  */
 
 public class ContactAddView extends JPanel {
@@ -31,7 +32,7 @@ public class ContactAddView extends JPanel {
     private JButton returnContactButton;
     private JButton photoButton;
 
-    private String imagePath;
+    private String photoPath;
 
     private JTextField firstNameContactString;
     private JTextField lastNameContactTextField;
@@ -41,7 +42,7 @@ public class ContactAddView extends JPanel {
 
     public ContactAddView(String imagePath) {
 
-        this.imagePath = imagePath;
+        this.photoPath = imagePath;
 
         this.topGridLayoutPanel = createTopGridLayout();
         this.midGridLayoutPanel = createMidGridLayout();
@@ -61,7 +62,7 @@ public class ContactAddView extends JPanel {
         topGridLayout.setOpaque(false);
 
         topGridLayout.add(createTopPanel(),BorderLayout.NORTH);
-        if (imagePath != null){
+        if (photoPath != null){
             topGridLayout.add(createPhotoLabel(),BorderLayout.CENTER);
         } else {
             topGridLayout.add(createPhotoButton(),BorderLayout.CENTER);
@@ -124,7 +125,7 @@ public class ContactAddView extends JPanel {
     }
 
     private JLabel createPhotoLabel(){
-        File imageFile = new File(imagePath);
+        File imageFile = new File(photoPath);
 
         JLabel imageLabel = new JLabel();
 
@@ -376,6 +377,10 @@ public class ContactAddView extends JPanel {
 
     public JTextField getEmailContactTextField() {
         return emailContactTextField;
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
     }
 
     public void addPhotoToContactListener (ActionListener addPhotoToContact){

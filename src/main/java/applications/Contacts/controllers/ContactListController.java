@@ -7,15 +7,12 @@ import applications.Contacts.views.ContactAddView;
 import applications.Contacts.views.ContactListView;
 import applications.Contacts.views.ContactModificationView;
 import applications.Contacts.views.ContactView;
-import applications.Photos.ThumbnailGenerator;
 import applications.Photos.models.PictureModel;
 import ch.dhc.ApplicationManager;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
 import java.util.function.Consumer;
 
 import static applications.Photos.Main.GalleryEvent;
@@ -33,6 +30,7 @@ public class ContactListController {
     private ContactList contactList;
     private ContactListView contactListView;
     private ContactAddView contactAddView;
+    private ContactModificationView contactModificationView;
 
     private Main main;
 
@@ -73,36 +71,67 @@ public class ContactListController {
         initListeners();
     }
 
+    // Update contact modification view with image path and contact
+    private void updateContactModificationView(Contact contact,String imagePath){
+        main.remove(contactModificationView);
+
+        contactModificationView = new ContactModificationView(contact,imagePath);
+
+        contactModificationView.getFirstNameContactTextField().setText(contact.getFirstName());
+        contactModificationView.getLastNameContactTextField().setText(contact.getLastName());
+        contactModificationView.getCityContactTextField().setText(contact.getCity());
+        contactModificationView.getPhoneNumberContactTextField().setText(contact.getPhoneNumber());
+        contactModificationView.getEmailContactTextField().setText(contact.getEmail());
+
+        main.add(contactModificationView,String.valueOf(hashCode()));
+
+        main.getCardLayout().show(main,String.valueOf(contactModificationView.hashCode()));
+
+        initListeners();
+
+    }
 
     // initiate all the listeners
     private void initListeners(){
 
         this.contactAddView.addSaveContactListener(e-> {
-            String firstName = contactAddView.getFirstNameContactTextField().getText();
-            String lastName = contactAddView.getLastNameContactTextField().getText();
-            String city = contactAddView.getCityContactTextField().getText();
-            String phoneNumber = contactAddView.getPhoneNumberContactTextField().getText();
-            String email = contactAddView.getEmailContactTextField().getText();
 
-            contactList.addContact(firstName,lastName,city,phoneNumber,email);
-            saveContacts();
-            contactList.sortContact();
-            updateContactListView(contactList);
+            if(contactAddView.getFirstNameContactTextField().getText().equals("") ||
+                    contactAddView.getLastNameContactTextField().getText().equals("")||
+                    contactAddView.getPhoneNumberContactTextField().getText().equals("")) {
 
-            updateContactAddView(null);
-            contactAddView.getFirstNameContactTextField().setText("");
-            contactAddView.getLastNameContactTextField().setText("");
-            contactAddView.getCityContactTextField().setText("");
-            contactAddView.getPhoneNumberContactTextField().setText("");
-            contactAddView.getEmailContactTextField().setText("");
+                JOptionPane.showMessageDialog(main,
+                        "Please check first name, last name and phone number. They can't be empty",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
 
-            this.main.getCardLayout().show(this.main,String.valueOf(contactListView.hashCode()));
+            } else{
+                String firstName = contactAddView.getFirstNameContactTextField().getText();
+                String lastName = contactAddView.getLastNameContactTextField().getText();
+                String city = contactAddView.getCityContactTextField().getText();
+                String phoneNumber = contactAddView.getPhoneNumberContactTextField().getText();
+                String email = contactAddView.getEmailContactTextField().getText();
+                String photoPath = contactAddView.getPhotoPath();
 
+                contactList.addContact(firstName, lastName, city, phoneNumber, email, photoPath);
+                saveContacts();
+                contactList.sortContact();
+                updateContactListView(contactList);
+
+                updateContactAddView(null);
+                contactAddView.getFirstNameContactTextField().setText("");
+                contactAddView.getLastNameContactTextField().setText("");
+                contactAddView.getCityContactTextField().setText("");
+                contactAddView.getPhoneNumberContactTextField().setText("");
+                contactAddView.getEmailContactTextField().setText("");
+
+                this.main.getCardLayout().show(this.main, String.valueOf(contactListView.hashCode()));
+            }
         });
         this.contactAddView.addReturnToContactList(e -> this.main.getCardLayout().show(this.main, String.valueOf(contactListView.hashCode())));
         this.contactAddView.addPhotoToContactListener(e -> {
 
-            // Ouvrir mon application en mode pictureSelection
+            // Open photo application in picture selection mode
             applications.Photos.Main galleryApp = new applications.Photos.Main(GalleryRunningMode.PICTURE_SELECTION);
 
             galleryApp.addEventListener(GalleryEvent.CLICK_PICTURE_THUMBNAIL, new Consumer<PictureModel>() {
@@ -110,7 +139,7 @@ public class ContactListController {
                 public void accept(PictureModel pictureModel) {
                     String imagePath = pictureModel.getPath();
 
-                    //Revenir à mon application
+                    //Return to contact application
                     ApplicationManager.getInstance().open(main);
 
                     updateContactAddView(imagePath);
@@ -129,22 +158,56 @@ public class ContactListController {
                     super.mouseClicked(e);
                     ContactView contactView = new ContactView(contact);
                     contactView.modifyContactListener(event->{
-                        ContactModificationView contactModificationView = new ContactModificationView(contact);
+                        contactModificationView = new ContactModificationView(contact,contact.getPhotoPath());
                         main.add(contactModificationView,String.valueOf(contactModificationView.hashCode()));
                         main.getCardLayout().show(main,String.valueOf(contactModificationView.hashCode()));
 
-                        contactModificationView.modificationContacteSaveListener(evt->{
-                            String firstName = contactModificationView.getFirstNameContactTextField().getText();
-                            String lastName = contactModificationView.getLastNameContactTextField().getText();
-                            String city = contactModificationView.getCityContactTextField().getText();
-                            String phoneNumber = contactModificationView.getPhoneNumberContactTextField().getText();
-                            String email = contactModificationView.getEmailContactTextField().getText();
+                        contactModificationView.modifyContactPhotoListener(evt -> {
 
-                            modifiyContact(contact,firstName,lastName,city,phoneNumber,email);
-                            saveContacts();
-                            contactList.sortContact();
-                            updateContactListView(contactList);
-                            main.getCardLayout().show(main,String.valueOf(contactListView.hashCode()));
+                            // Open photo application in picture selection mode
+                            applications.Photos.Main galleryApp = new applications.Photos.Main(GalleryRunningMode.PICTURE_SELECTION);
+
+                            galleryApp.addEventListener(GalleryEvent.CLICK_PICTURE_THUMBNAIL, new Consumer<PictureModel>() {
+                                @Override
+                                public void accept(PictureModel pictureModel) {
+                                    String imagePath = pictureModel.getPath();
+
+                                    //Return to contact application
+                                    ApplicationManager.getInstance().open(main);
+
+                                    updateContactModificationView(contact,imagePath);
+                                }
+                            });
+
+                            ApplicationManager.getInstance().open(galleryApp);
+                        });
+
+                        contactModificationView.modificationContacteSaveListener(evt->{
+
+                            if(contactModificationView.getFirstNameContactTextField().getText().equals("") ||
+                                    contactModificationView.getLastNameContactTextField().getText().equals("")||
+                                    contactModificationView.getPhoneNumberContactTextField().getText().equals("")) {
+
+                                JOptionPane.showMessageDialog(main,
+                                        "Please check first name, last name and phone number. They can't be empty",
+                                        "Warning",
+                                        JOptionPane.WARNING_MESSAGE);
+
+                            } else {
+
+                                String firstName = contactModificationView.getFirstNameContactTextField().getText();
+                                String lastName = contactModificationView.getLastNameContactTextField().getText();
+                                String city = contactModificationView.getCityContactTextField().getText();
+                                String phoneNumber = contactModificationView.getPhoneNumberContactTextField().getText();
+                                String email = contactModificationView.getEmailContactTextField().getText();
+                                String photoPath = contactModificationView.getContactPhotoPath();
+
+                                modifiyContact(contact, firstName, lastName, city, phoneNumber, email, photoPath);
+                                saveContacts();
+                                contactList.sortContact();
+                                updateContactListView(contactList);
+                                main.getCardLayout().show(main, String.valueOf(contactListView.hashCode()));
+                            }
                         });
 
                         contactModificationView.removeContactListener(evt -> {
@@ -166,14 +229,13 @@ public class ContactListController {
         });
     }
 
-    public void modifiyContact(Contact contact,String firstName,String lastName,String city,String phoneNumber,String email){
-        this.contactList.modifyContact(contact,firstName,lastName,city,phoneNumber,email);
+    public void modifiyContact(Contact contact, String firstName, String lastName, String city, String phoneNumber, String email, String photoPath){
+        this.contactList.modifyContact( contact, firstName, lastName, city, phoneNumber, email, photoPath );
     }
 
     public void removeContact(Contact contact){
         this.contactList.removeContact(contact);
     }
-
     public void saveContacts() {
         this.contactList.saveContactList();
     }

@@ -24,6 +24,7 @@ public class NoteView extends JPanel {
     private JButton boldButton;
     private JButton italicButton;
     private JButton underlineButton;
+    private JComboBox comboBox;
     private JButton addPhotoButton;
     private JButton previewButton;
     private JEditorPane editorPane;
@@ -122,6 +123,13 @@ public class NoteView extends JPanel {
         underlineButton.setToolTipText("Underline the selected text");
         undecorateButton(underlineButton);
 
+        String[] colors = {"White", "Red", "Blue", "Green", "Yellow"};
+        comboBox = new JComboBox(colors);
+        comboBox.setPreferredSize(new Dimension(90, 27));
+        comboBox.setMaximumSize(new Dimension(90, 27));
+        comboBox.setMaximumRowCount(3);
+        comboBox.setBackground(new Color(0,0,0,0));
+
         Icon addPhotoIcon = IconFontSwing.buildIcon(FontAwesome.PICTURE_O, 18, mainTextColor);
         addPhotoButton = new JButton(addPhotoIcon);
         addPhotoButton.setToolTipText("Add a picture");
@@ -135,6 +143,7 @@ public class NoteView extends JPanel {
         toolBar.add(boldButton);
         toolBar.add(italicButton);
         toolBar.add(underlineButton);
+        toolBar.add(comboBox);
 
         toolBar.addSeparator();
 
@@ -155,7 +164,6 @@ public class NoteView extends JPanel {
         editorPane = new JEditorPane();
         editorPane.setContentType("text/plain");
         editorPane.setOpaque(false);
-//        editorPane.setEditorKit(new HTMLEditorKit());
         editorPane.setText(noteModel.getContent());
 
 
@@ -203,6 +211,10 @@ public class NoteView extends JPanel {
 
     public JButton getUnderlineButton() {
         return underlineButton;
+    }
+
+    public JComboBox getComboBox() {
+        return comboBox;
     }
 
     public JButton getAddPhotoButton() {

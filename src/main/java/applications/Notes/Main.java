@@ -36,6 +36,7 @@ public class Main extends Application {
     @Override
     public void onClose() {
         System.out.println("Notes dit 'Au revoir !'");
+        removeAll();
     }
 
     @Override

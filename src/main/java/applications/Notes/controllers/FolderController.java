@@ -1,8 +1,6 @@
 package applications.Notes.controllers;
 
 import applications.Notes.models.FolderModel;
-import applications.Notes.models.NoteModel;
-import applications.Notes.views.FolderListView;
 import applications.Notes.views.FolderView;
 import applications.Notes.views.NoteView;
 import ch.dhc.Configuration;
@@ -83,7 +81,7 @@ public class FolderController {
         );
 
         try {
-            if(newNoteTitle != null) {
+            if(!newNoteTitle.equals("")) {
                 Configuration configuration = Configuration.getInstance();
                 ObjectMapper mapper = new ObjectMapper();
                 ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
@@ -95,6 +93,11 @@ public class FolderController {
                 List<FolderModel> folderModels = folderListController.getFolderListModel().getFolderModels();
 
                 writer.writeValue(folderFile, folderModels);
+            } else {
+                JOptionPane.showMessageDialog(folderListController.getMain(),
+                        "The note title is empty !",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -143,7 +146,7 @@ public class FolderController {
         );
 
         try {
-            if(newFolderTitle != null) {
+            if(!newFolderTitle.equals("")) {
                 Configuration configuration = Configuration.getInstance();
                 ObjectMapper mapper = new ObjectMapper();
                 ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
@@ -156,6 +159,11 @@ public class FolderController {
                 writer.writeValue(folderFile, folderModels);
 
                 updateFolderView(folderModel);
+            } else {
+                JOptionPane.showMessageDialog(folderListController.getMain(),
+                        "The folder title is empty !",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
             }
         } catch (Exception e) {
             e.printStackTrace();

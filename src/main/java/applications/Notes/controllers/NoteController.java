@@ -32,8 +32,10 @@ public class NoteController {
     private void initListeners() {
 
         //Listener for going back to the folder.
-        noteView.getReturnToNoteListButton().addActionListener(e ->
-                folderController.updateFolderView(folderController.getFolderModel()));
+        noteView.getReturnToNoteListButton().addActionListener(e -> {
+            folderController.updateFolderView(folderController.getFolderModel());
+        });
+
 
         //Listener for deleting a note.
         noteView.getDeleteNoteButton().addActionListener(e -> deleteNote());
@@ -48,6 +50,21 @@ public class NoteController {
                 }
             }
         });
+
+        //Listener for saving the note.
+        noteView.getSaveNoteButton().addActionListener(e -> saveNote());
+
+        //Listener for showing the preview
+        noteView.getPreviewButton().addActionListener(e -> showPreview());
+
+        //Listener for setting the selected text in bold
+        noteView.getBoldButton().addActionListener(e -> bold());
+
+        //Listener for setting the selected text in italic
+        noteView.getItalicButton().addActionListener(e -> italic());
+
+        //Listener for underlining the selected text
+        noteView.getUnderlineButton().addActionListener(e -> underline());
     }
 
     private void deleteNote() {
@@ -92,7 +109,7 @@ public class NoteController {
         );
 
         try {
-            if(newNoteTitle != null) {
+            if(!newNoteTitle.equals("")) {
                 Configuration configuration = Configuration.getInstance();
                 ObjectMapper mapper = new ObjectMapper();
                 ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
@@ -105,10 +122,100 @@ public class NoteController {
                 writer.writeValue(folderFile, folderModels);
 
                 updateNoteView(noteModel);
+            } else {
+                JOptionPane.showMessageDialog(folderController.getFolderListController().getMain(),
+                        "The note title is empty !",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void saveNote() {
+        try {
+            if (noteView.getEditorPane().getContentType().equals("text/plain")) {
+                Configuration configuration = Configuration.getInstance();
+                ObjectMapper mapper = new ObjectMapper();
+                ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+                File folderFile = new File(configuration.getNotesFolderPath() + "folders.json");
+
+                String noteContent = noteView.getEditorPane().getText();
+
+                String pattern = "[^(<BR>)(<BR>\r)]\n";
+//                String pattern = "[(?<!<BR>)(?<!<BR>\r)]\n";
+//                String patternFull = "[^(<BR>)]\r\n";
+                String patternFull = "(?<!<BR>)\r\n";
+
+
+                String newNoteContent = noteContent.replaceAll(patternFull, "<BR>\r\n");
+
+                String finalNoteContent = newNoteContent.replaceAll(pattern, "<BR>\n");
+
+                noteModel.setContent(finalNoteContent);
+
+                List<FolderModel> folderModels = folderController.getFolderListController().getFolderListModel().getFolderModels();
+
+                writer.writeValue(folderFile, folderModels);
+
+                updateNoteView(noteModel);
+            }
+
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+    }
+
+    private void showPreview() {
+            saveNote();
+            if(noteView.getEditorPane().getContentType().equals("text/plain")) {
+                updateHtmlNoteView(noteModel);
+                noteView.getEditorPane().setEditable(false);
+                noteView.getPreviewButton().setContentAreaFilled(true);
+                noteView.getPreviewButton().setToolTipText("Show edit");
+            } else {
+                updateNoteView(noteModel);
+                noteView.getEditorPane().setEditable(true);
+            }
+    }
+
+    private void bold() {
+        String selectedText = noteView.getEditorPane().getSelectedText();
+
+        if(selectedText != null) {
+                noteView.getEditorPane().replaceSelection("<B>" + selectedText + "</B>");
+        }
+    }
+
+    private void italic() {
+        String selectedText = noteView.getEditorPane().getSelectedText();
+
+        if(selectedText != null) {
+            noteView.getEditorPane().replaceSelection("<I>" + selectedText + "</I>");
+        }
+    }
+
+    private void underline() {
+        String selectedText = noteView.getEditorPane().getSelectedText();
+
+        if(selectedText != null) {
+            noteView.getEditorPane().replaceSelection("<U>" + selectedText + "</U>");
+        }
+    }
+
+    public void updateHtmlNoteView(NoteModel noteModel) {
+        folderController.getFolderListController().getMain().remove(noteView);
+        noteView = new NoteView(noteModel);
+        noteView.getEditorPane().setContentType("text/html");
+        noteView.getEditorPane().setText(noteModel.getContent());
+
+        folderController.getFolderListController().getMain().add(noteView, String.valueOf(noteView.hashCode()));
+        folderController.getFolderListController().getMain().revalidate();
+        folderController.getFolderListController().getMain().repaint();
+        folderController.getFolderListController().getMain().getCardLayout().show(folderController.getFolderListController().getMain(), String.valueOf(noteView.hashCode()));
+
+        initListeners();
     }
 
     public void updateNoteView(NoteModel noteModel) {

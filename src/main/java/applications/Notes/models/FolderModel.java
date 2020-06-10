@@ -72,7 +72,7 @@ public class FolderModel {
         System.out.println("Add note clicked");
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
-        NoteModel note = new NoteModel(noteTitle, dateFormat.format(date), "");
+        NoteModel note = new NoteModel(noteTitle, dateFormat.format(date), "", "");
         notes.add(note);
 
         return note;

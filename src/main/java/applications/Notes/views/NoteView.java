@@ -1,5 +1,6 @@
 package applications.Notes.views;
 
+import applications.Notes.models.FolderModel;
 import applications.Notes.models.NoteModel;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
@@ -23,6 +24,7 @@ public class NoteView extends JPanel {
     private JButton boldButton;
     private JButton italicButton;
     private JButton underlineButton;
+    private JButton addPhotoButton;
     private JButton previewButton;
     private JEditorPane editorPane;
 
@@ -120,6 +122,11 @@ public class NoteView extends JPanel {
         underlineButton.setToolTipText("Underline the selected text");
         undecorateButton(underlineButton);
 
+        Icon addPhotoIcon = IconFontSwing.buildIcon(FontAwesome.PICTURE_O, 18, mainTextColor);
+        addPhotoButton = new JButton(addPhotoIcon);
+        addPhotoButton.setToolTipText("Add a picture");
+        undecorateButton(addPhotoButton);
+
         Icon previewIcon = IconFontSwing.buildIcon(FontAwesome.SEARCH, 18, mainTextColor);
         previewButton = new JButton(previewIcon);
         previewButton.setToolTipText("Show preview");
@@ -128,6 +135,10 @@ public class NoteView extends JPanel {
         toolBar.add(boldButton);
         toolBar.add(italicButton);
         toolBar.add(underlineButton);
+
+        toolBar.addSeparator();
+
+        toolBar.add(addPhotoButton);
 
         toolBar.addSeparator();
 
@@ -192,6 +203,10 @@ public class NoteView extends JPanel {
 
     public JButton getUnderlineButton() {
         return underlineButton;
+    }
+
+    public JButton getAddPhotoButton() {
+        return addPhotoButton;
     }
 
     public JButton getPreviewButton() {

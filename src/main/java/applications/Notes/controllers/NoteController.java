@@ -76,6 +76,9 @@ public class NoteController {
 
         //Listener for underlining the selected text
         noteView.getUnderlineButton().addActionListener(e -> underline());
+
+        //Listener for setting a color to the selected text
+        noteView.getComboBox().addActionListener(e -> changeColor());
     }
 
     private void deleteNote() {
@@ -155,10 +158,7 @@ public class NoteController {
                 String noteContent = noteView.getEditorPane().getText();
 
                 String pattern = "[^(<BR>)(<BR>\r)]\n";
-//                String pattern = "[(?<!<BR>)(?<!<BR>\r)]\n";
-//                String patternFull = "[^(<BR>)]\r\n";
                 String patternFull = "(?<!<BR>)\r\n";
-
 
                 String newNoteContent = noteContent.replaceAll(patternFull, "<BR>\r\n");
 
@@ -180,6 +180,7 @@ public class NoteController {
 
     private void addPicture() {
 
+            saveNote();
 
             Configuration configuration = Configuration.getInstance();
             ObjectMapper mapper = new ObjectMapper();
@@ -249,6 +250,34 @@ public class NoteController {
                 updateNoteView(noteModel);
                 noteView.getEditorPane().setEditable(true);
             }
+    }
+
+    private void changeColor() {
+        String selectedText = noteView.getEditorPane().getSelectedText();
+        JComboBox comboBox = noteView.getComboBox();
+
+        if(selectedText != null) {
+            if(comboBox.getSelectedIndex() == 0) {
+                noteView.getEditorPane().replaceSelection("<FONT COLOR=white>" + selectedText + "</FONT>");
+            }
+            if(comboBox.getSelectedIndex() == 1) {
+                noteView.getEditorPane().replaceSelection("<FONT COLOR=red>" + selectedText + "</FONT>");
+            }
+            if(comboBox.getSelectedIndex() == 2) {
+                noteView.getEditorPane().replaceSelection("<FONT COLOR=blue>" + selectedText + "</FONT>");
+            }
+            if(comboBox.getSelectedIndex() == 3) {
+                noteView.getEditorPane().replaceSelection("<FONT COLOR=green>" + selectedText + "</FONT>");
+            }
+            if(comboBox.getSelectedIndex() == 4) {
+                noteView.getEditorPane().replaceSelection("<FONT COLOR=yellow>" + selectedText + "</FONT>");
+            }
+        } else {
+            JOptionPane.showMessageDialog(folderController.getFolderListController().getMain(),
+                    "You have to select the text !",
+                    "Information",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     private void bold() {

@@ -1,7 +1,6 @@
 package applications.Photos.controllers;
 
 import applications.Photos.Main;
-import static applications.Photos.Main.*;
 import applications.Photos.models.AlbumModel;
 import applications.Photos.models.GalleryModel;
 import applications.Photos.models.PictureModel;
@@ -21,7 +20,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
+
+import static applications.Photos.Main.GalleryRunningMode;
 
 public class AlbumController {
 

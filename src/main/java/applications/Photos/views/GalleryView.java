@@ -1,6 +1,5 @@
 package applications.Photos.views;
 
-import applications.Photos.ComponentUtility;
 import applications.Photos.IconsUtility;
 import applications.Photos.ThumbnailGenerator;
 import applications.Photos.WrapLayout;

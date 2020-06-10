@@ -71,26 +71,6 @@ public class ContactListController {
         initListeners();
     }
 
-    // Update contact modification view with image path and contact
-    private void updateContactModificationView(Contact contact,String imagePath){
-        main.remove(contactModificationView);
-
-        contactModificationView = new ContactModificationView(contact,imagePath);
-
-        contactModificationView.getFirstNameContactTextField().setText(contact.getFirstName());
-        contactModificationView.getLastNameContactTextField().setText(contact.getLastName());
-        contactModificationView.getCityContactTextField().setText(contact.getCity());
-        contactModificationView.getPhoneNumberContactTextField().setText(contact.getPhoneNumber());
-        contactModificationView.getEmailContactTextField().setText(contact.getEmail());
-
-        main.add(contactModificationView,String.valueOf(hashCode()));
-
-        main.getCardLayout().show(main,String.valueOf(contactModificationView.hashCode()));
-
-        initListeners();
-
-    }
-
     // initiate all the listeners
     private void initListeners(){
 
@@ -162,25 +142,6 @@ public class ContactListController {
                         main.add(contactModificationView,String.valueOf(contactModificationView.hashCode()));
                         main.getCardLayout().show(main,String.valueOf(contactModificationView.hashCode()));
 
-                        contactModificationView.modifyContactPhotoListener(evt -> {
-
-                            // Open photo application in picture selection mode
-                            applications.Photos.Main galleryApp = new applications.Photos.Main(GalleryRunningMode.PICTURE_SELECTION);
-
-                            galleryApp.addEventListener(GalleryEvent.CLICK_PICTURE_THUMBNAIL, new Consumer<PictureModel>() {
-                                @Override
-                                public void accept(PictureModel pictureModel) {
-                                    String imagePath = pictureModel.getPath();
-
-                                    //Return to contact application
-                                    ApplicationManager.getInstance().open(main);
-
-                                    updateContactModificationView(contact,imagePath);
-                                }
-                            });
-
-                            ApplicationManager.getInstance().open(galleryApp);
-                        });
 
                         contactModificationView.modificationContacteSaveListener(evt->{
 

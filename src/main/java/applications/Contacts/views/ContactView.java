@@ -123,7 +123,6 @@ public class ContactView extends JPanel {
 
         contactphotoLabel = new JLabel(addPhotoIcon);
         contactphotoLabel.setOpaque(false);
-        contactphotoLabel.setBackground(Color.black);
         contactphotoLabel.setBorder(border);
 
 
@@ -351,9 +350,12 @@ public class ContactView extends JPanel {
 
         Icon addNoteIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.NOTE_ADD,28,Color.orange);
 
-        JButton noteTexteContainer = new JButton(addNoteIcon);
+        Border border = BorderFactory.createLineBorder(Color.white);
+
+        JLabel noteTexteContainer = new JLabel(addNoteIcon);
         noteTexteContainer.setBackground(Color.black);
-        noteTexteContainer.addActionListener(event -> System.out.println("note clicked"));
+        noteTexteContainer.setBorder(border);
+
 
         displayNoteAddContact.add(noteLabel,BorderLayout.NORTH);
         displayNoteAddContact.add(noteTexteContainer,BorderLayout.CENTER);

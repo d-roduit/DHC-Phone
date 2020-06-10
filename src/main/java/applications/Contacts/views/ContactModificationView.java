@@ -48,7 +48,7 @@ public class ContactModificationView extends JPanel {
         this.contactPhotoPath = imagePath;
 
         topGridLayoutPanel = createTopGridLayout();
-        midGridLayoutPanel = createMidGridLayout(contact);
+        midGridLayoutPanel = createMidGridLayout();
         bottomGridLayoutPanel = createBottomGridLayout();
 
         setLayout(new GridLayout(3,1));
@@ -82,12 +82,8 @@ public class ContactModificationView extends JPanel {
     private JPanel createTopPanel() {
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(1,5));
+        panel.setLayout(new GridLayout(1,3));
         panel.setOpaque(false);
-
-        JPanel iconPanel = new JPanel();
-        iconPanel.setLayout(new GridLayout(1,2));
-        iconPanel.setOpaque(false);
 
         Icon returnIconForButton = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.KEYBOARD_BACKSPACE,28,secondaryTextColor);
 
@@ -97,22 +93,13 @@ public class ContactModificationView extends JPanel {
         returnPreviousButton.setFocusPainted(false);
         returnPreviousButton.setContentAreaFilled(false);
         returnPreviousButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        iconPanel.add(returnPreviousButton);
-
-        Icon modifyPhotoIcon = IconFontSwing.buildIcon(GoogleMaterialDesignIcons.ADD_A_PHOTO,28,secondaryTextColor);
-
-        modifycontactphoto = new JButton(modifyPhotoIcon);
-        modifycontactphoto.setToolTipText("Modify picture");
-        modifycontactphoto.setBorderPainted(false);
-        modifycontactphoto.setFocusPainted(false);
-        modifycontactphoto.setContentAreaFilled(false);
-        modifycontactphoto.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        iconPanel.add(modifycontactphoto);
+        panel.add(returnPreviousButton);
 
         JLabel titleLabel = new JLabel("Contact");
         titleLabel.setForeground(mainTextColor);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 25));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        panel.add(titleLabel);
 
         JLabel iconContainers = new JLabel();
         iconContainers.setLayout(new GridLayout(1,2));
@@ -138,8 +125,7 @@ public class ContactModificationView extends JPanel {
         deletContactbutton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         iconContainers.add(deletContactbutton);
 
-        panel.add(iconPanel);
-        panel.add(titleLabel);
+
         panel.add(iconContainers);
 
         return panel;
@@ -170,7 +156,7 @@ public class ContactModificationView extends JPanel {
         return imageLabel;
     }
 
-    private JPanel createMidGridLayout(Contact contact){
+    private JPanel createMidGridLayout(){
 
         JPanel containsContactPersonnalInfoPanel = new JPanel();
         containsContactPersonnalInfoPanel.setLayout(new BorderLayout());
@@ -423,10 +409,6 @@ public class ContactModificationView extends JPanel {
 
     public void returnToContactInformationLisetener(ActionListener returnToPreviousPanel){
         returnPreviousButton.addActionListener(returnToPreviousPanel);
-    }
-
-    public void modifyContactPhotoListener (ActionListener addPhotoToContact){
-        modifycontactphoto.addActionListener(addPhotoToContact);
     }
 
 }

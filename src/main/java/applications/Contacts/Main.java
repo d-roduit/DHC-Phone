@@ -60,7 +60,7 @@ public class Main extends Application {
     public void onClose() {
 
         System.out.println("Contacts dit 'Au revoir !'");
-
+        removeAll();
     }
 
     @Override

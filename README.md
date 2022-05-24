@@ -1,21 +1,19 @@
 <div align="center">
-            <a href="https://gitlab.com/d-roduit/projet-smartphone-dhc/"><img src="dhc-phone.svg" align="center" height="150" alt="DHC Phone"></a>
+            <a href="https://github.com/d-roduit/Projet-Smartphone-DHC"><img src="dhc-phone.svg" align="center" height="150" alt="DHC Phone"></a>
 
 #
 
 <p align="center">
-    <strong>A client-side Java smartphone emulator to display and interact with your applications</strong>
+    <strong>A client-side Java smartphone emulator to display and interact with your applications 📱</strong>
 </p>
 
 </div>
 
 
 <div align="center">
-    <a href="https://gitlab.com/d-roduit/projet-smartphone-dhc/"><img src="examples.jpg" align="center" height="400" alt="Examples"></a>
+    <a href="https://github.com/d-roduit/Projet-Smartphone-DHC"><img src="examples.jpg" align="center" height="400" alt="Examples"></a>
 </div>
 <br>
-
-<!-- ![](https://github.com/bbc/peaks.js/blob/master/peaks.png?raw=1) -->
 
 The DHC project's goal is to create and simulate a smartphone with applications such as contacts, picture gallery and notes.
 

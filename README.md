@@ -28,28 +28,32 @@ It was made in order to learn the Swing framework.
 
 ## <a name="getting-started"></a>Getting Started
 
-### Installing
+### Running
 
-You will need to follow the steps below in order to launch the Java smartphone emulation :
+There are two ways to run the project :
 
-1. Unzip the file downloaded.
-2. Insert the absolute paths of the requiered folders in the config file. *(explained in the [Prerequisites](#prerequisites) section)*
-3. Launch the project by clicking on the smartphone jar.
+1. **Run the JAR:** The first and fastest way is to simply download the JAR from the [releases section](https://github.com/d-roduit/DHC-Phone/releases) and run it with the command `java -jar DHC-Phone.jar`.
+2. **Run the project with your editor:**
+    1. Download the project files to your computer and open the project in your favorite IDE (Eclipse, IntelliJ IDEA, etc.).
+    2. Download the project dependencies with Maven. _(This step is often proposed or performed automatically by the IDE)_
+    3. Run the project. The starting class is `ch.dhc.Main`.
+    
+Once you successfully ran the project, you will be able to use the pre-installed applications !
 
-Once these three steps have been executed, you will be able to use the smartphone emulation !
+### <a name="prerequisites"></a>Configure applications folder paths [Optional]
 
-### <a name="prerequisites"></a>Prerequisites
+By default, when you first run the smartphone, the pre-installed applications will contain no data. The smartphone will therefore create a config file (`config.json`) and folders to hold future data for each application. These elements will be created at the same location than the JAR.
 
-Once you have downloaded your copy of the DHC project, you will have to enter the paths of the files which will be used by the smartphone in the configuration file *(`config.json`)*.
+If you want the smartphone applications to use already existing data, for example a folder full of pictures that the picture application could use, you can use the `config.json` file to specify to the smartphone the folder you want to use for the pictures.
 
 The `config.json` file must be placed at the root of the folder that contains the JAR.
 
-Below you will find an example of the configuration file :
+Here is the configuration file :
 ```json
 {
     "notesFolderPath": "Absolute_path_to_your_notes_folder",
     "contactsFolderPath": "Absolute_path_to_your_contacts_folder",
-    "picturesFolderPath": "Absolute_pathh_to_your_pictures_folder"
+    "picturesFolderPath": "Absolute_path_to_your_pictures_folder"
 }
 ```
 
